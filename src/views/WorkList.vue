@@ -67,7 +67,6 @@ onUnmounted(() => {
   padding: 20px;
   width: 100dvw;
   box-sizing: border-box;
-  min-height: 100dvh;
   background-color: #ccc3;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="loading" v-if="loading"></div>
   <div v-else>
-    <n-infinite-scroll :distance="10" @load="handleLoad">
+    <n-infinite-scroll :distance="10" @load="handleLoad" style="height: 80dvh;">
       <n-grid :cols="row || 3" :x-gap="16" :y-gap="16" responsive="screen">
         <n-gi v-for="item in worksItems" :key="item.id">
           <Works :item="item as any" />

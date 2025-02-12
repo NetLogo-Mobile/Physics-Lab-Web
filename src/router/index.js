@@ -55,7 +55,7 @@ const routes = [
     path: "/list/:config",
     name: "list",
     component: () => import("../views/WorkList.vue"),
-    meta: { keepAlive: true },
+    meta: { keepAlive: false },
   },
   {
     path: "/:catchAll(.*)",

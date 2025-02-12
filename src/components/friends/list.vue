@@ -1,6 +1,6 @@
 <template>
   <div class="user-list">
-    <n-infinite-scroll :distance="0" @load="handleLoad">
+    <n-infinite-scroll :distance="0" @load="handleLoad" style="height: calc(100dvh - 160px);">
       <n-grid :cols="cols || 2">
         <n-gi v-for="user in relations" :key="user.User.ID">
           <UserItem :user="user.User" />
