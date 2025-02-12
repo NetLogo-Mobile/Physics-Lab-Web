@@ -1,0 +1,1 @@
+import{_ as n,c as t,f as s,b as o}from"./index-B-eZ0YOv.js";const r="/assets/Message-Default-BG408M7R.png",a={};function c(l,e){return o(),t("div",null,e[0]||(e[0]=[s("h1",null,"404 not found",-1),s("img",{src:r},null,-1)]))}const u=n(a,[["render",c]]);export{u as default};
