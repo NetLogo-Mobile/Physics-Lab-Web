@@ -25,7 +25,7 @@ const avararUrl = computed(() => {
   if (user.Avatar === 0 || user.Verification === "Banned")
     return "/src/assets/user/default-avatar.png";
   return user.ID
-    ? `/static/users/avatars/${user.ID.slice(0, 4)}/${user.ID.slice(4, 6)}/${user.ID.slice(
+    ? `http://physics-static-cn.turtlesim.com:80/users/avatars/${user.ID.slice(0, 4)}/${user.ID.slice(4, 6)}/${user.ID.slice(
         6,
         8
       )}/${user.ID.slice(8, 24)}/${user.Avatar}.jpg!small.round`

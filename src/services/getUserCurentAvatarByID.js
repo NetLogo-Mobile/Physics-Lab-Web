@@ -45,7 +45,7 @@ export async function getAvatarUrl(ID, useCache = true) {
   }
   return avatarIndex === 0
     ? "/src/assets/user/default-avatar.png"
-    : `/static/users/avatars/${ID.slice(0, 4)}/${ID.slice(4, 6)}/${ID.slice(6, 8)}/${ID.slice(
+    : `http://physics-static-cn.turtlesim.com:80/users/avatars/${ID.slice(0, 4)}/${ID.slice(4, 6)}/${ID.slice(6, 8)}/${ID.slice(
         8,
         24
       )}/${avatarIndex}.jpg!small.round`;

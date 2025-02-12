@@ -24,14 +24,14 @@ const { item } = defineProps<{
 
 const imgUrl = computed(
   () =>
-    `/static/experiments/images/${item.ID.slice(0, 4)}/${item.ID.slice(4, 6)}/${item.ID.slice(
+    `http://physics-static-cn.turtlesim.com:80/experiments/images/${item.ID.slice(0, 4)}/${item.ID.slice(4, 6)}/${item.ID.slice(
       6,
       8
     )}/${item.ID.slice(8, 24)}/${item.Image || 0}.jpg!block`
 );
 const avartarUrl = computed(() => {
   if (item.User.Avatar === 0) return "/src/assets/user/default-avatar.png"; //默认头像
-  return `/static/users/avatars/${item.User.ID.slice(0, 4)}/${item.User.ID.slice(
+  return `http://physics-static-cn.turtlesim.com:80/users/avatars/${item.User.ID.slice(0, 4)}/${item.User.ID.slice(
     4,
     6
   )}/${item.User.ID.slice(6, 8)}/${item.User.ID.slice(8, 24)}/${item.User.Avatar}.jpg!tiny.round`;

@@ -71,7 +71,7 @@ onMounted(async () => {
   avatar.value =
     data.Avatar === 0
       ? "/src/assets/user/default-avatar.png"
-      : `/static/users/avatars/${data.ID.slice(0, 4)}/${data.ID.slice(4, 6)}/${data.ID.slice(
+      : `http://physics-static-cn.turtlesim.com:80/users/avatars/${data.ID.slice(0, 4)}/${data.ID.slice(4, 6)}/${data.ID.slice(
           6,
           8
         )}/${data.ID.slice(8, 24)}/${data.Avatar}.jpg`;

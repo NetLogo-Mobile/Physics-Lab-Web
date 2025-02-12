@@ -6,7 +6,7 @@ const noMessagesPath = ["/Users/GetUser"];
 export async function getData(path: String, body: any) {
   window.$message.destroyAll();
   noMessagesPath.some((p) => path === p) || Emitter.emit("loading", "正在与服务器通信...", 10);
-  return fetch("/api" + path, {
+  return fetch("http://physics-api-cn.turtlesim.com:80" + path, {
     method: "POST",
     body: JSON.stringify(body),
     // @ts-ignore
@@ -46,7 +46,7 @@ export async function login(arg1: String | null, arg2: String | null, is_token =
     // @ts-ignore
     header["x-API-AuthCode"] = arg2;
   }
-  return fetch("/api/Users/Authenticate", {
+  return fetch("http://physics-api-cn.turtlesim.com:80/Users/Authenticate", {
     method: "POST",
     body: JSON.stringify({
       Login: username,

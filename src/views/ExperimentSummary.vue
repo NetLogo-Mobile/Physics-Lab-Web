@@ -136,7 +136,7 @@ const route = useRoute();
 
 const coverUrl = computed(
   () =>
-    `/static/experiments/images/${route.params.id.slice(0, 4)}/${route.params.id.slice(
+    `http://physics-static-cn.turtlesim.com:80/experiments/images/${route.params.id.slice(0, 4)}/${route.params.id.slice(
       4,
       6
     )}/${route.params.id.slice(6, 8)}/${route.params.id.slice(8, 24)}/${
@@ -146,7 +146,7 @@ const coverUrl = computed(
 
 const avatarUrl = computed(
   () =>
-    `/static/users/avatars/${data.value.User.ID.slice(0, 4)}/${data.value.User.ID.slice(
+    `http://physics-static-cn.turtlesim.com:80/users/avatars/${data.value.User.ID.slice(0, 4)}/${data.value.User.ID.slice(
       4,
       6
     )}/${data.value.User.ID.slice(6, 8)}/${data.value.User.ID.slice(8, 24)}/${

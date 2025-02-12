@@ -159,7 +159,7 @@ onMounted(async () => {
   console.log(userRes);
   userData.value = userRes.Data;
   const coverID = userData.value.Statistic.Cover.ID;
-  coverUrl.value = `/static/experiments/images/${coverID.slice(0, 4)}/${coverID.slice(
+  coverUrl.value = `http://physics-static-cn.turtlesim.com:80/experiments/images/${coverID.slice(0, 4)}/${coverID.slice(
     4,
     6
   )}/${coverID.slice(6, 8)}/${coverID.slice(8, 24)}/${

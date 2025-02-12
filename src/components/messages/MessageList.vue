@@ -73,7 +73,7 @@ const handleLoad = async () => {
       id: message.ID,
       avatar_url: computed(() => {
         if (message.Avatar === 0) return "/src/assets/user/default-avatar.png"; //默认头像
-        return `/static/users/avatars/${message.UserID.slice(0, 4)}/${message.UserID.slice(
+        return `http://physics-static-cn.turtlesim.com:80/users/avatars/${message.UserID.slice(0, 4)}/${message.UserID.slice(
           4,
           6
         )}/${message.UserID.slice(6, 8)}/${message.UserID.slice(8, 24)}/${

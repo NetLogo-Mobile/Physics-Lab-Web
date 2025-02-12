@@ -217,7 +217,7 @@ async function loginDecorator(callback: Function) {
     username: _user.Nickname || "点击登录",
     avatarUrl: computed(() => {
       if (_user.Avatar === 0) return "/src/assets/user/default-avatar.png"; //默认头像
-      return `/static/users/avatars/${_user.ID.slice(0, 4)}/${_user.ID.slice(
+      return `http://physics-static-cn.turtlesim.com:80/users/avatars/${_user.ID.slice(0, 4)}/${_user.ID.slice(
         4,
         6
       )}/${_user.ID.slice(6, 8)}/${_user.ID.slice(8, 24)}/${_user.Avatar}.jpg!small.round`;
