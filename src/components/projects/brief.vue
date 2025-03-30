@@ -46,7 +46,7 @@ const formattedDate = computed(() => {
   align-items: center;
   background-color: #f0f0f0;
   padding: 10px;
-  height: 30px;
+  height: 50px;
   background-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -82,5 +82,8 @@ a {
   text-decoration: none;
 }
 
+.div {
+  box-sizing:border-box;
+}
+
 </style>
-../../services/commonParser

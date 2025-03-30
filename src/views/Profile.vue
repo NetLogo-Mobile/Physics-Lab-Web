@@ -1,91 +1,98 @@
 <template>
-  <div class="container">
-    <div
-      class="cover"
-      :style="{
-        backgroundImage: `url(${coverUrl})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }"
-    >
-      <div style="text-align: left; z-index: 10; position: relative">
-        <img src="/assets/library/Navigation-Return.png" style="width: 2.7em" @click="goBack" />
-        <div style="color: white; font-size: 2em; text-align: left">
-          {{ userData.User.Nickname }}
-        </div>
-        <Tag
-          :tag="userData.User?.Verification || 'user'"
-          style="color: aquamarine; font-weight: bold"
-        ></Tag>
-        <Tag :tag="'粉丝 ' + userData.Statistic.FollowerCount"></Tag>
-        <Tag :tag="'关注 ' + userData.Statistic.FollowingCount"></Tag>
-      </div>
+  <Adaptation>
+    <template #left>
       <div
-        style="
-          margin-top: auto;
-          color: white;
-          height: 55px;
-          background-color: rgba(128, 128, 128, 0.4);
-          border-radius: 10px;
-          padding: 8px;
-        "
+        class="cover"
+        :style="{
+          backgroundImage: `url(${coverUrl})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }"
       >
-        <router-link
-          :to="
-            '/experimentSummary/' +
-            userData.Statistic.Cover.Category +
-            '/' +
-            userData.Statistic.Cover.ID
-          "
+        <div style="text-align: left; z-index: 10; position: relative">
+          <img src="/assets/library/Navigation-Return.png" style="width: 2.7em" @click="goBack" />
+          <div style="color: white; font-size: 2em; text-align: left">
+            {{ userData.User.Nickname }}
+          </div>
+          <Tag
+            :tag="userData.User?.Verification || 'user'"
+            style="color: aquamarine; font-weight: bold"
+          ></Tag>
+          <Tag :tag="'粉丝 ' + userData.Statistic.FollowerCount"></Tag>
+          <Tag :tag="'关注 ' + userData.Statistic.FollowingCount"></Tag>
+        </div>
+        <div
           style="
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+            right: 20px;
             color: white;
-            text-align: left;
-            text-decoration: none;
-            z-index: 30;
-            position: relative;
+            height: 55px;
+            background-color: rgba(128, 128, 128, 0.4);
+            border-radius: 10px;
+            padding: 8px;
           "
         >
-          <p style="margin: 0; font-size: smaller">点击进入封面作品</p>
-          <p style="margin: 0; font-size: medium">{{ userData.Statistic.Cover.Subject }}</p>
-        </router-link>
+          <router-link
+            :to="
+              '/experimentSummary/' +
+              userData.Statistic.Cover.Category +
+              '/' +
+              userData.Statistic.Cover.ID
+            "
+            style="
+              color: white;
+              text-align: left;
+              text-decoration: none;
+              z-index: 30;
+              position: relative;
+            "
+          >
+            <p style="margin: 0; font-size: smaller">点击进入封面作品</p>
+            <p style="margin: 0; font-size: medium">{{ userData.Statistic.Cover.Subject }}</p>
+          </router-link>
+        </div>
       </div>
-    </div>
-
-    <div style="text-align: center" class="context">
-      <n-tabs v-model:value="selectedTab" justify-content="space-evenly" type="line">
-        <n-tab-pane name="Intro" tab="作品">
-          <div style="display: flex; flex-direction: column; gap: 5px" class="message-list" id="project-list">
-            <div v-for="[t, d] in Object.entries(expData)" :key="t">
-              <Block v-if="d.length > 0" :title="t" :data="d" :block-type="d[0].Category" />
+    </template>
+    <template #right>
+      <div style="text-align: center; height: 100%">
+        <n-tabs v-model:value="selectedTab" justify-content="space-evenly" type="line">
+          <n-tab-pane name="Intro" tab="作品">
+            <div class="projects" id="project-list">
+              <div v-for="[t, d] in Object.entries(expData)" :key="t">
+                <Block v-if="d.length > 0" :title="t" :data="d" :block-type="d[0].Category" />
+              </div>
             </div>
-          </div>
-        </n-tab-pane>
-        <n-tab-pane name="Comment" :tab="`留言板(${userData.Statistic.CommentCount})`">
-          <div class="message-list">
-            <MessageList
-              :ID="route.params.id as string"
-              Category="User"
-              :upDate="upDate"
-              @msgClick="handleMsgClick"
-            ></MessageList>
-            <div class="sendComment">
-              <n-input
-                v-model:value="comment"
-                style="text-align: left"
-                type="text"
-                placeholder="发布一条友善的言论"
-                show-count
-                :maxlength="200"
-                @keyup.enter="handleEnter"
-                :loading="isLoading"
-              />
+          </n-tab-pane>
+          <n-tab-pane name="Comment" :tab="`留言板(${userData.Statistic.CommentCount})`">
+            <div class="right-bottom-container">
+              <div class="message-wrapper">
+                <MessageList
+                  :ID="route.params.id as string"
+                  Category="User"
+                  :upDate="upDate"
+                  @msgClick="handleMsgClick"
+                />
+              </div>
+              <div class="sendComment">
+                <n-input
+                  v-model:value="comment"
+                  type="text"
+                  placeholder="发布一条友善的言论"
+                  show-count
+                  :maxlength="200"
+                  @keyup.enter="handleEnter"
+                  :loading="isLoading"
+                />
+              </div>
             </div>
-          </div>
-        </n-tab-pane>
-      </n-tabs>
-    </div>
-  </div>
+          </n-tab-pane>
+        </n-tabs>
+      </div>
+    </template>
+  </Adaptation>
 </template>
 
 <script setup lang="ts">
@@ -97,6 +104,8 @@ import Tag from "../components/utils/TagLarger.vue";
 import MessageList from "../components/messages/MessageList.vue";
 import Block from "../components/blocks/Block.vue";
 import postComment from "../services/postComment.ts";
+import Adaptation from "../layout/Adaptation.vue";
+import "../layout/AdaptationView.css";
 
 let comment = ref("");
 let isLoading = ref(false);
@@ -156,6 +165,7 @@ onMounted(async () => {
     ID: route.params.id,
   });
   userData.value = userRes.Data;
+  console.log(userData.value);
   const coverID = userData.value.Statistic.Cover.ID;
   coverUrl.value = `/static/experiments/images/${coverID.slice(0, 4)}/${coverID.slice(
     4,
@@ -170,14 +180,7 @@ function handleMsgClick(item: any) {
   comment.value = `回复@${item.msg_title}: `;
 }
 const handleEnter = async () => {
-  await postComment(
-    comment,
-    isLoading,
-    "User",
-    route.params.id as string,
-    replyID,
-    upDate
-  );
+  await postComment(comment, isLoading, "User", route.params.id as string, replyID, upDate);
 };
 
 const goBack = () => {
@@ -186,114 +189,21 @@ const goBack = () => {
 </script>
 
 <style scoped>
-/* width > height
-   */
-@media (min-aspect-ratio: 1/1) {
-  .cover {
-    height: 98%;
-  }
-  .context {
-    height: 100%;
-    overflow: scroll;
-    scrollbar-width: none;
-  }
-  .container {
-    flex-direction: row;
-  }
-  .sendComment {
-    width: 50%;
-  }
-  #gap {
-    height: 20vh;
-  }
-  .cover::before {
-    width: calc(50dvw + 20px);
-    height: 100%;
-  }
-  .message-list {
-    height: calc(100dvh - 100px);
-  }
-  #project-list {
-    height: calc(100dvh - 60px);
-  }
-}
-
-/* width < height 竖屏
-   */
-@media (max-aspect-ratio: 1/1) {
-  .cover {
-    flex-basis: 30vh;
-  }
-  #gap {
-    height: 5vh;
-  }
-  .context {
-    flex-grow: 2;
-    flex-basis: 70vh;
-  }
-  .container {
-    flex-direction: column;
-  }
-  .sendComment {
-    width: 100dvw;
-  }
-  .cover::before {
-    width: 100dvw;
-    height: 60%;
-  }
-  .message-list {
-    height: calc(66dvh - 90px);
-  }
-}
-
-.message-list {
-  width: 100%;
-  overflow-x: hidden;
-}
-
-.cover::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: linear-gradient(to bottom, rgba(128, 128, 128, 0.4) 20%, rgba(128, 128, 128, 0) 50%);
-  pointer-events: none;
-  border-radius: 8px;
-  z-index: 1;
-}
-
-.container {
-  height: 100dvh;
-  width: 100dvw;
-  display: flex;
-  box-sizing: border-box;
-}
-
 .cover {
-  object-fit: cover;
-  flex: 1;
+  position: absolute;
+  height: 100%;
+  width: 100%;
   padding: 20px;
+}
+
+.projects {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 50px);
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-}
-
-.context {
-  /* overflow: scroll; */
-  flex: 1;
-  box-sizing: border-box;
-}
-
-.sendComment {
-  height: 40px;
-  position: fixed;
-  background-color: #ddd;
-  bottom: 0;
-  box-sizing: border-box;
-  padding: 2px 20px;
-}
-
-div {
-  box-sizing: border-box;
+  gap: 5px;
+  overflow-y: scroll;
+  padding-bottom: 50px;
 }
 </style>

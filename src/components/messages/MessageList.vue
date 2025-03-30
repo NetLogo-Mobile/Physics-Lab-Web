@@ -14,8 +14,6 @@
       ></MessageItem>
       <n-divider style="margin: 0" />
     </div>
-    <div v-if="loading && !noMore" class="text">加载中...</div>
-    <div v-if="noMore" class="text">没有更多了</div>
   </n-infinite-scroll>
 </template>
 

@@ -100,4 +100,8 @@ const jump = () => {
   padding-left: 20px;
   font-weight: normal;
 }
+
+.div {
+  box-sizing:border-box;
+}
 </style>

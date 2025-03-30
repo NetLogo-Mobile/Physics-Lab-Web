@@ -4,7 +4,9 @@
       <div id="title">{{ title }}</div>
       <div id="more" @click="jump">更多</div>
     </div>
-    <Detailed v-for="(item, index) in data" :key="index" :data="item" :type="type" />
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <Detailed v-for="(item, index) in data" :key="index" :data="item" :type="type" />
+    </div>
   </div>
 </template>
 
@@ -24,10 +26,12 @@ const jump = () => {
 
 <style scoped>
 .outer {
+  height: 100%;
   border-radius: 8px;
   background-color: white;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   padding: 10px;
+  width: 100%;
 }
 
 .head {
