@@ -31,7 +31,6 @@ const jump = () => {
   background-color: white;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  width: 100%;
 }
 
 .head {
@@ -54,5 +53,9 @@ const jump = () => {
   align-self: flex-end;
   margin-left: auto;
   margin-right: 20px;
+}
+
+.div {
+  box-sizing:border-box
 }
 </style>

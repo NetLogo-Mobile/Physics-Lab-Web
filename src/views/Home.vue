@@ -172,6 +172,7 @@ import Footer from "../components/utils/Footer.vue";
 import { NButton, NModal, NForm, NInput, NFormItemRow, NGi, NGrid } from "naive-ui";
 import router from "../router";
 import targetLink from "../services/targetLink.js";
+import "../layout/loading.css";
 
 const showModal = ref(false);
 const loading = ref(true);
@@ -279,22 +280,6 @@ const memoryMe = ref(false);
 </script>
 
 <style scoped>
-.loading {
-  position: fixed;
-  top: 70px;
-  left: 0;
-  width: 100%;
-  height: 70%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url("/assets/messages/Message-Default.png");
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
 .block-container {
   height: calc(100dvh - 50px);
   padding: 70px 20px 10px 20px;
@@ -303,6 +288,7 @@ const memoryMe = ref(false);
   scrollbar-width: none;
 }
 
+/* Header插槽 start */
 .user {
   display: flex;
   align-items: center;
@@ -351,7 +337,9 @@ const memoryMe = ref(false);
   height: 28px;
   width: 28px;
 }
+/* Header插槽 end */
 
+/* 登录表单 start */
 .inputArea {
   margin: 1%;
   padding: 0;
@@ -365,7 +353,9 @@ const memoryMe = ref(false);
   border: none;
   border-radius: 10px;
 }
-·
+
+/* 登录表单 end */
+
 .div {
   box-sizing: border-box;
 }

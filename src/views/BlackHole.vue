@@ -48,6 +48,7 @@ import Footer from "../components/utils/Footer.vue";
 import { getData } from "../services/getData.ts";
 import { NGrid, NGi } from "naive-ui";
 import targetLink from "../services/targetLink.js"; 
+import "../layout/loading.css"
 
 const loading = ref(true);
 const blocks = ref<any>([]);
@@ -95,21 +96,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.loading {
-  position: fixed;
-  top: 70px;
-  left: 0;
-  width: 100%;
-  height: 70%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url("/assets/messages/Message-Default.png");
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-color: rgba(255, 255, 255, 0.8);
-}
 
 .block-container {
   height: calc(100dvh - 50px);
