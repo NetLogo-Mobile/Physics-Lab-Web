@@ -14,6 +14,7 @@ export async function getData(path: String, body: any) {
       "Content-Type": "application/json",
       "x-API-Token": localStorage.getItem("token") || undefined,
       "x-API-AuthCode": localStorage.getItem("authCode") || undefined,
+      "Origin": window.origin,
     },
   })
     .then((response) => {
