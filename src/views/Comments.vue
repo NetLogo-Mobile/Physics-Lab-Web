@@ -87,7 +87,6 @@ const handleEnter = async () => {
 .list {
   padding-left: 20px;
   padding-top: 60px;
-  height: calc(100dvh - 50px - 40px);
+  height: calc(100dvh - 50px - 50px);
 }
 </style>
-../services/commonParser.ts
