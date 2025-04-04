@@ -5,7 +5,7 @@
       params: { category: (data.Category || 'Experiment'), id: data.ID, image: data.Image },
     }"
   >
-  <!-- 此行代码为AMDYES而生，因为其将自己的作品类型改为了null -->
+  <!-- 早期实验区作品类型为null -->
     <div class="card">
       <img :src="imgUrl" class="icon" />
       <div class="text">
