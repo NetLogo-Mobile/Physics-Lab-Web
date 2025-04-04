@@ -59,7 +59,6 @@ import perl from 'highlight.js/lib/languages/perl';
 });
 
 
-// 修改插件初始化方式
 md.use(katex).use(markdownItHighlightjs, {
   hljs, 
   inline: true,

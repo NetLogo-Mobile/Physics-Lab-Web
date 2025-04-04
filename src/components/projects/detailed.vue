@@ -1,13 +1,13 @@
 <template>
-
   <router-link
     :to="{
       name: 'ExperimentSummary',
-      params: { category: data.Category, id: data.ID, image: data.Image },
+      params: { category: (data.Category || 'Experiment'), id: data.ID, image: data.Image },
     }"
   >
+  <!-- 此行代码为AMDYES而生，因为其将自己的作品类型改为了null -->
     <div class="card">
-      <img :src="imgUrl" class="icon"  />
+      <img :src="imgUrl" class="icon" />
       <div class="text">
         <p class="title" v-html="parse(data.Subject)"></p>
         <p class="subtitle">{{ data.User.Nickname }}</p>
@@ -27,7 +27,7 @@ const { data, type } = defineProps({
   data: Object,
   type: String,
 });
-const imgUrl = getCoverUrl(data)
+const imgUrl = getCoverUrl(data);
 </script>
 
 <style scoped>
@@ -69,5 +69,8 @@ const imgUrl = getCoverUrl(data)
 a {
   text-decoration: none;
 }
+
+div {
+  box-sizing: border-box;
+}
 </style>
-../../services/commonParser

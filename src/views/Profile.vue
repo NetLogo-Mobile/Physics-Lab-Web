@@ -59,7 +59,7 @@
     <template #right>
       <div style="text-align: center; height: 100%">
         <n-tabs v-model:value="selectedTab" justify-content="space-evenly" type="line">
-          <n-tab-pane name="Intro" tab="作品">
+          <n-tab-pane name="Intro" tab="作品" animated>
             <div class="projects" id="project-list">
               <div v-for="[t, d] in Object.entries(expData)" :key="t">
                 <Block v-if="d.length > 0" :title="t" :data="d" :block-type="d[0].Category" />

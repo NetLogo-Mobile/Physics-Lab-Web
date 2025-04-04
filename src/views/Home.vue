@@ -365,4 +365,8 @@ const memoryMe = ref(false);
   border: none;
   border-radius: 10px;
 }
+·
+.div {
+  box-sizing: border-box;
+}
 </style>
