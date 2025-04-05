@@ -1,6 +1,6 @@
 <template>
   <!-- 无限滚动组件 -->
-  <n-infinite-scroll :distance="10" @load="handleLoad" :style="`height: ${height}`">
+  <n-infinite-scroll :distance="10" @load="handleLoad" style="height: 100%">
     <!-- 遍历显示每一条消息 -->
     <div v-for="item in items" :key="item.id">
       <Notification
@@ -141,7 +141,7 @@ let templates: any = [
   },
 ];
 
-const { notificationTypeIndexOfUI } = defineProps(["notificationTypeIndexOfUI", "height"]);
+const { notificationTypeIndexOfUI } = defineProps(["notificationTypeIndexOfUI"]);
 
 /**
  * 紫兰斋的编号与UI不一致
@@ -279,7 +279,6 @@ handleLoad(false);
 <style scoped>
 .text {
   text-align: center;
-  /* padding: 10px; */
   color: #888;
 }
 </style>

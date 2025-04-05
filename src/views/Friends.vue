@@ -5,10 +5,10 @@
   <div class="list">
     <n-tabs default-value="following" justify-content="space-evenly" type="line">
       <n-tab-pane name="following" tab="关注">
-        <div class="item"><UserList :userid="userID" type="0" :cols="itemsPerRow" :height="`calc(100dvh - 180px)`" /></div>
+        <div class="item"><UserList :userid="userID" type="1" :cols="itemsPerRow" :height="`calc(100dvh - 180px)`" /></div>
       </n-tab-pane>
       <n-tab-pane name="follower" tab="粉丝">
-        <div class="item"><UserList :userid="userID" type="1" :cols="itemsPerRow" :height="`calc(100dvh - 180px)`" /></div>
+        <div class="item"><UserList :userid="userID" type="0" :cols="itemsPerRow" :height="`calc(100dvh - 180px)`" /></div>
       </n-tab-pane>
       <n-tab-pane name="volunteers" tab="志愿者">
         <div class="item"><UserList :userid="userID" type="3" :cols="itemsPerRow" :height="`calc(100dvh - 180px)`" /></div>
@@ -58,6 +58,7 @@ onUnmounted(() => {
 <style scoped>
 .list {
   margin-top: 50px;
+  height: calc(100dvh - 100px);
 }
 
 .item {

@@ -6,7 +6,6 @@
           <UserItem :user="user.User" />
         </n-gi>
       </n-grid>
-      <div v-if="loading && !isLoadEnd">加载中...</div>
     </n-infinite-scroll>
   </div>
 </template>
