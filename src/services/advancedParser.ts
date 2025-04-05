@@ -96,6 +96,59 @@ function parse_size(text: string) {
 }
 
 
+function isAllowedDomain(url: string): boolean {
+  const origin = window.location.origin;
+  try {
+    const parsedUrl = new URL(url, origin);
+    if (allowedOrigin.includes(parsedUrl.origin) || allowedUrl.includes(parsedUrl.href)) {
+      return true;
+    }
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
+ * 处理a标签，移除或替换跨域链接
+ */
+function processAnchorTags(html: string): string {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  const anchorTags = doc.querySelectorAll("a");
+
+  anchorTags.forEach((tag) => {
+    const href = tag.getAttribute("href");
+    if (href && !isAllowedDomain(href)) {
+      tag.outerHTML = `<span style="color:lightblue;">${tag.textContent}</span>`;
+    }
+  });
+
+  return doc.body.innerHTML;
+}
+
+/**
+ * 处理img标签，移除或替换跨域链接
+ */
+function processImageTags(html: string): string {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  const imgTags = doc.querySelectorAll("img");
+
+  imgTags.forEach((tag) => {
+    const src = tag.getAttribute("src");
+    if (src && !isAllowedDomain(src)) {
+      tag.remove();
+    } else {
+      tag.style.width = tag.getAttribute("width") || tag.style.width;
+      tag.style.height = tag.getAttribute("height") || tag.style.height;
+      tag.style.maxWidth = "100%";
+    }
+  });
+
+  return doc.body.innerHTML;
+}
+
 /**
  * 丰富的解析引擎，含有Katex等
  * @param text 文本
@@ -109,20 +162,18 @@ function parse(text: string | string[], isInline: boolean = false) {
   // /Discussion/5f3620716adfbe0001ca35e9
   // /Discussion/67a785e6d76625ec934e1525
   // /Experiment/67987779fa3a53d92a765111
+  // /Discussion/67e96342527daabc44e1e8bf
   if (!text) return "";
   if (Array.isArray(text)) {
     // 按一定规则拼接为一个字符串
     let text_ = "",
       last_is_code: boolean = false;
     for (let i = 0; i < text.length; ++i) {
-      // ~~~代码段 是不支持的，因为我(Arendelle)不用（
       let next_is_code = (text[i].match(/\`\`\`/g)?.length || 0) & 1;
 
       if (last_is_code || next_is_code || /^( |\t)*(\-|\*|\#|\d+\.)/.test(text[i])) {
         text_ += text[i] + "\n";
       } else if (/^ *<.*> *$/.test(text[i])) {
-        text_ += text[i] + "<br/>";
-      } else {
         let slice_start = 0;
         while (true) {
           if (text[i][slice_start] === "\t") {
@@ -135,6 +186,19 @@ function parse(text: string | string[], isInline: boolean = false) {
           ++slice_start;
         }
 
+        text_ += text[i].slice(slice_start) + "<br/>";
+      } else {
+        let slice_start = 0;
+        while (true) {
+          if (text[i][slice_start] === "\t") {
+            text_ += "&nbsp;&nbsp;&nbsp;&nbsp;";
+          } else if (text[i][slice_start] === " ") {
+            text_ += "&nbsp;";
+          } else {
+            break;
+          }
+          ++slice_start;
+        }
         // > xxx
         if (text[i][slice_start] === ">") {
           text_ += `<blockquote>${text[i].slice(text[i].search(">") + 1)}</blockquote>\n\n`;
@@ -150,55 +214,6 @@ function parse(text: string | string[], isInline: boolean = false) {
   }
 
   let result = md.render(text);
-
-  function isAllowedDomain(url: string): boolean {
-    const origin = window.location.origin;
-    try {
-      const parsedUrl = new URL(url, origin);
-      if (allowedOrigin.includes(parsedUrl.origin) || allowedUrl.includes(parsedUrl.href)) {
-        return true;
-      }
-      return false;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  // 处理a标签，移除或替换跨域链接
-  function processAnchorTags(html: string): string {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-    const anchorTags = doc.querySelectorAll("a");
-
-    anchorTags.forEach((tag) => {
-      const href = tag.getAttribute("href");
-      if (href && !isAllowedDomain(href)) {
-        tag.outerHTML = `<span style="color:lightblue;">${tag.textContent}</span>`;
-      }
-    });
-
-    return doc.body.innerHTML;
-  }
-
-  // 处理img标签，移除或替换跨域链接
-  function processImageTags(html: string): string {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-    const imgTags = doc.querySelectorAll("img");
-
-    imgTags.forEach((tag) => {
-      const src = tag.getAttribute("src");
-      if (src && !isAllowedDomain(src)) {
-        tag.remove();
-      } else {
-        tag.style.width = tag.getAttribute("width") || tag.style.width;
-        tag.style.height = tag.getAttribute("height") || tag.style.height;
-        tag.style.maxWidth = "100%";
-      }
-    });
-
-    return doc.body.innerHTML;
-  }
 
   let clean = DOMPurify.sanitize(result, {
     ADD_TAGS: ["a", "br", "span", "img"], // 允许a标签和img标签
