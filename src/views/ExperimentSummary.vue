@@ -52,7 +52,7 @@
       <div style="text-align: center" class="context">
         <n-tabs v-model:value="selectedTab" justify-content="space-evenly" type="line">
           <n-tab-pane name="Intro" tab="简介">
-            <div style="width: 94%; margin: 0 auto 20px auto" class="gray">
+            <div class="gray">
               <div style="width: 100%; height: fit-content">
                 <div
                   style="
@@ -80,7 +80,6 @@
                 </div>
                 <div
                   style="
-                    flex-grow: 1;
                     margin-top: 3%;
                     background-color: white;
                     border-radius: 10px;
@@ -93,8 +92,6 @@
                   </h3>
                   <div
                     style="
-                      left: 3%;
-                      width: 94%;
                       height: 90%;
                       max-width: 100%;
                       word-break: break-all;
@@ -252,10 +249,21 @@ const goBack = () => {
 
 .gray {
   position: absolute;
-  width: 100%;
+  width:98%;
+  margin: 5px;
   height: calc(100% - 60px);
   overflow-y: scroll;
   border-radius: 10px;
   background-color: #eee;
+}
+
+@media (min-aspect-ratio: 1/1) {
+  .gray {
+    width: calc(100% - 30px);
+  }
+}
+
+.div {
+  box-sizing: border-box;
 }
 </style>
