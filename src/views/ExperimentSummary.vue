@@ -111,12 +111,11 @@
             <div class="right-bottom-container">
               <div class="message-wrapper">
                 <MessageList
-                :ID="route.params.id as string"
-                :Category="route.params.category as 'Experiment'|'User'|'Discussion'"
-                :upDate="upDate"
-                @msgClick="handleMsgClick"
-              ></MessageList>
-
+                  :ID="route.params.id as string"
+                  :Category="route.params.category as 'Experiment'|'User'|'Discussion'"
+                  :upDate="upDate"
+                  @msgClick="handleMsgClick"
+                />
               </div>
               <div class="sendComment">
                 <n-input
@@ -153,6 +152,7 @@ import "highlight.js/styles/github.css";
 import "../../node_modules/katex/dist/katex.min.css";
 import { getUserUrl } from "../services/computedUrl.ts";
 import Adaptation from "../layout/Adaptation.vue";
+import "../layout/AdaptationView.css";
 
 let comment = ref("");
 let isLoading = ref(false);

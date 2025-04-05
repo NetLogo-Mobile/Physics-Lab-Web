@@ -79,6 +79,7 @@
               <div class="sendComment">
                 <n-input
                   v-model:value="comment"
+                  style="text-align: left"
                   type="text"
                   placeholder="发布一条友善的言论"
                   show-count
