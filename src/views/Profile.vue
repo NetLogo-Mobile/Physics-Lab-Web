@@ -166,7 +166,6 @@ onMounted(async () => {
     ID: route.params.id,
   });
   userData.value = userRes.Data;
-  console.log(userData.value);
   const coverID = userData.value.Statistic.Cover.ID;
   coverUrl.value = `/static/experiments/images/${coverID.slice(0, 4)}/${coverID.slice(
     4,
