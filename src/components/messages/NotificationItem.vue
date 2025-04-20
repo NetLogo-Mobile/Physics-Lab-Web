@@ -62,7 +62,10 @@ const msg_icon_url = computed(() => {
 
 function showComment() {
   if (props.msg_type === 2) {
-    window.open(`/Comments/${props.category}/${props.tid}/${props.name}`, "_self");
+    window.open(
+      `${window.$getPath("/root")}/Comments/${props.category}/${props.tid}/${props.name}`,
+      "_self"
+    );
   }
 }
 </script>
@@ -70,7 +73,7 @@ function showComment() {
 <style scoped>
 .notification_container {
   height: fit-content;
-  padding: 10px;
+  padding: 0.5em 0 0.5em 0.5em;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -125,7 +128,7 @@ function showComment() {
 }
 
 #notification_text {
-  font-size: 1em;
+  font-size: 0.9em;
   text-align: left;
   height: fit-content;
 }
@@ -139,4 +142,3 @@ function showComment() {
   background-color: #f0f0f0;
 }
 </style>
-../../services/commonParser.ts

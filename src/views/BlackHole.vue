@@ -42,12 +42,14 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
 import Header from "../components/utils/Header.vue";
-import BlockAndActivity from "../components/BlockAndActivity.vue";
-import Block from "../components/Block.vue";
-import Footer from "../components/Footer.vue";
-import { getData } from "../services/getData.ts";
+import BlockAndActivity from "../components/blocks/BlockAndActivity.vue";
+import Block from "../components/blocks/Block.vue";
+import Footer from "../components/utils/Footer.vue";
+import { getData } from "../services/api/getData.ts";
 import { NGrid, NGi } from "naive-ui";
-import targetLink from "../services/targetLink.js"; 
+import { strToQueryObj as targetLink } from "../services/utils.ts";
+import "../layout/loading.css";
+import "../layout/startPage.css";
 
 const loading = ref(true);
 const blocks = ref<any>([]);
@@ -94,28 +96,4 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
-.loading {
-  position: fixed;
-  top: 70px;
-  left: 0;
-  width: 100%;
-  height: 70%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url("/assets/messages/Message-Default.png");
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
-.block-container {
-  height: calc(100dvh - 50px);
-  padding: 70px 20px 10px 20px;
-  overflow-y: scroll;
-  box-sizing: border-box;
-  scrollbar-width: none;
-}
-</style>
+<style scoped></style>

@@ -1,28 +1,23 @@
 <template>
-  <div class="user-list">
-    <n-infinite-scroll :distance="0" @load="handleLoad" :style="`height: ${height}`">
-      <n-grid :cols="cols || 2">
-        <n-gi v-for="user in relations" :key="user.User.ID">
-          <UserItem :user="user.User" />
-        </n-gi>
-      </n-grid>
-      <div v-if="loading && !isLoadEnd">加载中...</div>
-    </n-infinite-scroll>
-  </div>
+  <n-infinite-scroll :distance="10" @load="handleLoad" >
+    <n-grid :cols="cols || 2">
+      <n-gi v-for="user in relations" :key="user.User.ID">
+        <UserItem :user="user.User" />
+      </n-gi>
+    </n-grid>
+  </n-infinite-scroll>
 </template>
-
 <script setup lang="ts">
 import UserItem from "./item.vue";
 import { NInfiniteScroll, NGrid, NGi } from "naive-ui";
 import { ref } from "vue";
-import { getData } from "../../services/getData.ts";
+import { getData } from "../../services/api/getData.ts";
 import Emitter from "../../services/eventEmitter";
 
 const { userid, type } = defineProps({
   userid: String,
   type: String,
   cols: Number,
-  height: String,
 });
 
 let relations = ref<any>([]);
@@ -56,11 +51,4 @@ async function handleLoad() {
 handleLoad();
 </script>
 
-<style scoped>
-.user-list {
-  padding-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-</style>
+<style scoped></style>

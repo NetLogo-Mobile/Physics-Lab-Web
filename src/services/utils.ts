@@ -1,16 +1,42 @@
-function parseString(input) {
-  const result = {
+type PUser = {
+  ID: string;
+  Avatar: number;
+  Verification: string;
+};
+
+type PProjects = {
+  ID: string;
+  Image?: number;
+};
+export function getUserUrl(user: PUser): string {
+  const url =
+    user.Avatar === 0 || user.Verification === "Banned"
+      ? "/assets/user/default-avatar.png"
+      : `/static/users/avatars/${user.ID.slice(0, 4)}/${user.ID.slice(4, 6)}/${user.ID.slice(
+          6,
+          8
+        )}/${user.ID.slice(8, 24)}/${user.Avatar}.jpg`;
+
+  return window.$getPath(url);
+}
+
+export function getCoverUrl(data: PProjects): string {
+  const url = `/static/experiments/images/${data.ID.slice(0, 4)}/${data.ID.slice(
+    4,
+    6
+  )}/${data.ID.slice(6, 8)}/${data.ID.slice(8, 24)}/${data.Image || 0}.jpg!block`;
+  return window.$getPath(url);
+}
+
+export function strToQueryObj(input:string) {
+  const result:any = {
+    Category: null,
     Tags: null,
     ExcludeTags: null,
   };
-
   // 处理前缀以确定 Category
   result.Category = input.startsWith("d") ? "Discussion" : "Experiment";
-
-  // 去掉协议部分
   const segments = input.split("://").slice(1).join("://");
-
-  // 按 / 分割并处理每个部分
   const parts = segments.split("/");
 
   for (let i = 0; i < parts.length; i += 2) {
@@ -41,7 +67,5 @@ function parseString(input) {
   const utf8Bytes = new TextEncoder().encode(jsonString);
   const base64String = btoa(String.fromCharCode(...utf8Bytes));
 
-  return base64String.replace(/\//g,"DEVIDER");
+  return base64String.replace(/\//g, "DEVIDER");
 }
-
-export default parseString;

@@ -4,7 +4,7 @@
       <div class="user" @click="showModalFn">
         <img
           class="avatar"
-          :src="user.avatarUrl"
+          :src="user.avatarUrl || '/assets/user/default-avatar.png'"
           alt="Avatar"
         />
         <!-- 用户刚刚解封会出现图片404，或许日后要把这个逻辑改为获取用户上一张头像，先暂时用默认头像 -->
@@ -18,7 +18,7 @@
             <span>{{ user.coins }}</span>
           </div>
           <div class="resource">
-            <img class="icon" src="/assets/icons/gems.png" alt="Gems" />
+            <img class="icon gems" src="/assets/icons/gems.png" alt="Gems" />
             <span>{{ user.gems }}</span>
           </div>
         </div>
@@ -32,7 +32,10 @@
           <n-gi>
             <Actions />
           </n-gi>
-          <n-gi v-for="block in  blocks.filter((i:any)=>i.Summaries.length > 0)" :key="block.Subject">
+          <n-gi
+            v-for="block in  blocks.filter((i:any)=>i.Summaries.length > 0)"
+            :key="block.Subject"
+          >
             <div class="block">
               <BlockAndActivity
                 v-if="block.$type.startsWith('Quantum.Models.Contents.TopicBlock')"
@@ -159,18 +162,18 @@
 </template>
 
 <script setup lang="ts">
-// 直接获取值（无需转义）
-console.log(import.meta.env.VITE_HOME_URL) 
 import { ref, onMounted, computed, onUnmounted } from "vue";
-import Actions from "../components/Actions.vue";
+import Actions from "../components/blocks/Actions.vue";
 import Header from "../components/utils/Header.vue";
-import BlockAndActivity from "../components/BlockAndActivity.vue";
-import Block from "../components/Block.vue";
-import { login } from "../services/getData.ts";
-import Footer from "../components/Footer.vue";
+import BlockAndActivity from "../components/blocks/BlockAndActivity.vue";
+import Block from "../components/blocks/Block.vue";
+import { login} from "../services/api/getData.ts";
+import Footer from "../components/utils/Footer.vue";
 import { NButton, NModal, NForm, NInput, NFormItemRow, NGi, NGrid } from "naive-ui";
 import router from "../router";
-import targetLink from "../services/targetLink.js"; 
+import { strToQueryObj as targetLink } from "../services/utils.ts";
+import "../layout/loading.css";
+import "../layout/startPage.css";
 
 const showModal = ref(false);
 const loading = ref(true);
@@ -180,14 +183,13 @@ const password = ref("");
 const token = ref("");
 const authCode = ref("");
 
-
 const user = ref({
   coins: 12345,
   gems: 12345,
   level: 12,
   username: "点击登录",
   avatarUrl: "/assets/user/default-avatar.png",
-  ID:""
+  ID: "",
 });
 
 const itemsPerRow = ref(getItemsPerRow());
@@ -225,10 +227,15 @@ async function loginDecorator(callback: Function) {
     }).value,
     ID: _user.ID,
   };
+
+  if (_user.Nickname != null) {
+    const re = await login(null, null);
+    blocks.value = re.Data.Library.Blocks;
+  } else{
+    blocks.value = loginResponse.Data.Library.Blocks;
+  }
+
   loading.value = false;
-
-  blocks.value = loginResponse.Data.Library.Blocks;
-
 }
 
 function getItemsPerRow() {
@@ -261,7 +268,9 @@ onMounted(async () => {
 });
 
 function showModalFn() {
-  localStorage.getItem("loginStatus") === "true"? router.push(`/profile/${user.value.ID}`): (showModal.value = true);
+  localStorage.getItem("loginStatus") === "true"
+    ? router.push(`/profile/${user.value.ID}`)
+    : (showModal.value = true);
 }
 
 async function pswdLogin() {
@@ -278,31 +287,7 @@ const memoryMe = ref(false);
 </script>
 
 <style scoped>
-
-.loading {
-  position: fixed;
-  top: 70px;
-  left: 0;
-  width: 100%;
-  height: 70%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url("/assets/messages/Message-Default.png");
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
-.block-container {
-  height: calc(100dvh - 50px);
-  padding: 70px 20px 10px 20px;
-  overflow-y: scroll;
-  box-sizing: border-box;
-  scrollbar-width: none;
-}
-
+/* Header插槽 start */
 .user {
   display: flex;
   align-items: center;
@@ -347,6 +332,13 @@ const memoryMe = ref(false);
   margin-left: 5px;
 }
 
+.gems {
+  height: 28px;
+  width: 28px;
+}
+/* Header插槽 end */
+
+/* 登录表单 start */
 .inputArea {
   margin: 1%;
   padding: 0;
@@ -360,4 +352,11 @@ const memoryMe = ref(false);
   border: none;
   border-radius: 10px;
 }
+
+/* 登录表单 end */
+
+.div {
+  box-sizing: border-box;
+}
 </style>
+../services/api/getData.ts

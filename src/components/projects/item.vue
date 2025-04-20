@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import router from "../../router";
-import { getCoverUrl } from "../../services/computedUrl";
+import { getCoverUrl } from "../../services/utils";
 
 const { item } = defineProps<{
   item: any;
@@ -103,3 +103,4 @@ const handleClick = ()=>{
   white-space: nowrap;
 }
 </style>
+../../services/utils

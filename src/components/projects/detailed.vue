@@ -1,13 +1,13 @@
 <template>
-
   <router-link
     :to="{
       name: 'ExperimentSummary',
-      params: { category: data.Category, id: data.ID, image: data.Image },
+      params: { category: (data.Category || 'Experiment'), id: data.ID, image: data.Image },
     }"
   >
+  <!-- 早期实验区作品类型为null -->
     <div class="card">
-      <img :src="imgUrl" class="icon"  />
+      <img :src="imgUrl" class="icon" />
       <div class="text">
         <p class="title" v-html="parse(data.Subject)"></p>
         <p class="subtitle">{{ data.User.Nickname }}</p>
@@ -21,13 +21,13 @@
 import Tag from "../utils/Tag.vue";
 import { computed } from "vue";
 import parse from "../../services/commonParser.ts";
-import { getCoverUrl } from "../../services/computedUrl";
+import { getCoverUrl } from "../../services/utils";
 
 const { data, type } = defineProps({
   data: Object,
   type: String,
 });
-const imgUrl = getCoverUrl(data)
+const imgUrl = getCoverUrl(data);
 </script>
 
 <style scoped>
@@ -69,5 +69,9 @@ const imgUrl = getCoverUrl(data)
 a {
   text-decoration: none;
 }
+
+div {
+  box-sizing: border-box;
+}
 </style>
-../../services/commonParser
+../../services/utils.ts

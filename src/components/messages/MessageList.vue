@@ -1,6 +1,6 @@
 <template>
   <!-- 无限滚动组件 -->
-  <n-infinite-scroll :distance="10" @load="handleLoad" style="height: 100%">
+  <n-infinite-scroll :distance="0" @load="handleLoad" style="height: 100%">
     <!-- 遍历显示每一条消息 -->
     <div v-for="item in items" :key="item.id">
       <MessageItem
@@ -10,21 +10,22 @@
         :msg_type="item.msg_type"
         :id="item.id"
         :userID="item.userID"
+        :type="Category"
         @msgClick="handleMsgClick"
+        @deleteMsg="deleteMsg"
       ></MessageItem>
       <n-divider style="margin: 0" />
     </div>
-    <div v-if="loading && !noMore" class="text">加载中...</div>
-    <div v-if="noMore" class="text">没有更多了</div>
   </n-infinite-scroll>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import MessageItem from "./MessageItem.vue";
-import { getData } from "../../services/getData.ts";
+import { getData } from "../../services/api/getData.ts";
 import type { PropType } from "vue";
-import Emitter from "../../services/eventEmitter.ts"
+import Emitter from "../../services/eventEmitter.ts";
+import { NInfiniteScroll } from "naive-ui";
 
 const { ID, Category, upDate } = defineProps({
   ID: String,
@@ -42,6 +43,10 @@ let skip = 0;
 let from: any = null;
 
 const emit = defineEmits(["msgClick"]);
+
+function deleteMsg(id: any) {
+  items.value = items.value.filter((item: any) => item.id !== id);
+}
 
 function handleMsgClick(id: any) {
   const msg = items.value.find((item: any) => item.id === id);
@@ -113,3 +118,4 @@ watch(
   color: #888;
 }
 </style>
+../../services/api/getData.ts

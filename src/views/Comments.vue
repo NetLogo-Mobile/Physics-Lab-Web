@@ -36,8 +36,7 @@ import MessagesList from "../components/messages/MessageList.vue";
 import { useRoute } from "vue-router";
 import Header from "../components/utils/Header.vue";
 import parse from "../services/commonParser.ts";
-import { getData } from "../services/getData.ts";
-import Emitter from "../services/eventEmitter";
+import postComment from "../services/postComment.ts";
 
 const route = useRoute();
 let isLoading = ref(false);
@@ -57,33 +56,15 @@ function handleMsgClick(item: any) {
   comment.value = `回复@${item.msg_title}: `;
 }
 
-// 新增方法：处理回车键按下事件
 const handleEnter = async () => {
-  isLoading.value = true; // 设置 loading 状态为 true
-  const sendCommentResponse = await getData("/Messages/PostComment", {
-    TargetID: route.params.id,
-    TargetType: route.params.category,
-    Content: comment.value || "",
-    ReplyID: replyID || "",
-    Language: "from web",
-    Special: null,
-  });
-  if (sendCommentResponse.Status == 200) {
-    comment.value = "";
-    upDate.value = Math.random();
-  } else {
-    if (
-      sendCommentResponse.Status == 403 &&
-      sendCommentResponse.Message.startsWith("Stopword.Blocked")
-    ) {
-      const index = Number(
-        "Stopword.Blocked.Details|0".slice("Stopword.Blocked.Details|0".indexOf("|") + 1)
-      );
-      const blockedMessage = comment.value.slice(index, 10);
-      Emitter.emit("error", `您输入的内容“...${blockedMessage}...”中包含不适合词句`, 1);
-    }
-  }
-  isLoading.value = false;
+  await postComment(
+    comment,
+    isLoading,
+    route.params.category as string,
+    route.params.id as string,
+    replyID,
+    upDate
+  );
 };
 </script>
 
@@ -106,7 +87,6 @@ const handleEnter = async () => {
 .list {
   padding-left: 20px;
   padding-top: 60px;
-  height: calc(100dvh - 50px - 40px);
+  height: calc(100dvh - 50px - 50px);
 }
 </style>
-../services/commonParser.ts

@@ -1,6 +1,6 @@
 <template>
   <!-- 无限滚动组件 -->
-  <n-infinite-scroll :distance="10" @load="handleLoad" :style="`height: ${height}`">
+  <n-infinite-scroll :distance="10" @load="handleLoad" style="height: 100%">
     <!-- 遍历显示每一条消息 -->
     <div v-for="item in items" :key="item.id">
       <Notification
@@ -16,17 +16,17 @@
       ></Notification>
       <n-divider style="margin: 0" />
     </div>
-    <div v-if="loading && !hasLoadEnd" class="text">加载中...</div>
   </n-infinite-scroll>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import Notification from "./NotificationItem.vue";
-import { getData } from "../../services/getData.ts";
+import { getData } from "../../services/api/getData.ts";
 import { getAvatarUrl, saveCache } from "../../services/getUserCurentAvatarByID";
 import type { Ref } from "vue";
 import Emitter from "../../services/eventEmitter";
+import { NInfiniteScroll } from "naive-ui";
 
 interface Message {
   ID: number;
@@ -140,7 +140,7 @@ let templates: any = [
   },
 ];
 
-const { notificationTypeIndexOfUI } = defineProps(["notificationTypeIndexOfUI", "height"]);
+const { notificationTypeIndexOfUI } = defineProps(["notificationTypeIndexOfUI"]);
 
 /**
  * 紫兰斋的编号与UI不一致
@@ -278,7 +278,7 @@ handleLoad(false);
 <style scoped>
 .text {
   text-align: center;
-  /* padding: 10px; */
   color: #888;
 }
 </style>
+../../services/api/getData.ts

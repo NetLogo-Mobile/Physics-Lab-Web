@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import showUserCard from "../../popup/usercard.ts";
-import { getUserUrl } from "../../services/computedUrl";
+import { getUserUrl } from "../../services/utils";
 const { user } = defineProps<{
   user: any;
 }>();
@@ -66,3 +66,4 @@ const avararUrl = getUserUrl(user);
   white-space: nowrap;
 }
 </style>
+../../services/utils.ts

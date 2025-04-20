@@ -43,7 +43,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { getData } from "../../services/getData.ts";
+import { getData } from "../../services/api/getData.ts";
 
 const props = defineProps({
   userid: String,
@@ -60,7 +60,8 @@ const starCount = ref(0);
 const fragmentCount = ref(0);
 
 const jumpToUser = (id) => {
-  window.open(`/profile/${id}`, "_self");
+  props.close();
+  window.open(`${window.$getPath("/root")}/profile/${id}`, "_self");
 };
 
 onMounted(async () => {
@@ -166,3 +167,4 @@ onMounted(async () => {
   cursor: pointer;
 }
 </style>
+../../services/api/getData.ts

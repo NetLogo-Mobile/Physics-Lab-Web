@@ -8,4 +8,5 @@ interface Window {
     destroyAll: () => void;
   };
   $getPath: (path: string) => string;
+  $parse: (text: string | string[], isInline?: boolean) => string; // 请勿在实际代码中使用，仅供
 }

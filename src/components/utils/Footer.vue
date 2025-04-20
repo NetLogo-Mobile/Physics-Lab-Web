@@ -2,12 +2,12 @@
   <footer>
     <router-link to="/">首页</router-link>
     <router-link to="/black-hole">黑洞</router-link>
+    <router-link to="/friends">好友</router-link>
+    <router-link to="/notifications">通知</router-link>
   </footer>
 </template>
 
-<script setup>
-
-</script>
+<script setup></script>
 
 <style scoped>
 footer {
@@ -24,6 +24,10 @@ footer {
 footer a {
   color: #007bff;
   text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
 }
 
 footer a.router-link-exact-active {

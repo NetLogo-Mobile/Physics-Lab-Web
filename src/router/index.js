@@ -49,7 +49,7 @@ const routes = [
     path: "/friends",
     name: "friends",
     component: () => import("../views/Friends.vue"),
-    meta: { keepAlive: true },
+    meta: { keepAlive: false },
   },
   {
     path: "/list/:config",

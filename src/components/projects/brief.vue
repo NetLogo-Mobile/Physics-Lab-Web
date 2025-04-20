@@ -19,7 +19,7 @@
 <script setup>
 import { computed } from "vue";
 import parse from "../../services/commonParser.ts";
-import { getCoverUrl } from "../../services/computedUrl.ts";
+import { getCoverUrl } from "../../services/utils.ts";
 
 const { data, type } = defineProps({
   data: Object,
@@ -45,8 +45,8 @@ const formattedDate = computed(() => {
   display: flex;
   align-items: center;
   background-color: #f0f0f0;
-  padding: 10px;
-  height: 30px;
+  padding: 0 10px;
+  height: 50px;
   background-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -67,9 +67,9 @@ const formattedDate = computed(() => {
   font-size: 12px;
   color: white;
   margin: 0;
-  white-space: nowrap; /* 禁止换行 */
-  overflow: hidden; /* 超出部分隐藏 */
-  text-overflow: ellipsis; /* 显示省略号 */
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
 }
 
 .subtitle {
@@ -82,5 +82,8 @@ a {
   text-decoration: none;
 }
 
-</style>
-../../services/commonParser
+.div {
+  box-sizing:border-box;
+}
+
+</style>../../services/utils.ts

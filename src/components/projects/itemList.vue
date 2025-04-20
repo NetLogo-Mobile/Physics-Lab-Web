@@ -16,8 +16,8 @@
 import { NGrid, NGi, NInfiniteScroll } from "naive-ui";
 import Works from "./item.vue";
 import { ref } from "vue";
-import { getData } from "../../services/getData";
-import Emitter from "../../services/eventEmitter";
+import { getData } from "../../services/api/getData.ts";
+import Emitter from "../../services/eventEmitter.ts";
 
 const { q } = defineProps({
   row: Number,
@@ -94,3 +94,4 @@ loading.value = false;
   background-repeat: no-repeat;
 }
 </style>
+../../services/api/getData
