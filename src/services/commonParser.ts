@@ -20,11 +20,11 @@ function parse(text: string | undefined, ignoreSize: boolean = false) {
     .replace(/<user=(.*?)>(.*?)<\/user>/g, "<span class='RUser' data-user='$1'>$2</span>")
     .replace(
       /<discussion=(.*?)>(.*?)<\/discussion>/g,
-      `<a href="${window.$getPath("/root")}/ExperimentSummary/Discussion/$1" internal>$2</a>`
+      `<a href="${window.$getPath("/@root")}/ExperimentSummary/Discussion/$1" internal>$2</a>`
     )
     .replace(
       /<experiment=(.*?)>(.*?)<\/experiment>/g,
-      `<a href="${window.$getPath("/root")}/ExperimentSummary/Experiment/$1" internal>$2</a>`
+      `<a href="${window.$getPath("/@root")}/ExperimentSummary/Experiment/$1" internal>$2</a>`
     )
     // 新增Markdown语法解析
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // 粗体

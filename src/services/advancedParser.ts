@@ -66,7 +66,7 @@ md.use(katex).use(markdownItHighlightjs, {
 });
 
 md.core.ruler.before("normalize", "parseUnityRichText", function (state) {
-  const root = window.$getPath("/root");
+  const root = window.$getPath("/@root");
   state.src = state.src
     .replace(/<user=(.*?)>(.*?)<\/user>/g, "<span class='RUser' data-user='$1'>$2</span>")
     .replace(

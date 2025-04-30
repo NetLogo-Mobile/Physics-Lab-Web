@@ -18,7 +18,7 @@
                 type="Discussion"
                 :projects="block.Summaries"
                 :activityName="block.AuxiliaryText || '参与开发'"
-                activityBackground="/assets/mechanics.png"
+                :activityBackground="getPath('/@base/assets/mechanics.png')"
                 :projectsName="block.Subject"
                 :activityProc="getActivityProc(block.AuxiliaryLink || 'internal://co-dev')"
                 :link="targetLink(block.TargetLink)"
@@ -48,6 +48,7 @@ import Footer from "../components/utils/Footer.vue";
 import { getData } from "../services/api/getData.ts";
 import { NGrid, NGi } from "naive-ui";
 import { strToQueryObj as targetLink } from "../services/utils.ts";
+import getPath from "../services/getPath";
 import "../layout/loading.css";
 import "../layout/startPage.css";
 

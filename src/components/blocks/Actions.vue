@@ -1,18 +1,23 @@
 <template>
   <div class="image-container">
-    <div class="action" style="background-image: url('/assets/electricity.jpg')">
+    <div class="action" :style="{ backgroundImage: `url(${getPath('/@base/assets/electricity.jpg')})` }">
       <p>电学实验</p>
     </div>
-    <div class="action" style="background-image: url('/assets/astronomy.jpg')">
+    <div class="action" :style="{ backgroundImage: `url(${getPath('/@base/assets/astronomy.jpg')})` }">
       <p>天体物理实验</p>
     </div>
-    <div class="action" style="background-image: url('/assets/electromagnetics.jpg')">
+    <div
+      class="action"
+      :style="{ backgroundImage: `url(${getPath('/@base/assets/electromagnetics.jpg')})` }"
+    >
       <p>电与磁实验</p>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import getPath from "../../services/getPath";
+</script>
 
 <style>
 .image-container {

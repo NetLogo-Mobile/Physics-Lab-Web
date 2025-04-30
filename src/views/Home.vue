@@ -4,7 +4,7 @@
       <div class="user" @click="showModalFn">
         <img
           class="avatar"
-          :src="user.avatarUrl || '/assets/user/default-avatar.png'"
+          :src="user.avatarUrl || getPath('/@root/assets/user/default-avatar.png')"
           alt="Avatar"
         />
         <!-- 用户刚刚解封会出现图片404，或许日后要把这个逻辑改为获取用户上一张头像，先暂时用默认头像 -->
@@ -14,11 +14,11 @@
         </div>
         <div class="resources">
           <div class="resource">
-            <img class="icon" src="/assets/icons/coins.png" alt="Coins" />
+            <img class="icon" :src="getPath('/@base/assets/icons/coins.png')" alt="Coins" />
             <span>{{ user.coins }}</span>
           </div>
           <div class="resource">
-            <img class="icon gems" src="/assets/icons/gems.png" alt="Gems" />
+            <img class="icon gems" :src="getPath('/@base/assets/icons/gems.png')" alt="Gems" />
             <span>{{ user.gems }}</span>
           </div>
         </div>
@@ -42,7 +42,7 @@
                 type="Discussion"
                 :projects="block.Summaries"
                 :activityName="block.AuxiliaryText"
-                activityBackground="/assets/support.png"
+                :activityBackground="getPath('/@base/assets/support.png')"
                 :projectsName="block.Subject"
                 :link="targetLink(block.TargetLink)"
               />
@@ -167,11 +167,12 @@ import Actions from "../components/blocks/Actions.vue";
 import Header from "../components/utils/Header.vue";
 import BlockAndActivity from "../components/blocks/BlockAndActivity.vue";
 import Block from "../components/blocks/Block.vue";
-import { login} from "../services/api/getData.ts";
+import { login } from "../services/api/getData.ts";
 import Footer from "../components/utils/Footer.vue";
 import { NButton, NModal, NForm, NInput, NFormItemRow, NGi, NGrid } from "naive-ui";
 import router from "../router";
 import { strToQueryObj as targetLink } from "../services/utils.ts";
+import getPath from "../services/getPath";
 import "../layout/loading.css";
 import "../layout/startPage.css";
 
@@ -231,7 +232,7 @@ async function loginDecorator(callback: Function) {
   if (_user.Nickname != null) {
     const re = await login(null, null);
     blocks.value = re.Data.Library.Blocks;
-  } else{
+  } else {
     blocks.value = loginResponse.Data.Library.Blocks;
   }
 
