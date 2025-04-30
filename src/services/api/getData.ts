@@ -8,7 +8,7 @@ export async function getData(path: string, body: any) {
   if (beforeRes.continue === false) {
     return beforeRes.data;
   }
-  return fetch(window.$getPath("/api" + path), {
+  return fetch(window.$getPath("/@api" + path), {
     method: "POST",
     body: JSON.stringify(body),
     // @ts-ignore
@@ -46,7 +46,7 @@ export async function login(arg1: String | null, arg2: String | null, is_token =
     // @ts-ignore
     header["x-API-AuthCode"] = arg2;
   }
-  return fetch(window.$getPath("/api/Users/Authenticate"), {
+  return fetch(window.$getPath("/@api/Users/Authenticate"), {
     method: "POST",
     body: JSON.stringify({
       Login: username,

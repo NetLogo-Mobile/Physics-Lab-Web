@@ -50,7 +50,7 @@ const logout = () => {
   localStorage.clear();
   Emitter.emit("info", "您已退出登录！", 1);
   // 强制刷新
-  window.location.href = window.$getPath("/root");
+  window.location.href = window.$getPath("/@root");
   window.location.reload();
 };
 </script>
