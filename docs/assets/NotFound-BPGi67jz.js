@@ -1,0 +1,1 @@
+import{_ as t}from"./index--USCmvLy.js";import{I as r,J as o,H as n}from"./vue-Bz9MZDTH.js";import"./domPurify-CocPUCx9.js";const s=""+new URL("messages/Message-Default.png",import.meta.url).href,a={};function l(m,e){return n(),r("div",null,e[0]||(e[0]=[o("h1",null,"404 not found",-1),o("img",{src:s},null,-1)]))}const i=t(a,[["render",l]]);export{i as default};
