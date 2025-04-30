@@ -18,9 +18,9 @@
                 type="Discussion"
                 :projects="block.Summaries"
                 :activityName="block.AuxiliaryText || '参与开发'"
-                :activityBackground="getPath('/@base/assets/mechanics.png')"
+                :activityBackground="block.activityBackground"
                 :projectsName="block.Subject"
-                :activityProc="getActivityProc(block.AuxiliaryLink || 'internal://co-dev')"
+                :activityProc="getActivityProc(block.AuxiliaryLink)"
                 :link="targetLink(block.TargetLink)"
               />
               <Block
@@ -48,7 +48,6 @@ import Footer from "../components/utils/Footer.vue";
 import { getData } from "../services/api/getData.ts";
 import { NGrid, NGi } from "naive-ui";
 import { strToQueryObj as targetLink } from "../services/utils.ts";
-import getPath from "../services/getPath";
 import "../layout/loading.css";
 import "../layout/startPage.css";
 
@@ -61,7 +60,7 @@ const goToWebCommunity = () => {
 };
 
 const goToDevelopment = () => {
-  window.open("https://github.com/wsxiaolin/physics-lab-web");
+  window.open("https://github.com/NetLogo-Mobile/Physics-Lab-Web/issues/");
 };
 
 const activityLinkMap: Record<string, () => void> = {

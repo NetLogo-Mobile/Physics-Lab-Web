@@ -1,6 +1,7 @@
 import Emitter from "../eventEmitter.ts";
 import translateErrorMessage from "./translateErrorMessage";
 import storageManager from "../storage.ts";
+import getPath from "../getPath.ts";
 
 interface IResponse {
   Status: number;
@@ -45,6 +46,44 @@ function rateLimit(path: string): boolean {
   return false;
 }
 
+interface BlockItem {
+  $type: string;
+  Subject: string;
+  AuxiliaryText?: string;
+  AuxiliaryLink?: string;
+  TargetLink?: string;
+  Header?: string;
+  Summaries?: any[];
+  activityBackground?: string;
+}
+
+function completeActivityResonse(response: IResponse): IResponse {
+  function getBackground(b: BlockItem) {
+    const bgs: Record<string, string> = {
+      物实公告: getPath("/@base/assets/mechanics.png"),
+      黑洞精选: getPath("/@base/assets/mechanics.png"),
+    };
+
+    return bgs[b.Subject] || "";
+  }
+
+  if (
+    response.Status === 200 &&
+    response.Data.$type === "Quantum.Models.Contents.Library, Quantum Models"
+  ) {
+    console.log(response);
+    response.Data.Blocks.forEach((b: BlockItem) => {
+      if (b.$type === "Quantum.Models.Contents.TopicBlock, Quantum Models") {
+        b.activityBackground = getBackground(b);
+        if (b.Subject === "黑洞精选") {
+          b.AuxiliaryLink = "internal://co-dev";
+        }
+      }
+    });
+  }
+  return response;
+}
+
 // @ts-ignore
 export function beforeRequest(path: string, body: any): IIntercetporResponse {
   window.$message.destroyAll();
@@ -60,10 +99,11 @@ export function beforeRequest(path: string, body: any): IIntercetporResponse {
 
 export function afterRequest(response: IResponse): IIntercetporResponse {
   window.$message.destroyAll();
-  let re = response
-  if (response.Status !== 200){
-    re.Message = translateErrorMessage(response.Message)
+  let re = response;
+  if (response.Status !== 200) {
+    re.Message = translateErrorMessage(response.Message);
   }
+  re = completeActivityResonse(re);
   return {
     continue: false,
     data: re,
