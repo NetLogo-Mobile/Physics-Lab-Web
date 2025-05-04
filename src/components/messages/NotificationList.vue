@@ -1,7 +1,7 @@
 <template>
   <infiniteScroll :has-more="!noMore" :initial-items="items" @load="handleLoad">
     <template #default="{ items }">
-      <div v-for="item in items" :key="item.id">
+      <div v-for="item in items as Item[]" :key="item.id">
         <Notification
           :avatar_url="item.avatar_url"
           :msg_title="item.msg_title"
@@ -45,6 +45,7 @@ interface Template {
   Type: number;
   CategoryID: number;
 }
+
 interface Item {
   id: number;
   avatar_url: string;
