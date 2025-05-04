@@ -2,9 +2,11 @@
   <div id="home">
     <Header>
       <div class="user" @click="showModalFn">
-        <img class="avatar" <<<<<<< HEAD :src="user.avatarUrl ||
-        getPath('/@root/assets/user/default-avatar.png')" ======= :src="user.avatarUrl ||
-        getPath('/@base/assets/user/default-avatar.png')" >>>>>>> main alt="Avatar" />
+        <img
+          class="avatar"
+          :src="user.avatarUrl || getPath('/@base/assets/user/default-avatar.png')"
+          alt="Avatar"
+        />
         <!-- 用户刚刚解封会出现图片404，或许日后要把这个逻辑改为获取用户上一张头像，先暂时用默认头像 -->
         <div class="user-info">
           <div class="username">{{ user.username }}</div>
