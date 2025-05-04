@@ -85,8 +85,14 @@ const handleEnter = async () => {
 }
 
 .list {
-  padding-left: 20px;
+  padding-left: 5px;
   padding-top: 60px;
-  height: calc(100dvh - 50px - 50px);
+  height: calc(100dvh - 50px);
+}
+
+@media (min-aspect-ratio: 1/1) {
+  .list {
+    padding-left: 20px;
+  }
 }
 </style>

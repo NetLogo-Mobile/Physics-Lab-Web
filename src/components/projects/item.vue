@@ -16,22 +16,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import router from "../../router";
-import { getCoverUrl } from "../../services/utils";
+import { getCoverUrl, getUserUrl } from "../../services/utils";
 
 const { item } = defineProps<{
   item: any;
 }>();
 
 const imgUrl = getCoverUrl(item)
-const avartarUrl = computed(() => {
-  if (item.User.Avatar === 0) return "/assets/user/default-avatar.png"; //默认头像
-  return `/static/users/avatars/${item.User.ID.slice(0, 4)}/${item.User.ID.slice(
-    4,
-    6
-  )}/${item.User.ID.slice(6, 8)}/${item.User.ID.slice(8, 24)}/${item.User.Avatar}.jpg!tiny.round`;
-});
+const avartarUrl = getUserUrl(item.User)
 
 const handleClick = ()=>{
   router.push(`/ExperimentSummary/${item.Category}/${item.ID}`)

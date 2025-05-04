@@ -1,23 +1,30 @@
 <template>
-  <div class="loading" v-if="loading"></div>
-  <div v-else>
-    <n-infinite-scroll :distance="10" @load="handleLoad">
+  <InfiniteScroll :initial-items="items" :has-more="!noMore" @load="handleLoad">
+    <template #default="{ items }">
       <n-grid :cols="row || 3" :x-gap="16" :y-gap="16" responsive="screen">
-        <n-gi v-for="item in worksItems" :key="item.id">
-          <Works :item="item as any" />
-        </n-gi>
-      </n-grid>
-    </n-infinite-scroll>
-    <div v-if="isGettingData && !isLoadEnd">加载中...</div>
-  </div>
+        <n-gi v-for="item in items as Item[]" :key="item.ID">
+          <Works :item="item as Item" />
+        </n-gi> </n-grid
+    ></template>
+  </InfiniteScroll>
 </template>
 
 <script setup lang="ts">
-import { NGrid, NGi, NInfiniteScroll } from "naive-ui";
+import { NGrid, NGi } from "naive-ui";
 import Works from "./item.vue";
+import InfiniteScroll from "../utils/infiniteScroll.vue";
 import { ref } from "vue";
 import { getData } from "../../services/api/getData.ts";
 import Emitter from "../../services/eventEmitter.ts";
+import infiniteScroll from "../utils/infiniteScroll.vue";
+
+interface Item {
+  ID: string;
+  avatar_url: string;
+  msg_title: string;
+  msg: string;
+  userID: string;
+}
 
 const { q } = defineProps({
   row: Number,
@@ -25,16 +32,16 @@ const { q } = defineProps({
 });
 
 const loading = ref(true);
-const worksItems = ref<any>([]);
+const items = ref<Item[]>([]);
 const from = ref("");
 const isGettingData = ref(false);
 
 let skip = 0;
-let isLoadEnd = false;
+let noMore = false;
 let hasInformed = false;
 
 async function handleLoad() {
-  if (isLoadEnd) {
+  if (noMore) {
     hasInformed || Emitter.emit("warning", "没有更多了", 1);
     hasInformed = true;
     return;
@@ -65,12 +72,12 @@ async function handleLoad() {
     },
   });
   if (getProjectsRes.Data.$values.length < 24) {
-    isLoadEnd = true;
+    noMore = true;
   }
   skip += 24;
-  worksItems.value.push(...getProjectsRes.Data.$values);
+  items.value.push(...getProjectsRes.Data.$values);
 
-  from.value = worksItems.value[worksItems.value.length - 1]?.ID;
+  from.value = items.value[items.value.length - 1]?.ID;
   isGettingData.value = false;
 }
 
@@ -94,4 +101,3 @@ loading.value = false;
   background-repeat: no-repeat;
 }
 </style>
-../../services/api/getData

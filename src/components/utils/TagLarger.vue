@@ -28,10 +28,9 @@ defineProps({
 }
 
 @media (min-aspect-ratio: 1/1) {
-  .tag{
-
+  .tag {
     padding: 0.2em 10px;
-  font-size: 0.8em;
+    font-size: 0.8em;
   }
 }
 </style>

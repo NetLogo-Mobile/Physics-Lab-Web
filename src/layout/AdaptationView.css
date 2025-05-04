@@ -1,8 +1,14 @@
 .right-bottom-container {
   position: absolute;
-  width: 95%;
+  width: 99%;
   height: calc(100% - 60px);
   overflow-x: hidden;
+}
+
+@media (min-aspect-ratio: 1/1) {
+  .right-bottom-container {
+    width: 95%;
+  }
 }
 
 /* 消息列表容器 */
@@ -29,4 +35,5 @@
 
 div {
   box-sizing: border-box;
+  scrollbar-width: none !important;
 }

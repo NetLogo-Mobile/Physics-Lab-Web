@@ -1,31 +1,41 @@
 <template>
-  <!-- 无限滚动组件 -->
-  <n-infinite-scroll :distance="0" @load="handleLoad" style="height: 100%">
-    <!-- 遍历显示每一条消息 -->
-    <div v-for="item in items" :key="item.id">
-      <MessageItem
-        :avatar_url="item.avatar_url"
-        :msg_title="item.msg_title"
-        :msg="item.msg"
-        :msg_type="item.msg_type"
-        :id="item.id"
-        :userID="item.userID"
-        :type="Category"
-        @msgClick="handleMsgClick"
-        @deleteMsg="deleteMsg"
-      ></MessageItem>
-      <n-divider style="margin: 0" />
-    </div>
-  </n-infinite-scroll>
+  <InfiniteScroll :has-more="!noMore" :initial-items="items" @load="handleLoad">
+    <template #default="{ items }">
+      <div v-for="item in items as MessageItem[]" :key="item.id">
+        <MessageItem
+          :avatar_url="item.avatar_url"
+          :msg_title="item.msg_title"
+          :msg="item.msg"
+          :msg_type="item.msg_type"
+          :id="item.id"
+          :userID="item.userID"
+          :type="Category"
+          @msgClick="handleMsgClick"
+          @deleteMsg="deleteMsg"
+        ></MessageItem>
+        <n-divider style="margin: 0" />
+      </div>
+    </template>
+  </InfiniteScroll>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, watch } from "vue";
 import MessageItem from "./MessageItem.vue";
 import { getData } from "../../services/api/getData.ts";
 import type { PropType } from "vue";
 import Emitter from "../../services/eventEmitter.ts";
-import { NInfiniteScroll } from "naive-ui";
+import InfiniteScroll from "../utils/infiniteScroll.vue";
+import { getUserUrl } from "../../services/utils";
+
+interface MessageItem {
+  id: string;
+  avatar_url: string;
+  msg_title: string;
+  msg: string;
+  msg_type?: string;
+  userID: string;
+}
 
 const { ID, Category, upDate } = defineProps({
   ID: String,
@@ -36,7 +46,8 @@ const { ID, Category, upDate } = defineProps({
   upDate: Number,
 });
 
-let items: any = ref([]);
+let items = ref<MessageItem[]>([]);
+
 const loading = ref(false); // 用于无限滚动组件判断是否可以获取下一组数据
 let noMore = ref(false); // 用于无限滚动组件判断是否已经没有更多数据了
 let skip = 0;
@@ -55,6 +66,7 @@ function handleMsgClick(id: any) {
 
 // 处理加载事件
 const handleLoad = async () => {
+  console.log("handleLoad");
   if (loading.value || noMore.value === true) return;
   loading.value = true;
   const getMessagesResponse = await getData("Messages/GetComments", {
@@ -71,28 +83,24 @@ const handleLoad = async () => {
   !from || messages.shift();
   from = messages[messages.length - 1]?.ID;
 
-  const defaultItems = messages.map((message: any) => {
-    return {
+  const defaultItems = messages.map(
+    (message: any): MessageItem => ({
       id: message.ID,
-      avatar_url: computed(() => {
-        if (message.Avatar === 0) return "/assets/user/default-avatar.png"; //默认头像
-        return `/static/users/avatars/${message.UserID.slice(0, 4)}/${message.UserID.slice(
-          4,
-          6
-        )}/${message.UserID.slice(6, 8)}/${message.UserID.slice(8, 24)}/${
-          message.Avatar
-        }.jpg!small.round`;
-      }).value,
+      avatar_url: getUserUrl({
+        Verification: message.Verification,
+        Avatar: message.Avatar,
+        ID: message.UserID,
+      }),
       msg_title: message.Nickname,
       msg: message.Content,
       userID: message.UserID,
-    };
-  });
+    })
+  );
 
   items.value = [...items.value, ...defaultItems];
   loading.value = false;
   skip += 20;
-  // 消息长度不足19说明加载完成，使nativeui不再加载
+  // 消息长度不足19说明加载完成
   if (_length < 20) {
     noMore.value = true;
     Emitter.emit("warning", "没有更多了", 1);
@@ -118,4 +126,3 @@ watch(
   color: #888;
 }
 </style>
-../../services/api/getData.ts

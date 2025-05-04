@@ -55,7 +55,9 @@ const deleteMsg = async() => {
 <style scoped>
 #notification_container {
   height: fit-content;
-  padding: 5px;
+  width:calc(100% - 5px);
+  margin-left: 5px;
+  margin-top:5px;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -136,5 +138,7 @@ const deleteMsg = async() => {
 #notification_container:hover {
   background-color: #f0f0f0;
 }
+div{
+  box-sizing: border-box;
+}
 </style>
-../../services/api/getData.ts

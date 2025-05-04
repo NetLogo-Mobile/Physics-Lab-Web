@@ -112,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
+import {  ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { getData } from "../services/api/getData.ts";
 import { NTabs, NTabPane } from "naive-ui";
@@ -124,7 +124,7 @@ import showUserCard from "../popup/usercard";
 import postComment from "../services/postComment.ts";
 import "highlight.js/styles/github.css";
 import "../../node_modules/katex/dist/katex.min.css";
-import { getUserUrl } from "../services/utils.ts";
+import { getCoverUrl, getUserUrl } from "../services/utils.ts";
 import Adaptation from "../layout/Adaptation.vue";
 import "../layout/AdaptationView.css";
 
@@ -137,15 +137,6 @@ const selectedTab = ref("Intro");
 
 const route = useRoute();
 
-const coverUrl = computed(
-  () =>
-    `/static/experiments/images/${route.params.id.slice(0, 4)}/${route.params.id.slice(
-      4,
-      6
-    )}/${route.params.id.slice(6, 8)}/${route.params.id.slice(8, 24)}/${
-      data.value.Image || 0
-    }.jpg!full`
-);
 
 const data = ref({
   Type: 0,
@@ -182,6 +173,7 @@ const data = ref({
   },
 });
 
+const coverUrl = getCoverUrl(data.value)
 let avatarUrl = getUserUrl(data.value.User);
 
 onMounted(async () => {
@@ -266,4 +258,3 @@ div {
   box-sizing: border-box;
 }
 </style>
-../services/api/getData.ts

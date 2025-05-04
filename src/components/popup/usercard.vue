@@ -26,17 +26,15 @@
             src="/assets/user/Image-Experiments.png"
             style="filter: brightness(0.9); height: 25px"
           />
-          <img
-            src="/assets/user/Image-Stars.png"
-            style="filter: brightness(0.9); height: 25px"
-          />
+          <img src="/assets/user/Image-Stars.png" style="filter: brightness(0.9); height: 25px" />
           <img
             src="/assets/user/Image-Prestige.png"
             style="filter: brightness(0.9); height: 25px"
           />
         </div>
       </div>
-      <button class="follow-button">关注用户</button>
+      <button class="follow-button" v-show="!isFollowing" @click="followUser">关注用户</button>
+      <button class="unfollow-button" v-show="isFollowing" @click="unfollowUser">已关注</button>
     </div>
   </div>
 </template>
@@ -44,6 +42,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { getData } from "../../services/api/getData.ts";
+import Emitter from "../../services/eventEmitter";
+import { getUserUrl } from "../../services/utils";
 
 const props = defineProps({
   userid: String,
@@ -58,6 +58,8 @@ const followerCount = ref(0);
 const postCount = ref(0);
 const starCount = ref(0);
 const fragmentCount = ref(0);
+const isFollowing = ref(false);
+let ID = "";
 
 const jumpToUser = (id) => {
   props.close();
@@ -69,22 +71,46 @@ onMounted(async () => {
   const data = re.Data.User;
   name.value = data.Nickname;
   snt.value = data.Signature;
-  avatar.value =
-    data.Avatar === 0
-      ? "/assets/user/default-avatar.png"
-      : `/static/users/avatars/${data.ID.slice(0, 4)}/${data.ID.slice(4, 6)}/${data.ID.slice(
-          6,
-          8
-        )}/${data.ID.slice(8, 24)}/${data.Avatar}.jpg`;
+  avatar.value = getUserUrl(data);
   followingCount.value = re.Data.Statistic.FollowingCount;
   followerCount.value = re.Data.Statistic.FollowerCount;
   postCount.value = re.Data.Statistic.ExperimentCount;
   starCount.value = re.Data.Statistic.StarCount;
+  ID = re.Data.User.ID;
+  if (re.Data.Relation === 1 || re.Data.Relation === 3) {
+    isFollowing.value = true;
+  }
   fragmentCount.value = data.Fragment;
   const cache = JSON.parse(localStorage.getItem("userIDAndAvartarIDMap")) || {}; // 用户为第几张头像的缓存
   cache[data.ID] = [data.Avatar, Date.now()];
   localStorage.setItem("userIDAndAvartarIDMap", JSON.stringify(cache));
 });
+
+async function followUser() {
+  const re = await getData("/Users/Follow", {
+    TargetID: ID,
+    Action: 1,
+  });
+  if (re.Status === 200) {
+    Emitter.emit("success", "关注成功", 2);
+    isFollowing.value = true;
+  } else {
+    Emitter.emit("error", re.Message);
+  }
+}
+
+async function unfollowUser() {
+  const re = await getData("/Users/Follow", {
+    TargetID: ID,
+    Action: 0,
+  });
+  if (re.Status === 200) {
+    Emitter.emit("success", "取关成功", 2);
+    isFollowing.value = false;
+  } else {
+    Emitter.emit("error", re.Message);
+  }
+}
 </script>
 
 <style scoped>
@@ -166,5 +192,15 @@ onMounted(async () => {
   border-radius: 5px;
   cursor: pointer;
 }
+
+.unfollow-button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #c8daf8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 </style>
-../../services/api/getData.ts

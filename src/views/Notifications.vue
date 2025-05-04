@@ -56,4 +56,10 @@ import Footer from "../components/utils/Footer.vue";
   box-sizing: border-box;
   height: calc(100dvh - 150px);
 }
+
+@media (min-aspect-ratio: 1/1) {
+  .item {
+    padding-left:20px;
+  }
+}
 </style>

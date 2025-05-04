@@ -18,9 +18,9 @@ const router = useRoute();
 
 const itemsPerRow = ref(getItemsPerRow());
 
-function decodeString(base64Input:any) {
-  const latin1String = atob(base64Input.replace(/DEVIDER/g,"/"));
-  const utf8Bytes = new Uint8Array([...latin1String].map(char => char.charCodeAt(0)));
+function decodeString(base64Input: any) {
+  const latin1String = atob(base64Input.replace(/DEVIDER/g, "/"));
+  const utf8Bytes = new Uint8Array([...latin1String].map((char) => char.charCodeAt(0)));
   const jsonString = new TextDecoder().decode(utf8Bytes);
   const result = JSON.parse(jsonString);
   return result;
@@ -61,8 +61,9 @@ onUnmounted(() => {
   margin-top: 60px;
   padding: 20px;
   width: 100dvw;
+  height: calc(100dvh - 60px);
   box-sizing: border-box;
-  min-height: 100dvh;
   background-color: #ccc3;
+  scrollbar-width: none;
 }
 </style>
