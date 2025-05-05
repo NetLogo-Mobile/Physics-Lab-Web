@@ -190,7 +190,7 @@ const user = ref({
   gems: 12345,
   level: 12,
   username: "点击登录",
-  avatarUrl: "/assets/user/default-avatar.png",
+  avatarUrl: getPath("/@base/assets/user/default-avatar.png"),
   ID: "",
 });
 

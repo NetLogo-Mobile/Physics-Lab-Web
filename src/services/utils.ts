@@ -11,7 +11,7 @@ type PProjects = {
 export function getUserUrl(user: PUser): string {
   const url =
     user.Avatar === 0 || user.Verification === "Banned"
-      ? "/assets/user/default-avatar.png"
+      ? "/@base/assets/user/default-avatar.png"
       : `/@static/users/avatars/${user.ID.slice(0, 4)}/${user.ID.slice(4, 6)}/${user.ID.slice(
           6,
           8
@@ -28,8 +28,8 @@ export function getCoverUrl(data: PProjects): string {
   return window.$getPath(url);
 }
 
-export function strToQueryObj(input:string) {
-  const result:any = {
+export function strToQueryObj(input: string) {
+  const result: any = {
     Category: null,
     Tags: null,
     ExcludeTags: null,
