@@ -7,7 +7,7 @@
       <div id="notification_title" class="notification_title" v-html="parse(msg_title, true)"></div>
       <div id="notification_message" class="notification_message">
         <div id="notification_icon" class="notification_icon">
-          <img :src="msg_icon_url" id="notification_icon" />
+          <img :src="getPath(msg_icon_url)" id="notification_icon" />
         </div>
         <div id="notification_text" class="notification_text">
           <!-- 我认为是在没必要专门再去渲染邮件，所以暂时这样 -->
@@ -28,6 +28,7 @@
 import { computed } from "vue";
 import parse from "../../services/commonParser.ts";
 import showUserCard from "../../popup/usercard.ts";
+import getPath from "../../services/getPath.ts";
 
 // 解构传递的props
 const props = defineProps({
@@ -46,15 +47,15 @@ const props = defineProps({
 const msg_icon_url = computed(() => {
   switch (props.msg_type) {
     case 1:
-      return "/assets/icons/notifications_system.png"; // 直接返回静态路径
+      return "/@base/assets/icons/notifications_system.png"; 
     case 2:
-      return "/assets/icons/notifications_comments.png";
+      return "/@base/assets/icons/notifications_comments.png";
     case 3:
-      return "/assets/icons/notifications_followers.png";
+      return "/@base/assets/icons/notifications_followers.png";
     case 4:
-      return "/assets/icons/notifications_projects.png";
+      return "/@base/assets/icons/notifications_projects.png";
     case 5:
-      return "/assets/icons/notifications_admin.png";
+      return "/@base/assets/icons/notifications_admin.png";
     default:
       return "";
   }
