@@ -108,7 +108,7 @@
               <input type="checkbox" v-model="memoryMe" />
               <label>记住我</label>
               <!-- <p style="color: red; font-size: small" v-if="memoryMe">
-                注意：您的密码将会明文存储在本地浏览器中
+                注意：您的密码将会明文存储在本地浏览器中 Caution:Your password will be DIRECTLY saved in local web browser WITHOUT encryption
               </p> -->
             </n-form>
             <n-button type="primary" class="loginButton" @click="pswdLogin">
@@ -143,7 +143,7 @@
             </n-button>
           </n-tab-pane>
           <n-tab-pane name="signup" tab="注册">
-            <h3 align="center">暂不开放注册功能</h3>
+            <h3 style="align-self: center;">暂不开放注册功能</h3>
             <n-form :showLabel="false">
               <n-form-item-row>
                 <n-input
@@ -245,7 +245,8 @@ onMounted(async () => {
       window.$message.error("自动登录失败");
       _data = await login(null, null);
     }
-    // 如果localStorage没保存的话，就将其保存。如果已保存的话，这只是个重复的操作
+    // 如果localStorage没保存的话，就将其保存。Save if localStorage haven't done this before.
+    // 如果已保存的话，这只是个重复的操作。Repeated if already saved. No need for optimization.
     localStorage.setItem("token", _data.Token);
     localStorage.setItem("authCode", _data.AuthCode);
     return _data;
