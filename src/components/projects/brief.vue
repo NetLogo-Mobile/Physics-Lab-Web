@@ -80,8 +80,5 @@ a {
   text-decoration: none;
 }
 
-.div {
-  box-sizing:border-box;
-}
 
-</style>../../services/utils.ts
+</style>

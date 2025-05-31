@@ -46,7 +46,7 @@
             v-for="block in  blocks.filter((i:any)=>i.Summaries.length > 0)"
             :key="block.Subject"
           >
-            <div class="block" style="height: 100%">
+            <div class="block">
               <BlockAndActivity
                 v-if="
                   block.$type.startsWith('Quantum.Models.Contents.TopicBlock')
@@ -263,7 +263,7 @@ async function loginDecorator(callback: Function) {
   }
   if (
     memoryMe.value == false &&
-    localStorage.getItem("loginSatus") === "false"
+    localStorage.getItem("loginStatus") === "false"
   ) {
     // 只有在主动登录时才有这一步判断，略去undifined或null
     localStorage.setItem("loginStatus", "false");
@@ -380,6 +380,10 @@ const memoryMe = ref(false);
 }
 
 /* 登录表单 end */
+
+.block {
+  height: 100%;
+}
 
 .div {
   box-sizing: border-box;

@@ -19,7 +19,7 @@
       :style="{ backgroundImage: `url(${activityBackground})` }"
       @click="activityProc"
     >
-      <h1 id="activity-text">{{ activityName }}</h1>
+      <h1 class="activity-text">{{ activityName }}</h1>
     </div>
   </div>
 </template>
@@ -96,7 +96,7 @@ const jump = () => {
   border-radius: 10px;
 }
 
-#activity-text {
+.activity-text {
   color: white;
   text-align: left;
   padding-left: 20px;

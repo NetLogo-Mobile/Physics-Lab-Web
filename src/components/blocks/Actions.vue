@@ -32,7 +32,7 @@ import getPath from "../../services/getPath";
   background-position: center;
   display: flex;
   width: 100%;
-  height: 33%;
+  flex: 1;
   flex-direction: column;
   align-items: flex-start; /* 左对齐 */
   justify-content: center; /* 垂直居中 */
