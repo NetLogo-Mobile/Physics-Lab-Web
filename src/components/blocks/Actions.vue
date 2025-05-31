@@ -24,6 +24,7 @@ import getPath from "../../services/getPath";
   display: flex;
   gap: 10px;
   flex-direction: column;
+  height: 100%;
 }
 
 .action {
@@ -31,15 +32,20 @@ import getPath from "../../services/getPath";
   background-position: center;
   display: flex;
   width: 100%;
-  height: 110px;
+  height: 33%;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: flex-start; /* 左对齐 */
+  justify-content: center; /* 垂直居中 */
   color: white;
   padding: 20px;
   box-sizing: border-box;
-  font-size: 23px;
+  font-size: min(24px,2em);
   border-radius: 15px;
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.2);
+}
+p {
+  margin: 0;
+  width: 100%;
+  text-align: left; /* 左对齐内容 */
 }
 </style>
