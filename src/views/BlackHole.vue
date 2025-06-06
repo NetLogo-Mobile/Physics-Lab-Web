@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { useResponsive } from "../composables/useResponsive";
+import { useResponsive } from "../composables/useResponsive"
 import { ref, onMounted } from "vue";
 import Header from "../components/utils/Header.vue";
 import BlockAndActivity from "../components/blocks/BlockAndActivity.vue";

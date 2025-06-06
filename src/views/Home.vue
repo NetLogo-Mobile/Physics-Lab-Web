@@ -17,9 +17,13 @@
         <div class="resources">
           <div class="resource">
             <img
+             
               class="icon"
+             
               :src="getPath('/@base/assets/icons/coins.png')"
+             
               alt="Coins"
+           
             />
             <span>{{ user.coins }}</span>
           </div>
@@ -36,8 +40,8 @@
     </Header>
     <!-- 高度：50px定值 -->
     <main>
-      <div class="loading" v-if="loading"></div>
-      <div class="block-container" v-if="!loading">
+      <div class="loading" v-if="isLoading"></div>
+      <div class="block-container" v-if="!isLoading">
         <n-grid :x-gap="12" :y-gap="12" :cols="itemsPerRow">
           <n-gi>
             <Actions />
@@ -70,7 +74,7 @@
         </n-grid>
       </div>
     </main>
-    <n-modal v-model:show="showModal" style="border-radius: 10px">
+    <n-modal v-model:show="showLoginModal" style="border-radius: 10px">
       <n-card style="width: 400px">
         <n-tabs
           class="card-tabs"
@@ -85,7 +89,7 @@
             <n-form :show-label="false">
               <n-form-item-row>
                 <n-input
-                  v-model:value="username"
+                  v-model:value="emailOrPhone"
                   class="inputArea"
                   placeholder="邮箱 / 手机"
                   clearable
@@ -97,7 +101,7 @@
               </n-form-item-row>
               <n-form-item-row>
                 <n-input
-                  v-model:value="password"
+                  v-model:value="loginPassword"
                   show-password-on="click"
                   class="inputArea"
                   placeholder="密码 6~20 位"
@@ -105,13 +109,13 @@
                   clearable
                 />
               </n-form-item-row>
-              <input type="checkbox" v-model="memoryMe" />
+              <input type="checkbox" v-model="rememberMe" />
               <label>记住我</label>
               <!-- <p style="color: red; font-size: small" v-if="memoryMe">
                 注意：您的密码将会明文存储在本地浏览器中 Caution:Your password will be DIRECTLY saved in local web browser WITHOUT encryption
               </p> -->
             </n-form>
-            <n-button type="primary" class="loginButton" @click="pswdLogin">
+            <n-button type="primary" class="loginButton" @click="handlePasswordLogin">
               确认
             </n-button>
           </n-tab-pane>
@@ -119,7 +123,7 @@
             <n-form :show-label="false">
               <n-form-item-row>
                 <n-input
-                  v-model:value="token"
+                  v-model:value="loginToken"
                   class="inputArea"
                   placeholder="Token"
                   clearable
@@ -135,10 +139,10 @@
                 >
                 </n-input>
               </n-form-item-row>
-              <input type="checkbox" v-model="memoryMe" />
+              <input type="checkbox" v-model="rememberMe" />
               <label>记住我</label>
             </n-form>
-            <n-button type="primary" class="loginButton" @click="tokenLogin">
+            <n-button type="primary" class="loginButton" @click="handleTokenLogin">
               确认
             </n-button>
           </n-tab-pane>
@@ -213,14 +217,16 @@ import getPath from "../services/getPath";
 import { getUserUrl } from "../services/utils.ts";
 import "../layout/loading.css";
 import "../layout/startPage.css";
+import storageManager from "../services/storage.ts";
 
-const showModal = ref(false);
-const loading = ref(true);
+const showLoginModal = ref(false);
+const isLoading = ref(true);
 const blocks = ref<any>([]);
-const username = ref("");
-const password = ref("");
-const token = ref("");
+const emailOrPhone = ref("");  
+const loginPassword = ref(""); 
+const loginToken = ref("");   
 const authCode = ref("");
+const rememberMe = ref(false); 
 
 const user = ref({
   coins: 12345,
@@ -234,47 +240,70 @@ const user = ref({
 const { itemsPerRow, maxProjectsPerBlock } = useResponsive();
 
 onMounted(async () => {
-  await loginDecorator(async () => {
+  await handleLogin(async () => {
     let _data = undefined;
+    const tokenResult = storageManager.getStr("token");
+    const authCodeResult = storageManager.getStr("authCode");
     _data = await login(
-      localStorage.getItem("token"),
-      localStorage.getItem("authCode"),
+      tokenResult.value,
+      authCodeResult.value,
       true
     );
     if (_data.Status != 200) {
       window.$message.error("自动登录失败");
       _data = await login(null, null);
     }
-    // 如果localStorage没保存的话，就将其保存。Save if localStorage haven't done this before.
-    // 如果已保存的话，这只是个重复的操作。Repeated if already saved. No need for optimization.
-    localStorage.setItem("token", _data.Token);
-    localStorage.setItem("authCode", _data.AuthCode);
+    storageManager.setStr("token", _data.Token, 10 * 24 * 60 * 60 * 1000); // token保存十天
+    storageManager.setStr("authCode", _data.AuthCode, 10 * 24 * 60 * 60 * 1000);
     return _data;
   });
 });
 
-/* A template for login's logic
- * @param callback(async function): Injected dependence of login (to support both password and token login style)
+/**
+ * 处理登录流程的装饰器函数，包含通用登录逻辑
+ * @param {Function} loginMethod - 具体的登录方法（密码登录或token登录）
+ * @returns {Promise<void>} 
+ * @description
+ * - 执行登录操作并处理响应
+ * - 存储认证信息到本地
+ * - 更新用户状态和页面数据
  */
-async function loginDecorator(callback: Function) {
-  const loginResponse = await callback();
-  if (loginResponse.Status != 200) {
-    localStorage.setItem("loginStatus", "false");
-    return;
+async function handleLogin(loginMethod: () => Promise<any>) {
+  try {
+    const response = await loginMethod();
+    
+    if (response.Status !== 200) {
+      window.$message.error(response.Message || "登录失败");
+      storageManager.setStr("loginStatus", "false", 24 * 60 * 60 * 1000);
+      return;
+    }
+
+    // 存储认证信息
+    const tokenTTL = rememberMe.value ? 10 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
+    storageManager.setStr("token", response.Token, tokenTTL);
+    storageManager.setStr("authCode", response.AuthCode, tokenTTL);
+
+    // 更新用户信息
+    updateUserProfile(response.Data.User);
+    
+    // 加载页面数据
+    await loadPageData(response);
+    
+    isLoading.value = false;
+  } catch (error) {
+    window.$message.error("登录过程中发生错误");
+    console.error("Login error:", error);
   }
-  if (
-    memoryMe.value == false &&
-    localStorage.getItem("loginStatus") === "false"
-  ) {
-    // 只有在主动登录时才有这一步判断，略去undifined或null
-    localStorage.setItem("loginStatus", "false");
-  } else {
-    localStorage.setItem("token", loginResponse.Token);
-    localStorage.setItem("authCode", loginResponse.AuthCode);
-  }
-  let userData = loginResponse.Data.User;
-  localStorage.setItem("nickName", userData.Nickname);
-  localStorage.setItem("userID", userData.ID);
+}
+
+/**
+ * 更新用户个人信息
+ * @param {Object} userData - 用户数据对象
+ */
+function updateUserProfile(userData: any) {
+  storageManager.setStr("nickName", userData.Nickname);
+  storageManager.setStr("userID", userData.ID);
+  
   user.value = {
     coins: userData.Gold,
     gems: userData.Diamond,
@@ -283,34 +312,38 @@ async function loginDecorator(callback: Function) {
     avatarUrl: getUserUrl(userData),
     ID: userData.ID,
   };
+}
 
-  if (userData.Nickname != null) {
-    const re = await login(null, null);
-    blocks.value = re.Data.Library.Blocks;
+/**
+ * 加载页面所需数据
+ * @param {Object} response - 登录响应数据
+ */
+async function loadPageData(response: any) {
+  if (response.Data.User.Nickname) {
+    const refreshedData = await login(null, null);
+    blocks.value = refreshedData.Data.Library.Blocks;
   } else {
-    blocks.value = loginResponse.Data.Library.Blocks;
+    blocks.value = response.Data.Library.Blocks;
   }
+}
 
-  loading.value = false;
+// 修改后的登录处理函数
+async function handlePasswordLogin() {
+  await handleLogin(async () => login(emailOrPhone.value, loginPassword.value));
+  showLoginModal.value = false;
+}
+
+async function handleTokenLogin() {
+  await handleLogin(async () => login(loginToken.value, authCode.value, true));
+  showLoginModal.value = false;
 }
 
 function showModalFn() {
-  localStorage.getItem("loginStatus") === "true"
+  storageManager.getStr("loginStatus").value === "true"
     ? router.push(`/profile/${user.value.ID}`)
-    : (showModal.value = true);
+    : (showLoginModal.value = true);
 }
 
-async function pswdLogin() {
-  await loginDecorator(async () => login(username.value, password.value));
-  showModal.value = false;
-}
-
-async function tokenLogin() {
-  await loginDecorator(async () => login(token.value, authCode.value, true));
-  showModal.value = false;
-}
-
-const memoryMe = ref(false);
 </script>
 
 <style scoped>
