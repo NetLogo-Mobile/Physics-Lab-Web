@@ -4,7 +4,9 @@
       <div class="user" @click="showModalFn">
         <img
           class="avatar"
-          :src="user.avatarUrl || getPath('/@base/assets/user/default-avatar.png')"
+          :src="
+            user.avatarUrl || getPath('/@base/assets/user/default-avatar.png')
+          "
           alt="Avatar"
         />
         <!-- 用户刚刚解封会出现图片404，或许日后要把这个逻辑改为获取用户上一张头像，先暂时用默认头像 -->
@@ -14,11 +16,19 @@
         </div>
         <div class="resources">
           <div class="resource">
-            <img class="icon" :src="getPath('/@base/assets/icons/coins.png')" alt="Coins" />
+            <img
+              class="icon"
+              :src="getPath('/@base/assets/icons/coins.png')"
+              alt="Coins"
+            />
             <span>{{ user.coins }}</span>
           </div>
           <div class="resource">
-            <img class="icon gems" :src="getPath('/@base/assets/icons/gems.png')" alt="Gems" />
+            <img
+              class="icon gems"
+              :src="getPath('/@base/assets/icons/gems.png')"
+              alt="Gems"
+            />
             <span>{{ user.gems }}</span>
           </div>
         </div>
@@ -26,8 +36,8 @@
     </Header>
     <!-- 高度：50px定值 -->
     <main>
-      <div class="loading" v-if="loading"></div>
-      <div class="block-container" v-if="!loading">
+      <div class="loading" v-if="isLoading"></div>
+      <div class="block-container" v-if="!isLoading">
         <n-grid :x-gap="12" :y-gap="12" :cols="itemsPerRow">
           <n-gi>
             <Actions />
@@ -38,7 +48,9 @@
           >
             <div class="block">
               <BlockAndActivity
-                v-if="block.$type.startsWith('Quantum.Models.Contents.TopicBlock')"
+                v-if="
+                  block.$type.startsWith('Quantum.Models.Contents.TopicBlock')
+                "
                 type="Discussion"
                 :projects="block.Summaries"
                 :activityName="block.AuxiliaryText"
@@ -49,7 +61,7 @@
               <Block
                 v-else
                 type="Discussion"
-                :data="block.Summaries.slice(0, 5)"
+                :data="block.Summaries.slice(0, maxProjectsPerBlock)"
                 :title="block.Header"
                 :link="targetLink(block.TargetLink)"
               />
@@ -58,7 +70,7 @@
         </n-grid>
       </div>
     </main>
-    <n-modal v-model:show="showModal" style="border-radius: 10px">
+    <n-modal v-model:show="showLoginModal" style="border-radius: 10px">
       <n-card style="width: 400px">
         <n-tabs
           class="card-tabs"
@@ -73,7 +85,7 @@
             <n-form :show-label="false">
               <n-form-item-row>
                 <n-input
-                  v-model:value="username"
+                  v-model:value="emailOrPhone"
                   class="inputArea"
                   placeholder="邮箱 / 手机"
                   clearable
@@ -85,7 +97,7 @@
               </n-form-item-row>
               <n-form-item-row>
                 <n-input
-                  v-model:value="password"
+                  v-model:value="loginPassword"
                   show-password-on="click"
                   class="inputArea"
                   placeholder="密码 6~20 位"
@@ -93,18 +105,25 @@
                   clearable
                 />
               </n-form-item-row>
-              <input type="checkbox" v-model="memoryMe" />
+              <input type="checkbox" v-model="rememberMe" />
               <label>记住我</label>
               <!-- <p style="color: red; font-size: small" v-if="memoryMe">
-                注意：您的密码将会明文存储在本地浏览器中
+                注意：您的密码将会明文存储在本地浏览器中 Caution:Your password will be DIRECTLY saved in local web browser WITHOUT encryption
               </p> -->
             </n-form>
-            <n-button type="primary" class="loginButton" @click="pswdLogin"> 确认 </n-button>
+            <n-button type="primary" class="loginButton" @click="handlePasswordLogin">
+              确认
+            </n-button>
           </n-tab-pane>
           <n-tab-pane name="signinByToken" tab="Token登录">
             <n-form :show-label="false">
               <n-form-item-row>
-                <n-input v-model:value="token" class="inputArea" placeholder="Token" clearable>
+                <n-input
+                  v-model:value="loginToken"
+                  class="inputArea"
+                  placeholder="Token"
+                  clearable
+                >
                 </n-input>
               </n-form-item-row>
               <n-form-item-row>
@@ -116,16 +135,23 @@
                 >
                 </n-input>
               </n-form-item-row>
-              <input type="checkbox" v-model="memoryMe" />
+              <input type="checkbox" v-model="rememberMe" />
               <label>记住我</label>
             </n-form>
-            <n-button type="primary" class="loginButton" @click="tokenLogin"> 确认 </n-button>
+            <n-button type="primary" class="loginButton" @click="handleTokenLogin">
+              确认
+            </n-button>
           </n-tab-pane>
           <n-tab-pane name="signup" tab="注册">
-            <h3 align="center">暂不开放注册功能</h3>
+            <h3 style="align-self: center;">暂不开放注册功能</h3>
             <n-form :showLabel="false">
               <n-form-item-row>
-                <n-input placeholder="邮箱" class="inputArea" clearable disabled>
+                <n-input
+                  placeholder="邮箱"
+                  class="inputArea"
+                  clearable
+                  disabled
+                >
                   <template #suffix>
                     <img src="/assets/login/icon-login.png" width="15px" />
                   </template>
@@ -152,7 +178,9 @@
                 />
               </n-form-item-row>
             </n-form>
-            <n-button type="primary" disabled class="loginButton"> 注册 </n-button>
+            <n-button type="primary" disabled class="loginButton">
+              注册
+            </n-button>
           </n-tab-pane>
         </n-tabs>
       </n-card>
@@ -162,28 +190,39 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted } from "vue";
+import { useResponsive } from "../layout/useResponsive.ts";
 import Actions from "../components/blocks/Actions.vue";
 import Header from "../components/utils/Header.vue";
 import BlockAndActivity from "../components/blocks/BlockAndActivity.vue";
 import Block from "../components/blocks/Block.vue";
 import { login } from "../services/api/getData.ts";
 import Footer from "../components/utils/Footer.vue";
-import { NButton, NModal, NForm, NInput, NFormItemRow, NGi, NGrid } from "naive-ui";
+import {
+  NButton,
+  NModal,
+  NForm,
+  NInput,
+  NFormItemRow,
+  NGi,
+  NGrid,
+} from "naive-ui";
 import router from "../router";
 import { strToQueryObj as targetLink } from "../services/utils.ts";
 import getPath from "../services/getPath";
 import { getUserUrl } from "../services/utils.ts";
 import "../layout/loading.css";
 import "../layout/startPage.css";
+import storageManager from "../services/storage.ts";
 
-const showModal = ref(false);
-const loading = ref(true);
+const showLoginModal = ref(false);
+const isLoading = ref(true);
 const blocks = ref<any>([]);
-const username = ref("");
-const password = ref("");
-const token = ref("");
+const emailOrPhone = ref("");  
+const loginPassword = ref(""); 
+const loginToken = ref("");   
 const authCode = ref("");
+const rememberMe = ref(false); 
 
 const user = ref({
   coins: 12345,
@@ -194,92 +233,113 @@ const user = ref({
   ID: "",
 });
 
-const itemsPerRow = ref(getItemsPerRow());
-
-/* A template for login's logic
- * @param callback(async function): Injected dependence of login (to support both password and token login style)
- */
-async function loginDecorator(callback: Function) {
-  const loginResponse = await callback();
-  if (loginResponse.Status != 200) {
-    localStorage.setItem("loginStatus", "false");
-    return;
-  }
-  if (memoryMe.value == false && localStorage.getItem("loginSatus") === "false") {
-    // 只有在主动登录时才有这一步判断，略去undifined或null
-    localStorage.setItem("loginStatus", "false");
-  } else {
-    localStorage.setItem("token", loginResponse.Token);
-    localStorage.setItem("authCode", loginResponse.AuthCode);
-  }
-  const _user = loginResponse.Data.User;
-  localStorage.setItem("nickName", _user.Nickname);
-  localStorage.setItem("userID", _user.ID);
-  user.value = {
-    coins: _user.Gold,
-    gems: _user.Diamond,
-    level: _user.Level,
-    username: _user.Nickname || "点击登录",
-    avatarUrl: getUserUrl(_user),
-    ID: _user.ID,
-  };
-
-  if (_user.Nickname != null) {
-    const re = await login(null, null);
-    blocks.value = re.Data.Library.Blocks;
-  } else {
-    blocks.value = loginResponse.Data.Library.Blocks;
-  }
-
-  loading.value = false;
-}
-
-function getItemsPerRow() {
-  const width = window.innerWidth;
-  return width >= 800 ? 3 : width >= 500 ? 2 : 1;
-}
-
-const handleResize = () => {
-  itemsPerRow.value = getItemsPerRow();
-};
-
-onUnmounted(() => {
-  window.removeEventListener("resize", handleResize);
-});
+const { itemsPerRow, maxProjectsPerBlock } = useResponsive();
 
 onMounted(async () => {
-  window.addEventListener("resize", handleResize);
-  await loginDecorator(async () => {
+  await handleLogin(async () => {
     let _data = undefined;
-    _data = await login(localStorage.getItem("token"), localStorage.getItem("authCode"), true);
+    const tokenResult = storageManager.getStr("token");
+    const authCodeResult = storageManager.getStr("authCode");
+    _data = await login(
+      tokenResult.value,
+      authCodeResult.value,
+      true
+    );
     if (_data.Status != 200) {
       window.$message.error("自动登录失败");
       _data = await login(null, null);
     }
-    // 如果localStorage没保存的话，就将其保存。如果已保存的话，这只是个重复的操作
-    localStorage.setItem("token", _data.Token);
-    localStorage.setItem("authCode", _data.AuthCode);
+    storageManager.setStr("token", _data.Token, 10 * 24 * 60 * 60 * 1000); // token保存十天
+    storageManager.setStr("authCode", _data.AuthCode, 10 * 24 * 60 * 60 * 1000);
     return _data;
   });
 });
 
+/**
+ * 处理登录流程的装饰器函数，包含通用登录逻辑
+ * @param {Function} loginMethod - 具体的登录方法（密码登录或token登录）
+ * @returns {Promise<void>} 
+ * @description
+ * - 执行登录操作并处理响应
+ * - 存储认证信息到本地
+ * - 更新用户状态和页面数据
+ */
+async function handleLogin(loginMethod: () => Promise<any>) {
+  try {
+    const response = await loginMethod();
+    
+    if (response.Status !== 200) {
+      window.$message.error(response.Message || "登录失败");
+      storageManager.setStr("loginStatus", "false", 24 * 60 * 60 * 1000);
+      return;
+    }
+
+    // 存储认证信息
+    const tokenTTL = rememberMe.value ? 10 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
+    storageManager.setStr("token", response.Token, tokenTTL);
+    storageManager.setStr("authCode", response.AuthCode, tokenTTL);
+
+    // 更新用户信息
+    updateUserProfile(response.Data.User);
+    
+    // 加载页面数据
+    await loadPageData(response);
+    
+    isLoading.value = false;
+  } catch (error) {
+    window.$message.error("登录过程中发生错误");
+    console.error("Login error:", error);
+  }
+}
+
+/**
+ * 更新用户个人信息
+ * @param {Object} userData - 用户数据对象
+ */
+function updateUserProfile(userData: any) {
+  storageManager.setStr("nickName", userData.Nickname);
+  storageManager.setStr("userID", userData.ID);
+  
+  user.value = {
+    coins: userData.Gold,
+    gems: userData.Diamond,
+    level: userData.Level,
+    username: userData.Nickname || "点击登录",
+    avatarUrl: getUserUrl(userData),
+    ID: userData.ID,
+  };
+}
+
+/**
+ * 加载页面所需数据
+ * @param {Object} response - 登录响应数据
+ */
+async function loadPageData(response: any) {
+  if (response.Data.User.Nickname) {
+    const refreshedData = await login(null, null);
+    blocks.value = refreshedData.Data.Library.Blocks;
+  } else {
+    blocks.value = response.Data.Library.Blocks;
+  }
+}
+
+// 修改后的登录处理函数
+async function handlePasswordLogin() {
+  await handleLogin(async () => login(emailOrPhone.value, loginPassword.value));
+  showLoginModal.value = false;
+}
+
+async function handleTokenLogin() {
+  await handleLogin(async () => login(loginToken.value, authCode.value, true));
+  showLoginModal.value = false;
+}
+
 function showModalFn() {
-  localStorage.getItem("loginStatus") === "true"
+  storageManager.getStr("loginStatus").value === "true"
     ? router.push(`/profile/${user.value.ID}`)
-    : (showModal.value = true);
+    : (showLoginModal.value = true);
 }
 
-async function pswdLogin() {
-  await loginDecorator(async () => login(username.value, password.value));
-  showModal.value = false;
-}
-
-async function tokenLogin() {
-  await loginDecorator(async () => login(token.value, authCode.value, true));
-  showModal.value = false;
-}
-
-const memoryMe = ref(false);
 </script>
 
 <style scoped>
@@ -350,6 +410,10 @@ const memoryMe = ref(false);
 }
 
 /* 登录表单 end */
+
+.block {
+  height: 100%;
+}
 
 .div {
   box-sizing: border-box;

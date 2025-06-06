@@ -1,5 +1,5 @@
 import Emitter from "../eventEmitter.ts";
-import translateErrorMessage from "./translateErrorMessage";
+import translateErrorMessage from "../i18n/translateErrorMessage.ts";
 import storageManager from "../storage.ts";
 
 interface IResponse {
@@ -14,7 +14,9 @@ interface IIntercetporResponse {
 
 const noMessagesPath = ["/Users/GetUser"];
 
-const initialHistory = storageManager.get("requestHistoryMap") || {};
+// 替换原有的 get/set 调用为 getStr/getObj/setStr/setObj
+const initialHistoryResult = storageManager.getObj("requestHistoryMap");
+const initialHistory = initialHistoryResult.status === 'success' && initialHistoryResult.value ? initialHistoryResult.value : {};
 const requestHistoryMap = new Map<string, number[]>(Object.entries(initialHistory));
 
 function rateLimit(path: string): boolean {
@@ -41,7 +43,7 @@ function rateLimit(path: string): boolean {
       }
   }
   requestHistoryMap.set(path, [...history, Date.now()]);
-  storageManager.set("requestHistoryMap", Object.fromEntries(requestHistoryMap));
+  storageManager.setObj("requestHistoryMap", Object.fromEntries(requestHistoryMap), 2 * 24 * 60 * 60 * 1000);
   return false;
 }
 

@@ -81,9 +81,10 @@ onMounted(async () => {
     isFollowing.value = true;
   }
   fragmentCount.value = data.Fragment;
-  const cache = JSON.parse(localStorage.getItem("userIDAndAvartarIDMap")) || {}; // 用户为第几张头像的缓存
+  const cacheResult = storageManager.getObj("userIDAndAvartarIDMap");
+  const cache = cacheResult.status === 'success' && cacheResult.value ? cacheResult.value : {};
   cache[data.ID] = [data.Avatar, Date.now()];
-  localStorage.setItem("userIDAndAvartarIDMap", JSON.stringify(cache));
+  storageManager.setObj("userIDAndAvartarIDMap", cache, 72 * 60 * 60 * 1000);
 });
 
 async function followUser() {

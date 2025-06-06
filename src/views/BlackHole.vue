@@ -12,21 +12,25 @@
             v-for="block in blocks.filter((i:any)=>i.Summaries.length > 0)"
             :key="block.Subject"
           >
-            <div class="block">
+            <div class="block" style="height: 100%">
               <BlockAndActivity
-                v-if="block.$type.startsWith('Quantum.Models.Contents.TopicBlock')"
+                v-if="
+                  block.$type.startsWith('Quantum.Models.Contents.TopicBlock')
+                "
                 type="Discussion"
                 :projects="block.Summaries"
                 :activityName="block.AuxiliaryText || '参与开发'"
                 :activityBackground="getPath('/@base/assets/mechanics.png')"
                 :projectsName="block.Subject"
-                :activityProc="getActivityProc(block.AuxiliaryLink || 'internal://co-dev')"
+                :activityProc="
+                  getActivityProc(block.AuxiliaryLink || 'internal://co-dev')
+                "
                 :link="targetLink(block.TargetLink)"
               />
               <Block
                 v-else
                 type="Discussion"
-                :data="block.Summaries.slice(0, 5)"
+                :data="block.Summaries.slice(0, maxProjectsPerBlock)"
                 :title="block.Header"
                 :link="targetLink(block.TargetLink)"
               />
@@ -40,7 +44,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { useResponsive } from "../layout/useResponsive.ts";
+import { ref, onMounted } from "vue";
 import Header from "../components/utils/Header.vue";
 import BlockAndActivity from "../components/blocks/BlockAndActivity.vue";
 import Block from "../components/blocks/Block.vue";
@@ -54,7 +59,6 @@ import "../layout/startPage.css";
 
 const loading = ref(true);
 const blocks = ref<any>([]);
-const itemsPerRow = ref(getItemsPerRow());
 
 const goToWebCommunity = () => {
   window.open("https://pl.turtlesim.com");
@@ -69,25 +73,15 @@ const activityLinkMap: Record<string, () => void> = {
   "internal://co-dev": goToDevelopment,
 };
 
-const getActivityProc = (link: string | undefined): (() => void) | undefined => {
+const getActivityProc = (
+  link: string | undefined
+): (() => void) | undefined => {
   return link ? activityLinkMap[link] : undefined;
 };
 
-function getItemsPerRow() {
-  const width = window.innerWidth;
-  return width >= 800 ? 3 : width >= 500 ? 2 : 1;
-}
-
-const handleResize = () => {
-  itemsPerRow.value = getItemsPerRow();
-};
-
-onUnmounted(() => {
-  window.removeEventListener("resize", handleResize);
-});
+const { itemsPerRow, maxProjectsPerBlock } = useResponsive();
 
 onMounted(async () => {
-  window.addEventListener("resize", handleResize);
   const getLibraryResponse = await getData("/Contents/GetLibrary", {
     Identifier: "Discussions",
     Language: "Chinese",

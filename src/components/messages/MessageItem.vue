@@ -1,18 +1,18 @@
 <template>
   <div id="notification_container" @click="handleReply">
     <div class="img">
-      <img :src="avatar_url" id="avatar" @click="showUserCard(userID as string)" />
+      <img :src="avatarUrl" id="avatar" @click.stop="showUserCard(message.userID)" />
     </div>
     <div id="notification" class="notification">
       <div id="notification_title" class="notification_title">
-        <div class="name">{{ msg_title }}</div>
-        <div class="delete" @click="deleteMsg" v-if="currentUserId === userID">删除</div>
+        <div class="name">{{ message.msg_title }}</div>
+        <div class="delete" @click.stop="deleteMsg" v-if="currentUserId === message.userID">删除</div>
       </div>
       <div id="notification_message" class="notification_message">
         <div
           id="notification_text"
           class="notification_text"
-          v-html="parse(msg as string,true)"
+          v-html="parse(message.msg,true)"
         ></div>
       </div>
     </div>
@@ -20,35 +20,51 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, watch } from "vue";
 import { getData } from "../../services/api/getData";
 import parse from "../../services/advancedParser.ts";
 import showUserCard from "../../popup/usercard.ts";
 import storageManager from "../../services/storage";
+import { getAvatarUrl } from "../../services/getUserCurentAvatarByID";
+import Emitter from "../../services/eventEmitter";
 
-// 解构传递的props
-const { id, userID, type } = defineProps({
-  avatar_url: String,
-  msg: String,
-  msg_title: String,
-  id: String,
-  userID: String,
-  type: String,
-});
+const props = defineProps<{ message: {
+  id: string;
+  userID: string;
+  msg: string;
+  msg_title: string;
+  type: string;
+} }>();
 
-// 用于回复
 const emit = defineEmits(["msgClick","deleteMsg"]);
 
-const handleReply = () => {
-  emit("msgClick", id);
+let currentUserId = "";
+
+const currentUserIdStorage = storageManager.getStr("userID");
+if (currentUserIdStorage.status === "success" && currentUserIdStorage.value) {
+  currentUserId = currentUserIdStorage.value;
+} else{
+  Emitter.emit("loginRequired")
+}
+const avatarUrl = ref("/assets/user/default-avatar.png");
+
+const fetchAvatar = async () => {
+  avatarUrl.value = await getAvatarUrl(props.message.userID);
 };
 
-const currentUserId = storageManager.get("userID", false);
+onMounted(fetchAvatar);
+watch(() => props.message.userID, fetchAvatar);
+
+const handleReply = () => {
+  emit("msgClick", props.message);
+};
+
 const deleteMsg = async() => {
   await getData("Messages/RemoveComment", {
-    TargetType: type,
-    CommentID: id,
+    TargetType: props.message.type,
+    CommentID: props.message.id,
   });
-  emit("deleteMsg", id);
+  emit("deleteMsg", props.message);
 };
 </script>
 

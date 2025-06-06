@@ -74,7 +74,7 @@
                     实验介绍
                   </h3>
                   <div style="height: 90%; max-width: 100%; word-break: break-all">
-                    <div style="text-align: left" v-html="parse(data.Description)"></div>
+                    <div class="intro" style="text-align: left" v-html="parse(data.Description)"></div>
                     <div style="font-weight: bold; text-align: left">字数统计:</div>
                   </div>
                 </div>
@@ -112,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import {  ref, onMounted } from "vue";
+import {  ref, onMounted,watch } from "vue";
 import { useRoute } from "vue-router";
 import { getData } from "../services/api/getData.ts";
 import { NTabs, NTabPane } from "naive-ui";
@@ -126,16 +126,26 @@ import "highlight.js/styles/github.css";
 import "../../node_modules/katex/dist/katex.min.css";
 import { getCoverUrl, getUserUrl } from "../services/utils.ts";
 import Adaptation from "../layout/Adaptation.vue";
+import { useResponsive } from "../layout/useResponsive";
 import "../layout/AdaptationView.css";
 
-let comment = ref("");
-let isLoading = ref(false);
-let upDate = ref(1);
-let replyID = ref("");
-
+const comment = ref("");
+const isLoading = ref(false);
+const upDate = ref(1);
+const replyID = ref("");
 const selectedTab = ref("Intro");
 
 const route = useRoute();
+const {fontSize}= useResponsive();
+const setCSSVariables = () => {
+  document.documentElement.style.setProperty('--font-size', fontSize.value)
+}
+
+setCSSVariables()
+
+watch(fontSize, () => {
+  setCSSVariables()
+})
 
 
 const data = ref({
@@ -252,6 +262,10 @@ window.$parse = parse;
     width: 80%;
     bottom: 50px;
   }
+}
+
+.intro {
+  font-size: var(--font-size);
 }
 
 div {

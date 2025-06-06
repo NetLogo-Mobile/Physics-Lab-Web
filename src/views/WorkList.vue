@@ -25,6 +25,11 @@ function decodeString(base64Input: any) {
   const result = JSON.parse(jsonString);
   return result;
 }
+//Calculates the number of Items displayed and loaded at a time.
+/**
+ * @requires window.innerWidth
+ * @returns {int} Number of Items that fits the window
+ */
 function getItemsPerRow() {
   const width = window.innerWidth;
   switch (true) {

@@ -11,10 +11,6 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
  *
  */
 export default function (path: string): string {
-  // 含有@但是没有/开头可能为失误，报错
-  if (path.includes("@") && !path.startsWith("/")) {
-    console.warn("请核对检查路径是否正确，当前路径没有以/开头，不会被替换", path);
-  }
   return path
     .replace(/\/@api/g, apiUrl)
     .replace(/\/@static/g, staticUrl)

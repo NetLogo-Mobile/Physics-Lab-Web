@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%;">
     <div
       class="container"
       :style="{
@@ -19,7 +19,7 @@
       :style="{ backgroundImage: `url(${activityBackground})` }"
       @click="activityProc"
     >
-      <h1 id="activity-text">{{ activityName }}</h1>
+      <h1 class="activity-text">{{ activityName }}</h1>
     </div>
   </div>
 </template>
@@ -51,7 +51,7 @@ const jump = () => {
   border-radius: 8px;
   position: relative;
   color: #fff;
-  height: 260px;
+  height: calc(100% - 95px);
   display: flex;
   flex-direction: column;
 }
@@ -82,6 +82,8 @@ const jump = () => {
   display: flex;
   flex-direction: column;
   margin: auto 0 0; /* 顶部 margin 设置为 auto 推动 box 到底部 */
+  gap:5px;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .activity {
@@ -94,7 +96,7 @@ const jump = () => {
   border-radius: 10px;
 }
 
-#activity-text {
+.activity-text {
   color: white;
   text-align: left;
   padding-left: 20px;

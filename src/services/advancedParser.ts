@@ -77,12 +77,12 @@ md.core.ruler.before("normalize", "parseUnityRichText", function (state) {
       /<experiment=(.*?)>(.*?)<\/experiment>/g,
       `<a href="${root}/ExperimentSummary/Experiment/$1" internal>$2</a>`
     )
-    .replace(/<b>(.*?)<\/b>/g, "<strong>$1</strong>") // 粗体
-    .replace(/<i>(.*?)<\/i>/g, "<em>$1</em>") // 斜体
-    .replace(/<color=(.*?)>(.*?)<\/color>/g, '<span style="color:$1;">$2</span>') // 颜色
-    .replace(/<color=(.*?)>(.*?)<\/color>/g, '<span style="color:$1;">$2</span>') // 处理2层重复标签
-    .replace(/<color=(.*?)>(.*?)<\/color>/g, '<span style="color:$1;">$2</span>') // 处理3层重复标签
-    .replace(/<a>(.*?)<\/a>/g, '<span style="color:blue;">$1</span>') // a转换为蓝色
+    .replace(/<b>(.*?)<\/b>/g, "<strong>$1</strong>") // 粗体 Bold
+    .replace(/<i>(.*?)<\/i>/g, "<em>$1</em>") // 斜体 Italic
+    .replace(/<color=(.*?)>(.*?)<\/color>/g, '<span style="color:$1;">$2</span>') // 颜色 Color
+    .replace(/<color=(.*?)>(.*?)<\/color>/g, '<span style="color:$1;">$2</span>') // 处理2层重复标签 2-layer repeating tags handling
+    .replace(/<color=(.*?)>(.*?)<\/color>/g, '<span style="color:$1;">$2</span>') // 处理3层重复标签 3-layer repeating tags handling
+    .replace(/<a>(.*?)<\/a>/g, '<span style="color:blue;">$1</span>') // <a>转换为蓝色 Attribute <a> with blue-ish color.
     .replace(/(<br\/>| *\n){2}(\-{3,}|\*{3,}|\_{3,})(<br\/>| *\n)/g, "\n<hr></hr>\n");
 
   state.src = parse_size(parse_size(parse_size(state.src)));
@@ -110,7 +110,7 @@ function isAllowedDomain(url: string): boolean {
 }
 
 /**
- * 处理a标签，移除或替换跨域链接
+ * 处理<a>标签，移除或替换跨域链接
  */
 function processAnchorTags(html: string): string {
   const parser = new DOMParser();
@@ -128,7 +128,7 @@ function processAnchorTags(html: string): string {
 }
 
 /**
- * 处理img标签，移除或替换跨域链接
+ * 处理<img>标签，移除或替换跨域链接
  */
 function processImageTags(html: string): string {
   const parser = new DOMParser();
@@ -154,7 +154,7 @@ function processImageTags(html: string): string {
  * @param text 文本
  * @param isInline 为真会不输出换行和size标签
  * @author Arendelle
- * @returns
+ * @returns void
  */
 function parse(text: string | string[], isInline: boolean = false) {
   // 请确保以下实验简介的渲染正常:
@@ -216,7 +216,7 @@ function parse(text: string | string[], isInline: boolean = false) {
   let result = md.render(text);
 
   let clean = DOMPurify.sanitize(result, {
-    ADD_TAGS: ["a", "br", "span", "img"], // 允许a标签和img标签
+    ADD_TAGS: ["a", "br", "span", "img"], // 允许<a>>标签和<img>标签
     ADD_ATTR: ["href", "internal", "src", "width", "height", "maxWidht"], // 允许href和data-to属性以及img的src、width和height属性
   });
 

@@ -44,10 +44,8 @@ const formattedDate = computed(() => {
 .card {
   display: flex;
   align-items: center;
-  background-color: #f0f0f0;
   padding: 0 10px;
   height: 50px;
-  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .icon {
@@ -82,8 +80,5 @@ a {
   text-decoration: none;
 }
 
-.div {
-  box-sizing:border-box;
-}
 
-</style>../../services/utils.ts
+</style>

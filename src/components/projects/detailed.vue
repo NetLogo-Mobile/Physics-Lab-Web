@@ -35,7 +35,8 @@ const imgUrl = getCoverUrl(data);
   display: flex;
   align-items: center;
   padding: 5px;
-  height: 50px;
+  padding-bottom: 0;
+  height: 55px;
 }
 
 .icon {
@@ -55,13 +56,13 @@ const imgUrl = getCoverUrl(data);
 }
 
 .title {
-  font-size: 12px;
+  font-size: 14px;
   color: #333;
   margin: 0;
 }
 
 .subtitle {
-  font-size: 10px;
+  font-size: 12px;
   color: #666;
   margin: 0;
 }
@@ -74,4 +75,3 @@ div {
   box-sizing: border-box;
 }
 </style>
-../../services/utils.ts

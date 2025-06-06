@@ -1,18 +1,8 @@
 <template>
   <infiniteScroll :has-more="!noMore" :initial-items="items" @load="handleLoad">
-    <template #default="{ items }">
-      <div v-for="item in items as Item[]" :key="item.id">
-        <Notification
-          :avatar_url="item.avatar_url"
-          :msg_title="item.msg_title"
-          :msg="item.msg"
-          :msg_type="item.msg_type"
-          :category="item.category"
-          :id="item.id"
-          :tid="item.tid"
-          :name="item.name"
-          :uid="item.uid"
-        ></Notification>
+    <template #default="slotProps">
+      <div v-for="item in slotProps.items as NotificationItem[]" :key="item.id">
+        <Notification :notification="item" />
         <n-divider style="margin: 0" />
       </div>
     </template>
@@ -23,32 +13,11 @@
 import { ref } from "vue";
 import Notification from "./NotificationItem.vue";
 import { getData } from "../../services/api/getData.ts";
-import { getAvatarUrl, saveCache } from "../../services/getUserCurentAvatarByID";
-import type { Ref } from "vue";
 import Emitter from "../../services/eventEmitter";
 import InfiniteScroll from "../utils/infiniteScroll.vue";
 
-interface Message {
-  ID: number;
-  CategoryID: number;
-  TemplateID: number;
-  Users: string[];
-  Fields: any;
-  UserNames: string[];
-  Numbers: any;
-}
-
-interface Template {
-  ID: number;
-  Content: any;
-  Subject: string;
-  Type: number;
-  CategoryID: number;
-}
-
-interface Item {
+interface NotificationItem {
   id: number;
-  avatar_url: string;
   msg_title: string;
   msg: string;
   msg_type: number;
@@ -58,8 +27,8 @@ interface Item {
   uid: string;
 }
 
-const items: Ref<Item[]> = ref([]);
-const loading = ref(false); // 用于无限滚动组件判断是否可以获取下一组数据
+const items = ref<NotificationItem[]>([]);
+const loading = ref(false);
 let skip = 0;
 const noMore = ref(false);
 let templates: any = [
@@ -143,9 +112,6 @@ let templates: any = [
 
 const { notificationTypeIndexOfUI } = defineProps(["notificationTypeIndexOfUI"]);
 
-/**
- * 紫兰斋的编号与UI不一致
- */
 function convertCategoryIDToUIIndex(n: Number) {
   return n === 2 ? 3 : n === 3 ? 2 : n;
 }
@@ -154,15 +120,11 @@ function convertUIIndexToCategoryID(n: Number) {
   return n === 3 ? 2 : n === 2 ? 3 : n;
 }
 
-/**
- * 由模板和数据渲染通知
- */
-function fillInTemplate(data: String, message: Message) {
-  // 等待实现的actions:showComment
+function fillInTemplate(data: String, message: any) {
   const re = data
     .replace(
       /{Users}/g,
-      message.Users.map((user, index) => `<user=${user}>${message.UserNames[index]}</user>`).join(
+      message.Users.map((user:any, index:any) => `<user=${user}>${message.UserNames[index]}</user>`).join(
         " "
       )
     )
@@ -181,36 +143,6 @@ function fillInTemplate(data: String, message: Message) {
   return re;
 }
 
-async function renderTemplateWithData(messages: Message[]) {
-  const avatarPromises = messages.map((message) => getAvatarUrl(message.Users[0], true));
-  const avatarUrls = await Promise.all(avatarPromises);
-  saveCache();
-
-  return messages.map((message, index) => {
-    const template = templates.find((t: Template) => t.ID === message.TemplateID);
-    return {
-      id: message.ID,
-      avatar_url:
-        convertCategoryIDToUIIndex(message.CategoryID) == 1
-          ? "/assets/messages/Message-Unread.png"
-          : avatarUrls[index],
-      // 因为有缓存的原因，即使多一个请求也不是什么大问题（编辑的头像在社区活动出现频率蛮高的）所以暂时不改
-      // 暂时不管读不读了，也没人在意
-      msg_title: fillInTemplate(template.Subject.Chinese, message),
-      msg: fillInTemplate(template.Content.Chinese, message),
-      msg_type: convertCategoryIDToUIIndex(message.CategoryID),
-      category: message.Fields?.User
-        ? "User"
-        : message.Fields?.Discussion
-        ? "Discussion"
-        : "Experiment",
-      tid: message.Fields?.UserID || message.Fields?.DiscussionID || message.Fields?.ExperimentID,
-      name: message.Fields?.Discussion || message.Fields?.Experiment || message.Fields?.User,
-      uid: message.Users[0],
-    };
-  });
-}
-
 // 处理加载事件
 const handleLoad = async (noTemplates = true) => {
   if (loading.value) return;
@@ -225,22 +157,20 @@ const handleLoad = async (noTemplates = true) => {
     });
 
     if (!noTemplates) {
-      templates = getMessagesResponse.Data.Templates as Template[];
+      templates = getMessagesResponse.Data.Templates;
     }
 
     const messages = getMessagesResponse.Data.Messages;
 
-    if (getMessagesResponse.Data.Messages.length === 0) {
+    if (messages.length === 0) {
       noMore.value = true;
       Emitter.emit("warning", "没有更多了", 2);
     }
 
-    // 先设置默认头像
-    const defaultItems = messages.map((message: Message) => {
-      const template = templates.find((t: Template) => t.ID === message.TemplateID);
+    const defaultItems = messages.map((message: any) => {
+      const template = templates.find((t: any) => t.ID === message.TemplateID);
       return {
         id: message.ID,
-        avatar_url: "/assets/user/default-avatar.png", // 设置默认头像
         msg_title: fillInTemplate(template.Subject.Chinese, message),
         msg: fillInTemplate(template.Content.Chinese, message),
         msg_type: convertCategoryIDToUIIndex(message.CategoryID),
@@ -256,23 +186,13 @@ const handleLoad = async (noTemplates = true) => {
     });
 
     items.value = [...items.value, ...defaultItems];
-
-    loading.value = false; // 我认为完全可以允许在本次头像渲染未完成的情况下渲染下一次
-
-    // 并发请求新的头像地址
-    const newItems = await renderTemplateWithData(messages);
-    items.value = items.value.map((item) => {
-      const newItem = newItems.find((ni) => ni.id === item.id);
-      return newItem ? { ...item, avatar_url: newItem.avatar_url } : item;
-    });
-
+    loading.value = false;
     skip += 20;
   } catch (error) {
     console.error("加载消息失败", error);
   }
 };
 
-// 初始加载数据
 handleLoad(false);
 </script>
 

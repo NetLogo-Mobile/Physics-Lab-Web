@@ -35,16 +35,16 @@ defineComponent({
   top: 0;
   left: 0;
   width: 100vw;
-  height: 35vh;
+  height: 25vh;
   z-index: 1;
 }
 
 .layout-right {
   position: absolute;
-  top: 35vh;
+  top: 25vh;
   left: 0;
   width: 100vw;
-  height: calc(100dvh - 35vh);
+  height: calc(100dvh - 25vh);
 }
 
 .scroll-container {

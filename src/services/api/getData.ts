@@ -1,6 +1,6 @@
 import Emitter from "../eventEmitter.ts";
 import { beforeRequest, afterRequest } from "./Interceptor.ts";
-import storageManager from "../storage.ts"; // 引入storageManager
+import storageManager from "../storage.ts"; 
 
 export async function getData(path: string, body: any) {
   window.$message.destroyAll();
@@ -14,8 +14,8 @@ export async function getData(path: string, body: any) {
     // @ts-ignore
     headers: {
       "Content-Type": "application/json",
-      "x-API-Token": storageManager.get("token", false) || undefined,
-      "x-API-AuthCode": storageManager.get("authCode", false) || undefined,
+      "x-API-Token": storageManager.getStr("token").value || undefined,
+      "x-API-AuthCode": storageManager.getStr("authCode").value || undefined,
     },
   }).then((response) => {
     window.$message.destroyAll();
@@ -67,7 +67,7 @@ export async function login(arg1: String | null, arg2: String | null, is_token =
     }
     return response.json().then((data) => {
       window.$message.destroyAll();
-      password && storageManager.set("loginStatus", true, false);
+      password && storageManager.setStr("loginStatus", "true", 10 *24 * 60 * 60 * 1000);
       password && Emitter.emit("success", "登录成功", 1);
       return data;
     });

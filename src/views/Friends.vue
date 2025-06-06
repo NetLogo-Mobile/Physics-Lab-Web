@@ -32,27 +32,11 @@ import UserList from "../components/friends/list.vue";
 import Header from "../components/utils/Header.vue";
 import Footer from "../components/utils/Footer.vue";
 import { NTabs, NTabPane } from "naive-ui";
-import { onMounted, onUnmounted, ref } from "vue";
+import { useResponsive } from "../layout/useResponsive";
+import storageManager from "../services/storage";
 
-const userID = localStorage.getItem("userID") as string;
-const itemsPerRow = ref(getItemsPerRow());
-
-function getItemsPerRow() {
-  const width = window.innerWidth;
-  return width >= 800 ? 3 : 2;
-}
-
-const handleResize = () => {
-  itemsPerRow.value = getItemsPerRow();
-};
-
-onMounted(() => {
-  window.addEventListener("resize", handleResize);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("resize", handleResize);
-});
+const userID = storageManager.getStr("userID").value as string;
+const{ itemsPerRow} = useResponsive()
 </script>
 
 <style scoped>
