@@ -4,7 +4,7 @@ import storageManager from "./storage";
 
 let cache = (() => {
   const result = storageManager.getObj("userIDAndAvartarIDMap");
-  return result.status === 'success' && result.value ? result.value : {};
+  return result.status === "success" && result.value ? result.value : {};
 })();
 
 /**
@@ -33,10 +33,17 @@ export async function getAvatarUrl(ID, useCache = true) {
         setTimeout(() => reject(new Error("请求超时")), 3000); // 3秒超时
       });
       // 使用Promise.race来处理请求和超时
-      const response = await Promise.race([getData("/Users/GetUser", { ID }), timeoutPromise]);
+      const response = await Promise.race([
+        getData("/Users/GetUser", { ID }),
+        timeoutPromise,
+      ]);
       avatarIndex = response.Data.User.Avatar;
       cache[ID] = [avatarIndex, Date.now()];
-      storageManager.setObj("userIDAndAvartarIDMap", cache, 72 * 60 * 60 * 1000); // 72小时缓存
+      storageManager.setObj(
+        "userIDAndAvartarIDMap",
+        cache,
+        72 * 60 * 60 * 1000,
+      ); // 72小时缓存
     } catch (error) {
       console.error("获取头像失败", error);
       // 返回默认头像的URL

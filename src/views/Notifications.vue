@@ -59,7 +59,7 @@ import Footer from "../components/utils/Footer.vue";
 
 @media (min-aspect-ratio: 1/1) {
   .item {
-    padding-left:20px;
+    padding-left: 20px;
   }
 }
 </style>

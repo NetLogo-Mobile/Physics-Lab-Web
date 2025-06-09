@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted } from "vue";
 
 // 断点配置，可根据需要扩展
 const breakpoints = {
@@ -13,7 +13,7 @@ const breakpoints = {
  * A composable function that provides responsive layout values (ref) based on the current window width.
  * This hook returns reactive references automatically update when the window is resized.
  *
- * @returns {Object} 
+ * @returns {Object}
  *
  * @example
  * ```typescript
@@ -39,7 +39,6 @@ export function useResponsive() {
     return 1;
   }
 
-
   function getMaxProjectsPerBlock(w: number) {
     if (w >= breakpoints.desktop) return 6;
     if (w >= breakpoints.laptop) return 5;
@@ -48,11 +47,11 @@ export function useResponsive() {
   }
 
   function getFontSize(w: number) {
-    if (w >= breakpoints.wide) return '20px';
-    if (w >= breakpoints.desktop) return '18px';
-    if (w >= breakpoints.laptop) return '16px';
-    if (w >= breakpoints.tablet) return '15px';
-    return '14px';
+    if (w >= breakpoints.wide) return "20px";
+    if (w >= breakpoints.desktop) return "18px";
+    if (w >= breakpoints.laptop) return "16px";
+    if (w >= breakpoints.tablet) return "15px";
+    return "14px";
   }
 
   function handleResize() {
@@ -63,10 +62,10 @@ export function useResponsive() {
   }
 
   onMounted(() => {
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
   });
   onUnmounted(() => {
-    window.removeEventListener('resize', handleResize);
+    window.removeEventListener("resize", handleResize);
   });
 
   return {

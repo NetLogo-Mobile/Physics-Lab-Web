@@ -1,13 +1,17 @@
 <template>
   <div class="notification_container">
     <div class="img" @click.stop="showUserCard(notification.uid)">
-      <img :src="avatarUrl" id="avatar" />
+      <img id="avatar" :src="avatarUrl" />
     </div>
     <div id="notification" class="notification" @click="showComment">
-      <div id="notification_title" class="notification_title" v-html="parse(notification.msg_title, true)"></div>
+      <div
+        id="notification_title"
+        class="notification_title"
+        v-html="parse(notification.msg_title, true)"
+      ></div>
       <div id="notification_message" class="notification_message">
         <div id="notification_icon" class="notification_icon">
-          <img :src="msg_icon_url" id="notification_icon" />
+          <img id="notification_icon" :src="msg_icon_url" />
         </div>
         <div id="notification_text" class="notification_text">
           <!-- 我认为是在没必要专门再去渲染邮件，所以暂时这样 -->
@@ -30,15 +34,17 @@ import parse from "../../services/commonParser.ts";
 import showUserCard from "../../popup/usercard.ts";
 import { getAvatarUrl } from "../../services/getUserCurentAvatarByID";
 
-const props = defineProps<{ notification: {
-  msg: string;
-  msg_title: string;
-  msg_type: number;
-  tid: string;
-  category: string;
-  name: string;
-  uid: string;
-} }>();
+const props = defineProps<{
+  notification: {
+    msg: string;
+    msg_title: string;
+    msg_type: number;
+    tid: string;
+    category: string;
+    name: string;
+    uid: string;
+  };
+}>();
 
 const avatarUrl = ref("/assets/user/default-avatar.png");
 const fetchAvatar = async () => {
@@ -68,7 +74,7 @@ function showComment() {
   if (props.notification.msg_type === 2) {
     window.open(
       `${window.$getPath("/@root")}/Comments/${props.notification.category}/${props.notification.tid}/${props.notification.name}`,
-      "_self"
+      "_self",
     );
   }
 }

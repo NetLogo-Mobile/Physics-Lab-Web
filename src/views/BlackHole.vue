@@ -5,11 +5,11 @@
     </Header>
     <!-- 高度：50px定值 -->
     <main>
-      <div class="loading" v-if="loading"></div>
-      <div class="block-container" v-if="!loading">
+      <div v-if="loading" class="loading"></div>
+      <div v-if="!loading" class="block-container">
         <n-grid :x-gap="12" :y-gap="12" :cols="itemsPerRow">
           <n-gi
-            v-for="block in blocks.filter((i:any)=>i.Summaries.length > 0)"
+            v-for="block in blocks.filter((i: any) => i.Summaries.length > 0)"
             :key="block.Subject"
           >
             <div class="block" style="height: 100%">
@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { useResponsive } from "../composables/useResponsive"
+import { useResponsive } from "../composables/useResponsive";
 import { ref, onMounted } from "vue";
 import Header from "../components/utils/Header.vue";
 import BlockAndActivity from "../components/blocks/BlockAndActivity.vue";
@@ -74,7 +74,7 @@ const activityLinkMap: Record<string, () => void> = {
 };
 
 const getActivityProc = (
-  link: string | undefined
+  link: string | undefined,
 ): (() => void) | undefined => {
   return link ? activityLinkMap[link] : undefined;
 };

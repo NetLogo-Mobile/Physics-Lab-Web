@@ -54,9 +54,12 @@ let templates: any = [
       English: "This is a letter for test to test every features. {Users}",
       ChineseTraditional: "這是一封測試郵件，用於測試所有功能。 {Users}",
       German: "Dies ist ein Testbrief zum Testen aller Funktionen. {Benutzer}",
-      French: "Ceci est une lettre de test pour tester toutes les fonctionnalités. {Utilisateurs}",
-      Japanese: "これはすべての機能をテストするためのテスト用の手紙です。 {ユーザー}",
-      Italian: "Questa è una lettera per test per testare tutte le funzionalità. {} utenti",
+      French:
+        "Ceci est une lettre de test pour tester toutes les fonctionnalités. {Utilisateurs}",
+      Japanese:
+        "これはすべての機能をテストするためのテスト用の手紙です。 {ユーザー}",
+      Italian:
+        "Questa è una lettera per test per testare tutte le funzionalità. {} utenti",
       Polish: null,
       Spanish: null,
       Ukrainian: null,
@@ -110,29 +113,32 @@ let templates: any = [
   },
 ];
 
-const { notificationTypeIndexOfUI } = defineProps(["notificationTypeIndexOfUI"]);
+const { notificationTypeIndexOfUI } = defineProps([
+  "notificationTypeIndexOfUI",
+]);
 
-function convertCategoryIDToUIIndex(n: Number) {
+function convertCategoryIDToUIIndex(n: number) {
   return n === 2 ? 3 : n === 3 ? 2 : n;
 }
 
-function convertUIIndexToCategoryID(n: Number) {
+function convertUIIndexToCategoryID(n: number) {
   return n === 3 ? 2 : n === 2 ? 3 : n;
 }
 
-function fillInTemplate(data: String, message: any) {
+function fillInTemplate(data: string, message: any) {
   const re = data
     .replace(
       /{Users}/g,
-      message.Users.map((user:any, index:any) => `<user=${user}>${message.UserNames[index]}</user>`).join(
-        " "
-      )
+      message.Users.map(
+        (user: any, index: any) =>
+          `<user=${user}>${message.UserNames[index]}</user>`,
+      ).join(" "),
     )
     .replace(
       /{Experiment}/g,
       message.Fields?.Discussion
         ? `<discussion=${message.Fields?.DiscussionID}>${message.Fields?.Discussion}</discussion>`
-        : `<experiment${message.Fields?.ExperimentID}>${message.Fields?.Experiment}</experiment>`
+        : `<experiment${message.Fields?.ExperimentID}>${message.Fields?.Experiment}</experiment>`,
     )
     .replace(/{\$Content}/g, message.Fields.Content)
     .replace(/{\$TargetName}/g, localStorage.getItem("nickName") || "朋友")
@@ -177,10 +183,16 @@ const handleLoad = async (noTemplates = true) => {
         category: message.Fields?.User
           ? "User"
           : message.Fields?.Discussion
-          ? "Discussion"
-          : "Experiment",
-        tid: message.Fields?.UserID || message.Fields?.DiscussionID || message.Fields?.ExperimentID,
-        name: message.Fields?.Discussion || message.Fields?.Experiment || message.Fields?.User,
+            ? "Discussion"
+            : "Experiment",
+        tid:
+          message.Fields?.UserID ||
+          message.Fields?.DiscussionID ||
+          message.Fields?.ExperimentID,
+        name:
+          message.Fields?.Discussion ||
+          message.Fields?.Experiment ||
+          message.Fields?.User,
         uid: message.Users[0],
       };
     });
@@ -189,7 +201,7 @@ const handleLoad = async (noTemplates = true) => {
     loading.value = false;
     skip += 20;
   } catch (error) {
-    console.error("加载消息失败", error);
+    Emitter.emit("error", String(error), 5);
   }
 };
 

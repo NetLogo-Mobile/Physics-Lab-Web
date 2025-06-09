@@ -1,5 +1,10 @@
 <template>
-  <InfiniteScroll :has-more="!noMore" :initial-items="items" @load="handleLoad">
+  <InfiniteScroll
+    :has-more="!noMore"
+    :initial-items="items"
+    :marginTop="0"
+    @load="handleLoad"
+  >
     <template #default="{ items }">
       <div v-for="item in items as MessageItem[]" :key="item.id">
         <MessageItem
@@ -67,7 +72,7 @@ const handleLoad = async () => {
 
   const messages = getMessagesResponse.Data.Comments;
   const _length = messages.length;
-  !from || messages.shift();
+  if (from) messages.shift();
   from = messages[messages.length - 1]?.ID;
 
   const defaultItems = messages.map(
@@ -77,7 +82,7 @@ const handleLoad = async () => {
       msg_title: message.Nickname,
       msg: message.Content,
       type: Category,
-    })
+    }),
   );
 
   items.value = [...items.value, ...defaultItems];
@@ -97,7 +102,7 @@ watch(
     skip = 0;
     from = null;
     handleLoad();
-  }
+  },
 );
 </script>
 

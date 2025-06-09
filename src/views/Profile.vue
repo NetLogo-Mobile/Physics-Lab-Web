@@ -11,7 +11,11 @@
         }"
       >
         <div style="text-align: left; z-index: 10; position: relative">
-          <img src="/assets/library/Navigation-Return.png" style="width: 2.7em" @click="goBack" />
+          <img
+            src="/assets/library/Navigation-Return.png"
+            style="width: 2.7em"
+            @click="goBack"
+          />
           <div style="color: white; font-size: 2em; text-align: left">
             {{ userData.User.Nickname }}
           </div>
@@ -22,7 +26,7 @@
           <Tag :tag="'粉丝 ' + userData.Statistic.FollowerCount"></Tag>
           <Tag :tag="'关注 ' + userData.Statistic.FollowingCount"></Tag>
         </div>
-        <div class="coverProject" v-if="userData.Statistic?.Cover">
+        <div v-if="userData.Statistic?.Cover" class="coverProject">
           <router-link
             :to="
               '/experimentSummary/' +
@@ -39,22 +43,36 @@
             "
           >
             <p style="margin: 0; font-size: smaller">点击进入封面作品</p>
-            <p style="margin: 0; font-size: medium">{{ userData.Statistic.Cover?.Subject }}</p>
+            <p style="margin: 0; font-size: medium">
+              {{ userData.Statistic.Cover?.Subject }}
+            </p>
           </router-link>
         </div>
       </div>
     </template>
     <template #right>
       <div style="text-align: center; height: 100%">
-        <n-tabs v-model:value="selectedTab" justify-content="space-evenly" type="line">
+        <n-tabs
+          v-model:value="selectedTab"
+          justify-content="space-evenly"
+          type="line"
+        >
           <n-tab-pane name="Intro" tab="作品" animated>
-            <div class="projects" id="project-list">
+            <div id="project-list" class="projects">
               <div v-for="[t, d] in Object.entries(expData)" :key="t">
-                <Block v-if="d.length > 0" :title="t" :data="d" :block-type="d[0].Category" />
+                <Block
+                  v-if="d.length > 0"
+                  :title="t"
+                  :data="d"
+                  :block-type="d[0].Category"
+                />
               </div>
             </div>
           </n-tab-pane>
-          <n-tab-pane name="Comment" :tab="`留言板(${userData.Statistic.CommentCount})`">
+          <n-tab-pane
+            name="Comment"
+            :tab="`留言板(${userData.Statistic.CommentCount})`"
+          >
             <div class="right-bottom-container">
               <div class="message-wrapper">
                 <MessageList
@@ -72,8 +90,8 @@
                   placeholder="发布一条友善的言论"
                   show-count
                   :maxlength="200"
-                  @keyup.enter="handleEnter"
                   :loading="isLoading"
+                  @keyup.enter="handleEnter"
                 />
               </div>
             </div>
@@ -165,7 +183,14 @@ function handleMsgClick(item: any) {
   comment.value = `回复@${item.msg_title}: `;
 }
 const handleEnter = async () => {
-  await postComment(comment, isLoading, "User", route.params.id as string, replyID, upDate);
+  await postComment(
+    comment,
+    isLoading,
+    "User",
+    route.params.id as string,
+    replyID,
+    upDate,
+  );
 };
 
 const goBack = () => {
@@ -185,7 +210,7 @@ const goBack = () => {
   position: absolute;
   width: 95%;
   height: calc(100% - 50px);
-  margin:5px;
+  margin: 5px;
   display: flex;
   flex-direction: column;
   gap: 5px;

@@ -1,5 +1,10 @@
 <template>
-  <div class="tag" v-if="!tag.startsWith('Type-')" v-text="tag === '交流' ? '综合交流' : tag" :href="targetLink"></div>
+  <div
+    v-if="!tag.startsWith('Type-')"
+    class="tag"
+    :href="targetLink"
+    v-text="tag === '交流' ? '综合交流' : tag"
+  ></div>
 </template>
 
 <script setup>

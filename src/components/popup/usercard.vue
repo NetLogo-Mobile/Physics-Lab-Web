@@ -1,8 +1,13 @@
 <template>
-  <div class="container" @click="close" :style="{ zIndex: 100 }">
+  <div class="container" :style="{ zIndex: 100 }" @click="close">
     <div class="user" @click.stop="">
       <div class="user-info">
-        <img :src="avatar" alt="User Avatar" class="avatar" @click="jumpToUser(props.userid)" />
+        <img
+          :src="avatar"
+          alt="User Avatar"
+          class="avatar"
+          @click="jumpToUser(props.userid)"
+        />
         <!-- 阻止冒泡，使得只有点击遮罩才关闭 -->
         <p class="username">{{ name }}</p>
         <p class="snt">{{ snt || "这个人很神秘，什么也么有写" }}</p>
@@ -26,15 +31,26 @@
             src="/assets/user/Image-Experiments.png"
             style="filter: brightness(0.9); height: 25px"
           />
-          <img src="/assets/user/Image-Stars.png" style="filter: brightness(0.9); height: 25px" />
+          <img
+            src="/assets/user/Image-Stars.png"
+            style="filter: brightness(0.9); height: 25px"
+          />
           <img
             src="/assets/user/Image-Prestige.png"
             style="filter: brightness(0.9); height: 25px"
           />
         </div>
       </div>
-      <button class="follow-button" v-show="!isFollowing" @click="followUser">关注用户</button>
-      <button class="unfollow-button" v-show="isFollowing" @click="unfollowUser">已关注</button>
+      <button v-show="!isFollowing" class="follow-button" @click="followUser">
+        关注用户
+      </button>
+      <button
+        v-show="isFollowing"
+        class="unfollow-button"
+        @click="unfollowUser"
+      >
+        已关注
+      </button>
     </div>
   </div>
 </template>
@@ -44,6 +60,7 @@ import { ref, onMounted } from "vue";
 import { getData } from "../../services/api/getData.ts";
 import Emitter from "../../services/eventEmitter";
 import { getUserUrl } from "../../services/utils";
+import storageManager from "../../services/storage";
 
 const props = defineProps({
   userid: String,
@@ -82,7 +99,10 @@ onMounted(async () => {
   }
   fragmentCount.value = data.Fragment;
   const cacheResult = storageManager.getObj("userIDAndAvartarIDMap");
-  const cache = cacheResult.status === 'success' && cacheResult.value ? cacheResult.value : {};
+  const cache =
+    cacheResult.status === "success" && cacheResult.value
+      ? cacheResult.value
+      : {};
   cache[data.ID] = [data.Avatar, Date.now()];
   storageManager.setObj("userIDAndAvartarIDMap", cache, 72 * 60 * 60 * 1000);
 });
@@ -152,12 +172,14 @@ async function unfollowUser() {
 .username {
   font-size: 1.5em;
   margin: 5px;
+  text-align: center;
 }
 
 .snt {
   font-size: 1em;
   color: #666;
   margin: 5px;
+  text-align: center;
 }
 
 .stats {

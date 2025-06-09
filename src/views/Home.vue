@@ -17,13 +17,9 @@
         <div class="resources">
           <div class="resource">
             <img
-             
               class="icon"
-             
               :src="getPath('/@base/assets/icons/coins.png')"
-             
               alt="Coins"
-           
             />
             <span>{{ user.coins }}</span>
           </div>
@@ -40,14 +36,14 @@
     </Header>
     <!-- 高度：50px定值 -->
     <main>
-      <div class="loading" v-if="isLoading"></div>
-      <div class="block-container" v-if="!isLoading">
+      <div v-if="isLoading" class="loading"></div>
+      <div v-if="!isLoading" class="block-container">
         <n-grid :x-gap="12" :y-gap="12" :cols="itemsPerRow">
           <n-gi>
             <Actions />
           </n-gi>
           <n-gi
-            v-for="block in  blocks.filter((i:any)=>i.Summaries.length > 0)"
+            v-for="block in blocks.filter((i: any) => i.Summaries.length > 0)"
             :key="block.Subject"
           >
             <div class="block">
@@ -109,13 +105,17 @@
                   clearable
                 />
               </n-form-item-row>
-              <input type="checkbox" v-model="rememberMe" />
+              <input v-model="rememberMe" type="checkbox" />
               <label>记住我</label>
               <!-- <p style="color: red; font-size: small" v-if="memoryMe">
                 注意：您的密码将会明文存储在本地浏览器中 Caution:Your password will be DIRECTLY saved in local web browser WITHOUT encryption
               </p> -->
             </n-form>
-            <n-button type="primary" class="loginButton" @click="handlePasswordLogin">
+            <n-button
+              type="primary"
+              class="loginButton"
+              @click="handlePasswordLogin"
+            >
               确认
             </n-button>
           </n-tab-pane>
@@ -139,15 +139,19 @@
                 >
                 </n-input>
               </n-form-item-row>
-              <input type="checkbox" v-model="rememberMe" />
+              <input v-model="rememberMe" type="checkbox" />
               <label>记住我</label>
             </n-form>
-            <n-button type="primary" class="loginButton" @click="handleTokenLogin">
+            <n-button
+              type="primary"
+              class="loginButton"
+              @click="handleTokenLogin"
+            >
               确认
             </n-button>
           </n-tab-pane>
           <n-tab-pane name="signup" tab="注册">
-            <h3 style="align-self: center;">暂不开放注册功能</h3>
+            <h3 style="align-self: center">暂不开放注册功能</h3>
             <n-form :showLabel="false">
               <n-form-item-row>
                 <n-input
@@ -222,11 +226,11 @@ import storageManager from "../services/storage.ts";
 const showLoginModal = ref(false);
 const isLoading = ref(true);
 const blocks = ref<any>([]);
-const emailOrPhone = ref("");  
-const loginPassword = ref(""); 
-const loginToken = ref("");   
+const emailOrPhone = ref("");
+const loginPassword = ref("");
+const loginToken = ref("");
 const authCode = ref("");
-const rememberMe = ref(false); 
+const rememberMe = ref(false);
 
 const user = ref({
   coins: 12345,
@@ -244,11 +248,7 @@ onMounted(async () => {
     let _data = undefined;
     const tokenResult = storageManager.getStr("token");
     const authCodeResult = storageManager.getStr("authCode");
-    _data = await login(
-      tokenResult.value,
-      authCodeResult.value,
-      true
-    );
+    _data = await login(tokenResult.value, authCodeResult.value, true);
     if (_data.Status != 200) {
       window.$message.error("自动登录失败");
       _data = await login(null, null);
@@ -262,7 +262,7 @@ onMounted(async () => {
 /**
  * 处理登录流程的装饰器函数，包含通用登录逻辑
  * @param {Function} loginMethod - 具体的登录方法（密码登录或token登录）
- * @returns {Promise<void>} 
+ * @returns {Promise<void>}
  * @description
  * - 执行登录操作并处理响应
  * - 存储认证信息到本地
@@ -271,7 +271,7 @@ onMounted(async () => {
 async function handleLogin(loginMethod: () => Promise<any>) {
   try {
     const response = await loginMethod();
-    
+
     if (response.Status !== 200) {
       window.$message.error(response.Message || "登录失败");
       storageManager.setStr("loginStatus", "false", 24 * 60 * 60 * 1000);
@@ -279,16 +279,18 @@ async function handleLogin(loginMethod: () => Promise<any>) {
     }
 
     // 存储认证信息
-    const tokenTTL = rememberMe.value ? 10 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
+    const tokenTTL = rememberMe.value
+      ? 10 * 24 * 60 * 60 * 1000
+      : 24 * 60 * 60 * 1000;
     storageManager.setStr("token", response.Token, tokenTTL);
     storageManager.setStr("authCode", response.AuthCode, tokenTTL);
 
     // 更新用户信息
     updateUserProfile(response.Data.User);
-    
+
     // 加载页面数据
     await loadPageData(response);
-    
+
     isLoading.value = false;
   } catch (error) {
     window.$message.error("登录过程中发生错误");
@@ -303,7 +305,7 @@ async function handleLogin(loginMethod: () => Promise<any>) {
 function updateUserProfile(userData: any) {
   storageManager.setStr("nickName", userData.Nickname);
   storageManager.setStr("userID", userData.ID);
-  
+
   user.value = {
     coins: userData.Gold,
     gems: userData.Diamond,
@@ -339,11 +341,12 @@ async function handleTokenLogin() {
 }
 
 function showModalFn() {
-  storageManager.getStr("loginStatus").value === "true"
-    ? router.push(`/profile/${user.value.ID}`)
-    : (showLoginModal.value = true);
+  if (storageManager.getStr("loginStatus").value === "true") {
+    router.push(`/profile/${user.value.ID}`);
+  } else {
+    showLoginModal.value = true;
+  }
 }
-
 </script>
 
 <style scoped>

@@ -1,9 +1,9 @@
 <template>
   <div
-    class="tag"
     v-if="!tag?.startsWith('Type-')"
-    v-text="tag === '交流' ? '综合交流' : tag"
+    class="tag"
     :href="targetLink"
+    v-text="tag === '交流' ? '综合交流' : tag"
   ></div>
 </template>
 

@@ -1,18 +1,28 @@
 <template>
   <div id="notification_container" @click="handleReply">
     <div class="img">
-      <img :src="avatarUrl" id="avatar" @click.stop="showUserCard(message.userID)" />
+      <img
+        id="avatar"
+        :src="avatarUrl"
+        @click.stop="showUserCard(message.userID)"
+      />
     </div>
     <div id="notification" class="notification">
       <div id="notification_title" class="notification_title">
         <div class="name">{{ message.msg_title }}</div>
-        <div class="delete" @click.stop="deleteMsg" v-if="currentUserId === message.userID">删除</div>
+        <div
+          v-if="currentUserId === message.userID"
+          class="delete"
+          @click.stop="deleteMsg"
+        >
+          删除
+        </div>
       </div>
       <div id="notification_message" class="notification_message">
         <div
           id="notification_text"
           class="notification_text"
-          v-html="parse(message.msg,true)"
+          v-html="parse(message.msg, true)"
         ></div>
       </div>
     </div>
@@ -28,23 +38,25 @@ import storageManager from "../../services/storage";
 import { getAvatarUrl } from "../../services/getUserCurentAvatarByID";
 import Emitter from "../../services/eventEmitter";
 
-const props = defineProps<{ message: {
-  id: string;
-  userID: string;
-  msg: string;
-  msg_title: string;
-  type: string;
-} }>();
+const props = defineProps<{
+  message: {
+    id: string;
+    userID: string;
+    msg: string;
+    msg_title: string;
+    type: string;
+  };
+}>();
 
-const emit = defineEmits(["msgClick","deleteMsg"]);
+const emit = defineEmits(["msgClick", "deleteMsg"]);
 
 let currentUserId = "";
 
 const currentUserIdStorage = storageManager.getStr("userID");
 if (currentUserIdStorage.status === "success" && currentUserIdStorage.value) {
   currentUserId = currentUserIdStorage.value;
-} else{
-  Emitter.emit("loginRequired")
+} else {
+  Emitter.emit("loginRequired");
 }
 const avatarUrl = ref("/assets/user/default-avatar.png");
 
@@ -59,7 +71,7 @@ const handleReply = () => {
   emit("msgClick", props.message);
 };
 
-const deleteMsg = async() => {
+const deleteMsg = async () => {
   await getData("Messages/RemoveComment", {
     TargetType: props.message.type,
     CommentID: props.message.id,
@@ -71,9 +83,9 @@ const deleteMsg = async() => {
 <style scoped>
 #notification_container {
   height: fit-content;
-  width:calc(100% - 5px);
+  width: calc(100% - 5px);
   margin-left: 5px;
-  margin-top:5px;
+  margin-top: 5px;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -154,7 +166,7 @@ const deleteMsg = async() => {
 #notification_container:hover {
   background-color: #f0f0f0;
 }
-div{
+div {
   box-sizing: border-box;
 }
 </style>

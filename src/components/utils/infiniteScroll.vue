@@ -1,6 +1,6 @@
 <template>
   <!-- 我再也无法忍受naiveui监听滚动条这一不靠谱的行为了 -->
-  <div class="scroll-container" ref="scrollContainer">
+  <div ref="scrollContainer" class="scroll-container">
     <slot :items="items"></slot>
     <div ref="sentinel" class="observer-element"></div>
   </div>
@@ -64,10 +64,12 @@ const initObserver = () => {
       });
     },
     {
-      root: props.scrollTarget ? document.querySelector(props.scrollTarget) : null,
+      root: props.scrollTarget
+        ? document.querySelector(props.scrollTarget)
+        : null,
       rootMargin: "200px",
       threshold: 0.1,
-    }
+    },
   );
 
   if (sentinel.value) observer.observe(sentinel.value);
@@ -93,7 +95,7 @@ watch(
   () => props.hasMore,
   (val) => {
     noMore.value = !val;
-  }
+  },
 );
 
 watch(
@@ -101,7 +103,7 @@ watch(
   (newVal) => {
     items.value = [...newVal];
   },
-  { deep: true }
+  { deep: true },
 );
 
 onMounted(initObserver);

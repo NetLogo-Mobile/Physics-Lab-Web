@@ -11,7 +11,6 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
  *
  */
 export default function (path: string): string {
-  
   return path
     .replace(/\/@api/g, apiUrl)
     .replace(/\/@static/g, staticUrl)

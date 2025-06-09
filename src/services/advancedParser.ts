@@ -1,8 +1,7 @@
 import DOMPurify from "dompurify";
 import markdown from "markdown-it";
-// @ts-ignore
+// @ts-expect-error 暂无类型信息 There is no type information
 import katex from "markdown-it-katex";
-
 
 const allowedOrigin = [
   window.location.origin,
@@ -19,92 +18,130 @@ const md = new markdown({
 // advancedParser.ts 修改以下部分
 
 // 替换原有highlightjs引入
-import hljs from 'highlight.js/lib/core';
-// @ts-ignore
-import markdownItHighlightjs from 'markdown-it-highlightjs/dist/core';
+import hljs from "highlight.js/lib/core";
+// @ts-expect-error: 暂无类型信息 There is no type information
+import markdownItHighlightjs from "markdown-it-highlightjs/dist/core";
 
-
-import javascript from 'highlight.js/lib/languages/javascript';
-import typescript from 'highlight.js/lib/languages/typescript';
-import xml from 'highlight.js/lib/languages/xml';
-import css from 'highlight.js/lib/languages/css';
-import python from 'highlight.js/lib/languages/python';
-import java from 'highlight.js/lib/languages/java';
-import cpp from 'highlight.js/lib/languages/cpp';
-import csharp from 'highlight.js/lib/languages/csharp';
-import php from 'highlight.js/lib/languages/php';
-import ruby from 'highlight.js/lib/languages/ruby';
-import swift from 'highlight.js/lib/languages/swift';
-import go from 'highlight.js/lib/languages/go';
-import sql from 'highlight.js/lib/languages/sql';
-import json from 'highlight.js/lib/languages/json';
-import bash from 'highlight.js/lib/languages/bash';
-import shell from 'highlight.js/lib/languages/shell';
-import yaml from 'highlight.js/lib/languages/yaml';
-import dockerfile from 'highlight.js/lib/languages/dockerfile';
-import nginx from 'highlight.js/lib/languages/nginx';
-import rust from 'highlight.js/lib/languages/rust';
-import kotlin from 'highlight.js/lib/languages/kotlin';
-import scala from 'highlight.js/lib/languages/scala';
-import perl from 'highlight.js/lib/languages/perl';
+import javascript from "highlight.js/lib/languages/javascript";
+import typescript from "highlight.js/lib/languages/typescript";
+import xml from "highlight.js/lib/languages/xml";
+import css from "highlight.js/lib/languages/css";
+import python from "highlight.js/lib/languages/python";
+import java from "highlight.js/lib/languages/java";
+import cpp from "highlight.js/lib/languages/cpp";
+import csharp from "highlight.js/lib/languages/csharp";
+import php from "highlight.js/lib/languages/php";
+import ruby from "highlight.js/lib/languages/ruby";
+import swift from "highlight.js/lib/languages/swift";
+import go from "highlight.js/lib/languages/go";
+import sql from "highlight.js/lib/languages/sql";
+import json from "highlight.js/lib/languages/json";
+import bash from "highlight.js/lib/languages/bash";
+import shell from "highlight.js/lib/languages/shell";
+import yaml from "highlight.js/lib/languages/yaml";
+import dockerfile from "highlight.js/lib/languages/dockerfile";
+import nginx from "highlight.js/lib/languages/nginx";
+import rust from "highlight.js/lib/languages/rust";
+import kotlin from "highlight.js/lib/languages/kotlin";
+import scala from "highlight.js/lib/languages/scala";
+import perl from "highlight.js/lib/languages/perl";
 
 [
-  javascript, typescript, xml, css, python,
-  java, cpp, csharp, php, ruby, swift, go,
-  sql, json, bash, shell, yaml, markdown,
-  dockerfile, nginx, rust, kotlin, scala, perl
-].forEach(lang => {
-  // @ts-ignore
+  javascript,
+  typescript,
+  xml,
+  css,
+  python,
+  java,
+  cpp,
+  csharp,
+  php,
+  ruby,
+  swift,
+  go,
+  sql,
+  json,
+  bash,
+  shell,
+  yaml,
+  markdown,
+  dockerfile,
+  nginx,
+  rust,
+  kotlin,
+  scala,
+  perl,
+].forEach((lang) => {
+  // @ts-expect-error 暂无类型信息 There is no type information
   hljs.registerLanguage(lang.name, lang);
 });
 
-
 md.use(katex).use(markdownItHighlightjs, {
-  hljs, 
+  hljs,
   inline: true,
-  auto: true
+  auto: true,
 });
 
 md.core.ruler.before("normalize", "parseUnityRichText", function (state) {
   const root = window.$getPath("/@root");
   state.src = state.src
-    .replace(/<user=(.*?)>(.*?)<\/user>/g, "<span class='RUser' data-user='$1'>$2</span>")
+    .replace(
+      /<user=(.*?)>(.*?)<\/user>/g,
+      "<span class='RUser' data-user='$1'>$2</span>",
+    )
     .replace(
       /<discussion=(.*?)>(.*?)<\/discussion>/g,
-      `<a href="${root}/ExperimentSummary/Discussion/$1" internal>$2</a>`
+      `<a href="${root}/ExperimentSummary/Discussion/$1" internal>$2</a>`,
     )
     .replace(
       /<experiment=(.*?)>(.*?)<\/experiment>/g,
-      `<a href="${root}/ExperimentSummary/Experiment/$1" internal>$2</a>`
+      `<a href="${root}/ExperimentSummary/Experiment/$1" internal>$2</a>`,
     )
     .replace(/<b>(.*?)<\/b>/g, "<strong>$1</strong>") // 粗体 Bold
     .replace(/<i>(.*?)<\/i>/g, "<em>$1</em>") // 斜体 Italic
-    .replace(/<color=(.*?)>(.*?)<\/color>/g, '<span style="color:$1;">$2</span>') // 颜色 Color
-    .replace(/<color=(.*?)>(.*?)<\/color>/g, '<span style="color:$1;">$2</span>') // 处理2层重复标签 2-layer repeating tags handling
-    .replace(/<color=(.*?)>(.*?)<\/color>/g, '<span style="color:$1;">$2</span>') // 处理3层重复标签 3-layer repeating tags handling
+    .replace(
+      /<color=(.*?)>(.*?)<\/color>/g,
+      '<span style="color:$1;">$2</span>',
+    ) // 颜色 Color
+    .replace(
+      /<color=(.*?)>(.*?)<\/color>/g,
+      '<span style="color:$1;">$2</span>',
+    ) // 处理2层重复标签 2-layer repeating tags handling
+    .replace(
+      /<color=(.*?)>(.*?)<\/color>/g,
+      '<span style="color:$1;">$2</span>',
+    ) // 处理3层重复标签 3-layer repeating tags handling
     .replace(/<a>(.*?)<\/a>/g, '<span style="color:blue;">$1</span>') // <a>转换为蓝色 Attribute <a> with blue-ish color.
-    .replace(/(<br\/>| *\n){2}(\-{3,}|\*{3,}|\_{3,})(<br\/>| *\n)/g, "\n<hr></hr>\n");
+    .replace(
+      /(<br\/>| *\n){2}(\-{3,}|\*{3,}|\_{3,})(<br\/>| *\n)/g,
+      "\n<hr></hr>\n",
+    );
 
   state.src = parse_size(parse_size(parse_size(state.src)));
 });
 
 function parse_size(text: string) {
-  //@ts-ignore
-  return text.replace(/<size=(\d+)>(.*?)<\/size>/g, function (match: string, size, content) {
-    return `<span style="font-size:${size / 2}px">${content}</span>`;
-  });
+  return text.replace(
+    /<size=(\d+)>(.*?)<\/size>/g,
+    //  @ts-expect-error: match可能以后用的到
+    function (match: string, size, content) {
+      return `<span style="font-size:${size / 2}px">${content}</span>`;
+    },
+  );
 }
-
 
 function isAllowedDomain(url: string): boolean {
   const origin = window.location.origin;
   try {
     const parsedUrl = new URL(url, origin);
-    if (allowedOrigin.includes(parsedUrl.origin) || allowedUrl.includes(parsedUrl.href)) {
+    if (
+      allowedOrigin.includes(parsedUrl.origin) ||
+      allowedUrl.includes(parsedUrl.href)
+    ) {
       return true;
     }
     return false;
-  } catch (e) {
+  } catch {
     return false;
   }
 }
@@ -171,7 +208,11 @@ function parse(text: string | string[], isInline: boolean = false) {
     for (let i = 0; i < text.length; ++i) {
       let next_is_code = (text[i].match(/\`\`\`/g)?.length || 0) & 1;
 
-      if (last_is_code || next_is_code || /^( |\t)*(\-|\*|\#|\d+\.)/.test(text[i])) {
+      if (
+        last_is_code ||
+        next_is_code ||
+        /^( |\t)*(\-|\*|\#|\d+\.)/.test(text[i])
+      ) {
         text_ += text[i] + "\n";
       } else if (/^ *<.*> *$/.test(text[i])) {
         let slice_start = 0;

@@ -10,22 +10,36 @@
         }"
       >
         <div style="text-align: left">
-          <img src="/assets/library/Navigation-Return.png" style="width: 2.7em" @click="goBack" />
+          <img
+            src="/assets/library/Navigation-Return.png"
+            style="width: 2.7em"
+            @click="goBack"
+          />
           <div class="title" v-html="parseInline(data.Subject)"></div>
           <div style="position: absolute; z-index: 100">
             <Tag
               :tag="route.params.category as string"
               style="color: aquamarine; font-weight: bold"
             ></Tag>
-            <Tag v-for="(tag, index) in data.Tags" :key="index" :tag="tag"></Tag>
+            <Tag
+              v-for="(tag, index) in data.Tags"
+              :key="index"
+              :tag="tag"
+            ></Tag>
           </div>
         </div>
         <div style="margin-top: auto">
           <div
             class="btns"
-            style="display: flex; justify-content: center; justify-content: space-around"
+            style="
+              display: flex;
+              justify-content: center;
+              justify-content: space-around;
+            "
           >
-            <n-button type="info" strong round disabled class="enter"> 进入实验 </n-button>
+            <n-button type="info" strong round disabled class="enter">
+              进入实验
+            </n-button>
           </div>
         </div>
       </div>
@@ -33,7 +47,11 @@
 
     <template #right>
       <div style="text-align: center" class="context">
-        <n-tabs v-model:value="selectedTab" justify-content="space-evenly" type="line">
+        <n-tabs
+          v-model:value="selectedTab"
+          justify-content="space-evenly"
+          type="line"
+        >
           <n-tab-pane name="Intro" tab="简介">
             <div class="gray">
               <div style="width: 100%; height: fit-content">
@@ -52,7 +70,14 @@
                     style="margin: auto 10px; height: 90%; border-radius: 50%"
                   />
                   <div style="text-align: left">
-                    <p style="color: #007bff; margin: 2% 0 2% 0; width: 100%; font-size: 16px">
+                    <p
+                      style="
+                        color: #007bff;
+                        margin: 2% 0 2% 0;
+                        width: 100%;
+                        font-size: 16px;
+                      "
+                    >
                       {{ data.User.Nickname }}
                     </p>
                     <p
@@ -70,12 +95,27 @@
                     margin: 5px;
                   "
                 >
-                  <h3 style="color: #007bff; text-align: left; margin-top: 2px; margin-bottom: 2px">
+                  <h3
+                    style="
+                      color: #007bff;
+                      text-align: left;
+                      margin-top: 2px;
+                      margin-bottom: 2px;
+                    "
+                  >
                     实验介绍
                   </h3>
-                  <div style="height: 90%; max-width: 100%; word-break: break-all">
-                    <div class="intro" style="text-align: left" v-html="parse(data.Description)"></div>
-                    <div style="font-weight: bold; text-align: left">字数统计:</div>
+                  <div
+                    style="height: 90%; max-width: 100%; word-break: break-all"
+                  >
+                    <div
+                      class="intro"
+                      style="text-align: left"
+                      v-html="parse(data.Description)"
+                    ></div>
+                    <div style="font-weight: bold; text-align: left">
+                      字数统计:
+                    </div>
                   </div>
                 </div>
               </div>
@@ -86,7 +126,12 @@
               <div class="message-wrapper">
                 <MessageList
                   :ID="route.params.id as string"
-                  :Category="route.params.category as 'Experiment'|'User'|'Discussion'"
+                  :Category="
+                    route.params.category as
+                      | 'Experiment'
+                      | 'User'
+                      | 'Discussion'
+                  "
                   :upDate="upDate"
                   @msgClick="handleMsgClick"
                 />
@@ -99,8 +144,8 @@
                   placeholder="发布一条友善的言论"
                   show-count
                   :maxlength="400"
-                  @keyup.enter="handleEnter"
                   :loading="isLoading"
+                  @keyup.enter="handleEnter"
                 />
               </div>
             </div>
@@ -112,7 +157,7 @@
 </template>
 
 <script setup lang="ts">
-import {  ref, onMounted,watch } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { getData } from "../services/api/getData.ts";
 import { NTabs, NTabPane } from "naive-ui";
@@ -136,17 +181,16 @@ const replyID = ref("");
 const selectedTab = ref("Intro");
 
 const route = useRoute();
-const {fontSize}= useResponsive();
+const { fontSize } = useResponsive();
 const setCSSVariables = () => {
-  document.documentElement.style.setProperty('--font-size', fontSize.value)
-}
+  document.documentElement.style.setProperty("--font-size", fontSize.value);
+};
 
-setCSSVariables()
+setCSSVariables();
 
 watch(fontSize, () => {
-  setCSSVariables()
-})
-
+  setCSSVariables();
+});
 
 const data = ref({
   Type: 0,
@@ -183,7 +227,7 @@ const data = ref({
   },
 });
 
-const coverUrl = getCoverUrl(data.value)
+const coverUrl = getCoverUrl(data.value);
 let avatarUrl = getUserUrl(data.value.User);
 
 onMounted(async () => {
@@ -207,7 +251,7 @@ const handleEnter = async () => {
     route.params.category as string,
     route.params.id as string,
     replyID,
-    upDate
+    upDate,
   );
 };
 

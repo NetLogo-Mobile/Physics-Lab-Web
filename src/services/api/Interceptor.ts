@@ -16,8 +16,13 @@ const noMessagesPath = ["/Users/GetUser"];
 
 // 替换原有的 get/set 调用为 getStr/getObj/setStr/setObj
 const initialHistoryResult = storageManager.getObj("requestHistoryMap");
-const initialHistory = initialHistoryResult.status === 'success' && initialHistoryResult.value ? initialHistoryResult.value : {};
-const requestHistoryMap = new Map<string, number[]>(Object.entries(initialHistory));
+const initialHistory =
+  initialHistoryResult.status === "success" && initialHistoryResult.value
+    ? initialHistoryResult.value
+    : {};
+const requestHistoryMap = new Map<string, number[]>(
+  Object.entries(initialHistory),
+);
 
 function rateLimit(path: string): boolean {
   const history = requestHistoryMap.get(path) || [];
@@ -43,12 +48,15 @@ function rateLimit(path: string): boolean {
       }
   }
   requestHistoryMap.set(path, [...history, Date.now()]);
-  storageManager.setObj("requestHistoryMap", Object.fromEntries(requestHistoryMap), 2 * 24 * 60 * 60 * 1000);
+  storageManager.setObj(
+    "requestHistoryMap",
+    Object.fromEntries(requestHistoryMap),
+    2 * 24 * 60 * 60 * 1000,
+  );
   return false;
 }
 
-// @ts-ignore
-export function beforeRequest(path: string, body: any): IIntercetporResponse {
+export function beforeRequest(path: string): IIntercetporResponse {
   window.$message.destroyAll();
   if (rateLimit(path)) {
     return {
@@ -56,15 +64,16 @@ export function beforeRequest(path: string, body: any): IIntercetporResponse {
       data: { Status: -1001, Message: "连接失败，请稍候重试", Data: null },
     };
   }
-  noMessagesPath.some((p) => path === p) || Emitter.emit("loading", "正在与服务器通信...", 40);
+  if (!noMessagesPath.some((p) => path === p))
+    Emitter.emit("loading", "正在与服务器通信...", 40);
   return { continue: true, data: null };
 }
 
 export function afterRequest(response: IResponse): IIntercetporResponse {
   window.$message.destroyAll();
-  let re = response
-  if (response.Status !== 200){
-    re.Message = translateErrorMessage(response.Message)
+  let re = response;
+  if (response.Status !== 200) {
+    re.Message = translateErrorMessage(response.Message);
   }
   return {
     continue: false,

@@ -1,5 +1,4 @@
 <template>
-
   <router-link
     :to="{
       name: 'ExperimentSummary',
@@ -7,10 +6,12 @@
     }"
   >
     <div class="card" :type="type">
-      <img :src="imgUrl" class="icon"  />
+      <img :src="imgUrl" class="icon" />
       <div class="text">
         <p class="title" v-html="parse(data.Subject)"></p>
-        <p class="subtitle">{{ data.User.Nickname + "&nbsp;&nbsp;-" + formattedDate }}</p>
+        <p class="subtitle">
+          {{ data.User.Nickname + "&nbsp;&nbsp;-" + formattedDate }}
+        </p>
       </div>
     </div>
   </router-link>
@@ -65,8 +66,8 @@ const formattedDate = computed(() => {
   font-size: 12px;
   color: white;
   margin: 0;
-  white-space: nowrap; 
-  overflow: hidden; 
+  white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
@@ -79,6 +80,4 @@ const formattedDate = computed(() => {
 a {
   text-decoration: none;
 }
-
-
 </style>
