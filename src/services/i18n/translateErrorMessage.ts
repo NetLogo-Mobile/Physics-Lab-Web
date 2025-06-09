@@ -4,5 +4,11 @@
  * @returns 中文
  */
 export default function (error: string): string {
+  switch (error) {
+    case "Login.Invalid":
+      return "用户名或密码错误";
+    case "Login.Password.Invalid":
+      return "用户名已被注册";
+  }
   return error;
 }

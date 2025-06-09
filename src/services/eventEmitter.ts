@@ -1,26 +1,43 @@
-type events = "loginRequired" |"loading" | "warning" | "error" | "info" | "success";
+type Events =
+  | "loginRequired"
+  | "loading"
+  | "warning"
+  | "error"
+  | "info"
+  | "success";
+
+type EventHandlerMap = {
+  loginRequired: () => void;
+  loading: (msg: string, duration: number) => void;
+  warning: (msg: string, duration: number) => void;
+  error: (msg: string, duration: number) => void;
+  info: (msg: string, duration: number) => void;
+  success: (msg: string, duration: number) => void;
+};
 
 class EventEmitter {
-  private events: { [event: string]: Set<Function> } = {};
+  private events: Partial<Record<Events, Set<(...args: any[]) => void>>> = {};
 
-  emit(event: events, ...args: any[]) {
-    if (this.events[event]) {
-      this.events[event].forEach((listener) => {
+  emit<K extends Events>(event: K, ...args: Parameters<EventHandlerMap[K]>) {
+    const listeners = this.events[event];
+    if (listeners) {
+      listeners.forEach((listener) => {
         listener(...args);
       });
     }
   }
 
-  on(event: events, listener: Function) {
+  on<K extends Events>(event: K, listener: EventHandlerMap[K]) {
     if (!this.events[event]) {
-      this.events[event] = new Set<Function>();
+      this.events[event] = new Set();
     }
-    this.events[event].add(listener);
+    this.events[event]?.add(listener);
   }
 
-  off(event: events, listener: Function) {
-    if (this.events[event]) {
-      this.events[event].delete(listener);
+  off<K extends Events>(event: K, listener: EventHandlerMap[K]) {
+    const listeners = this.events[event];
+    if (listeners) {
+      listeners.delete(listener);
     }
   }
 }

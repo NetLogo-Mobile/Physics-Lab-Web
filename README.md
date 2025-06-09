@@ -21,3 +21,5 @@
 3. js 组件使用模块化语法，放在./services，做成纯函数
 4. 矢量图标库：https://icomoon.io/app/#/select
 5. 组件库：https://www.naiveui.com/zh-CN/os-theme/components/t
+
+注意，在推送前，请先运行：npm run lint，会自动格式化代码并使用eslint校验

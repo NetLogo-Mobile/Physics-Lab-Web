@@ -12,7 +12,6 @@
 <script setup lang="ts">
 import { NGrid, NGi } from "naive-ui";
 import Works from "./item.vue";
-import InfiniteScroll from "../utils/infiniteScroll.vue";
 import { ref } from "vue";
 import { getData } from "../../services/api/getData.ts";
 import Emitter from "../../services/eventEmitter.ts";
@@ -42,7 +41,7 @@ let hasInformed = false;
 
 async function handleLoad() {
   if (noMore) {
-    hasInformed || Emitter.emit("warning", "没有更多了", 1);
+    if (!hasInformed) Emitter.emit("warning", "没有更多了", 1);
     hasInformed = true;
     return;
   }

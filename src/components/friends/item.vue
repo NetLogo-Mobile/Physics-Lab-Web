@@ -4,7 +4,9 @@
       <img class="avatar" :src="avararUrl" />
       <div class="info">
         <div class="username">{{ user.Nickname }}</div>
-        <div class="signature">{{ user.Signature || "这个人很神秘，什么也没有写" }}</div>
+        <div class="signature">
+          {{ user.Signature || "这个人很神秘，什么也没有写" }}
+        </div>
       </div>
     </div>
   </div>
@@ -66,4 +68,3 @@ const avararUrl = getUserUrl(user);
   white-space: nowrap;
 }
 </style>
-../../services/utils.ts

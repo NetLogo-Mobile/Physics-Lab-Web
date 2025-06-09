@@ -1,6 +1,10 @@
 <template>
   <Header>
-    <img src="/assets/library/Navigation-Return.png" style="width: 2.7em" @click="goBack" />
+    <img
+      src="/assets/library/Navigation-Return.png"
+      style="width: 2.7em"
+      @click="goBack"
+    />
     <h2 style="margin-right: auto; margin-left: 20px">作品列表</h2>
   </Header>
 
@@ -20,11 +24,18 @@ const itemsPerRow = ref(getItemsPerRow());
 
 function decodeString(base64Input: any) {
   const latin1String = atob(base64Input.replace(/DEVIDER/g, "/"));
-  const utf8Bytes = new Uint8Array([...latin1String].map((char) => char.charCodeAt(0)));
+  const utf8Bytes = new Uint8Array(
+    [...latin1String].map((char) => char.charCodeAt(0)),
+  );
   const jsonString = new TextDecoder().decode(utf8Bytes);
   const result = JSON.parse(jsonString);
   return result;
 }
+//Calculates the number of Items displayed and loaded at a time.
+/**
+ * @requires window.innerWidth
+ * @returns {int} Number of Items that fits the window
+ */
 function getItemsPerRow() {
   const width = window.innerWidth;
   switch (true) {

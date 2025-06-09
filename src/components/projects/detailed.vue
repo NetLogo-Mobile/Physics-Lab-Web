@@ -2,31 +2,47 @@
   <router-link
     :to="{
       name: 'ExperimentSummary',
-      params: { category: (data.Category || 'Experiment'), id: data.ID, image: data.Image },
+      params: {
+        category: data.Category || 'Experiment',
+        id: data.ID,
+        image: data.Image,
+      },
     }"
   >
-  <!-- 早期实验区作品类型为null -->
+    <!-- 早期实验区作品类型为null -->
     <div class="card">
       <img :src="imgUrl" class="icon" />
       <div class="text">
         <p class="title" v-html="parse(data.Subject)"></p>
         <p class="subtitle">{{ data.User.Nickname }}</p>
-        <div class="subtitle"><Tag v-for="i in data.Tags" :type="type" :tag="i" /></div>
+        <div class="subtitle">
+          <Tag v-for="i in data.Tags" :type="type" :tag="i" />
+        </div>
       </div>
     </div>
   </router-link>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Tag from "../utils/Tag.vue";
-import { computed } from "vue";
 import parse from "../../services/commonParser.ts";
 import { getCoverUrl } from "../../services/utils";
 
-const { data, type } = defineProps({
-  data: Object,
-  type: String,
-});
+interface IData {
+  ID: string;
+  Subject: string;
+  User: {
+    Nickname: string;
+  };
+  Tags: string[];
+  Category: string;
+  Image: number;
+}
+
+const { data, type } = defineProps<{
+  data: IData;
+  type: string;
+}>();
 const imgUrl = getCoverUrl(data);
 </script>
 
@@ -35,7 +51,8 @@ const imgUrl = getCoverUrl(data);
   display: flex;
   align-items: center;
   padding: 5px;
-  height: 50px;
+  padding-bottom: 0;
+  height: 55px;
 }
 
 .icon {
@@ -55,13 +72,13 @@ const imgUrl = getCoverUrl(data);
 }
 
 .title {
-  font-size: 12px;
+  font-size: 14px;
   color: #333;
   margin: 0;
 }
 
 .subtitle {
-  font-size: 10px;
+  font-size: 12px;
   color: #666;
   margin: 0;
 }
@@ -74,4 +91,3 @@ div {
   box-sizing: border-box;
 }
 </style>
-../../services/utils.ts

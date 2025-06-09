@@ -5,7 +5,12 @@
       <div id="more" @click="jump">更多</div>
     </div>
     <div style="display: flex; flex-direction: column; gap: 10px">
-      <Detailed v-for="(item, index) in data" :key="index" :data="item" :type="type" />
+      <Detailed
+        v-for="(item, index) in data"
+        :key="index"
+        :data="item"
+        :type="type"
+      />
     </div>
   </div>
 </template>
@@ -56,6 +61,6 @@ const jump = () => {
 }
 
 .div {
-  box-sizing:border-box
+  box-sizing: border-box;
 }
 </style>

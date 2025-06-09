@@ -17,14 +17,17 @@ function parse(text: string | undefined, ignoreSize: boolean = false) {
   let result = text
     .replace(/\n/g, "<br/>") // 先处理换行符
 
-    .replace(/<user=(.*?)>(.*?)<\/user>/g, "<span class='RUser' data-user='$1'>$2</span>")
+    .replace(
+      /<user=(.*?)>(.*?)<\/user>/g,
+      "<span class='RUser' data-user='$1'>$2</span>",
+    )
     .replace(
       /<discussion=(.*?)>(.*?)<\/discussion>/g,
-      `<a href="${window.$getPath("/@root")}/ExperimentSummary/Discussion/$1" internal>$2</a>`
+      `<a href="${window.$getPath("/@root")}/ExperimentSummary/Discussion/$1" internal>$2</a>`,
     )
     .replace(
       /<experiment=(.*?)>(.*?)<\/experiment>/g,
-      `<a href="${window.$getPath("/@root")}/ExperimentSummary/Experiment/$1" internal>$2</a>`
+      `<a href="${window.$getPath("/@root")}/ExperimentSummary/Experiment/$1" internal>$2</a>`,
     )
     // 新增Markdown语法解析
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // 粗体
@@ -35,11 +38,17 @@ function parse(text: string | undefined, ignoreSize: boolean = false) {
     // 新增Unity富文本解析
     .replace(/<b>(.*?)<\/b>/g, "<strong>$1</strong>") // 粗体
     .replace(/<i>(.*?)<\/i>/g, "<em>$1</em>") // 斜体
-    .replace(/<color=(.*?)>(.*?)<\/color>/g, '<span style="color:$1;">$2</span>') // 颜色
+    .replace(
+      /<color=(.*?)>(.*?)<\/color>/g,
+      '<span style="color:$1;">$2</span>',
+    ) // 颜色
     .replace(/<a>(.*?)<\/a>/g, '<span style="color:blue;">$1</span>') // a转换为蓝色
 
     // 字体大小
-    .replace(/<size=(.*?)>(.*?)<\/size>/g, ignoreSize ? '<span style="font-size:$1px;">$2</span>' : '$2');
+    .replace(
+      /<size=(.*?)>(.*?)<\/size>/g,
+      ignoreSize ? '<span style="font-size:$1px;">$2</span>' : "$2",
+    );
 
   // 辅助函数：检查是否为同域链接
   function isSameDomain(url: string): boolean {
@@ -47,7 +56,7 @@ function parse(text: string | undefined, ignoreSize: boolean = false) {
     try {
       const parsedUrl = new URL(url, origin);
       return parsedUrl.origin === origin;
-    } catch (e) {
+    } catch {
       return false;
     }
   }

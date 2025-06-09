@@ -1,5 +1,10 @@
 <template>
-  <infiniteScroll :initial-items="items" @load="handleLoad" :has-more="!noMore" :margin-top="-200">
+  <infiniteScroll
+    :initial-items="items"
+    :has-more="!noMore"
+    :margin-top="-200"
+    @load="handleLoad"
+  >
     <template #default="{ items }">
       <n-grid :cols="cols || 2">
         <n-gi v-for="user in items as User[]" :key="user.User.ID">
@@ -37,7 +42,7 @@ const items = ref<User[]>([]);
 async function handleLoad() {
   loading.value = true;
   if (noMore) {
-    hasInformed || Emitter.emit("warning", "没有更多了", 1);
+    if (!hasInformed) Emitter.emit("warning", "没有更多了", 1);
     hasInformed = true;
     return;
   }

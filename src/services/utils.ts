@@ -14,7 +14,7 @@ export function getUserUrl(user: PUser): string {
       ? "/@base/assets/user/default-avatar.png"
       : `/@static/users/avatars/${user.ID.slice(0, 4)}/${user.ID.slice(4, 6)}/${user.ID.slice(
           6,
-          8
+          8,
         )}/${user.ID.slice(8, 24)}/${user.Avatar}.jpg`;
 
   return window.$getPath(url);
@@ -23,7 +23,7 @@ export function getUserUrl(user: PUser): string {
 export function getCoverUrl(data: PProjects): string {
   const url = `/@static/experiments/images/${data.ID.slice(0, 4)}/${data.ID.slice(
     4,
-    6
+    6,
   )}/${data.ID.slice(6, 8)}/${data.ID.slice(8, 24)}/${data.Image || 0}.jpg!block`;
   return window.$getPath(url);
 }

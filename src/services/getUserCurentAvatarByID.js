@@ -1,7 +1,11 @@
 import { getData } from "./api/getData";
 import { getUserUrl } from "./utils";
+import storageManager from "./storage";
 
-let cache = JSON.parse(localStorage.getItem("userIDAndAvartarIDMap")) || {};
+let cache = (() => {
+  const result = storageManager.getObj("userIDAndAvartarIDMap");
+  return result.status === "success" && result.value ? result.value : {};
+})();
 
 /**
  * 根据ID获取用户头像，默认缓存，三秒超时，调用本操作后，请等待全部异步结束之后调用saveCache()
@@ -28,13 +32,18 @@ export async function getAvatarUrl(ID, useCache = true) {
       const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => reject(new Error("请求超时")), 3000); // 3秒超时
       });
-
       // 使用Promise.race来处理请求和超时
-      const response = await Promise.race([getData("/Users/GetUser", { ID }), timeoutPromise]);
-
+      const response = await Promise.race([
+        getData("/Users/GetUser", { ID }),
+        timeoutPromise,
+      ]);
       avatarIndex = response.Data.User.Avatar;
       cache[ID] = [avatarIndex, Date.now()];
-      localStorage.setItem("userIDAndAvartarIDMap", JSON.stringify(cache));
+      storageManager.setObj(
+        "userIDAndAvartarIDMap",
+        cache,
+        72 * 60 * 60 * 1000,
+      ); // 72小时缓存
     } catch (error) {
       console.error("获取头像失败", error);
       // 返回默认头像的URL
@@ -46,5 +55,5 @@ export async function getAvatarUrl(ID, useCache = true) {
 }
 
 export function saveCache() {
-  localStorage.setItem("userIDAndAvartarIDMap", JSON.stringify(cache));
+  storageManager.setObj("userIDAndAvartarIDMap", cache, 72 * 60 * 60 * 1000);
 }

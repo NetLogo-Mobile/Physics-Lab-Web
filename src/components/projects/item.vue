@@ -23,12 +23,12 @@ const { item } = defineProps<{
   item: any;
 }>();
 
-const imgUrl = getCoverUrl(item)
-const avartarUrl = getUserUrl(item.User)
+const imgUrl = getCoverUrl(item);
+const avartarUrl = getUserUrl(item.User);
 
-const handleClick = ()=>{
-  router.push(`/ExperimentSummary/${item.Category}/${item.ID}`)
-}
+const handleClick = () => {
+  router.push(`/ExperimentSummary/${item.Category}/${item.ID}`);
+};
 </script>
 
 <style scoped>

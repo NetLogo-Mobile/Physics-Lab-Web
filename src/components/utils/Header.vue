@@ -3,22 +3,37 @@
     <slot></slot>
     <div class="buttons">
       <div class="logout" @click="logout">
-        <svg width="25" height="25" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          width="25"
+          height="25"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
             d="M24 20v-4h-10v-4h10v-4l6 6zM22 18v8h-10v6l-12-6v-26h22v10h-2v-8h-16l8 4v18h8v-6z"
           ></path>
         </svg>
       </div>
-      <div class="fullScreen" v-show="!isFullScreen" @click="toggleFullScreen">
-        <svg width="22" height="22" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <div v-show="!isFullScreen" class="fullScreen" @click="toggleFullScreen">
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path d="M32 0h-13l5 5-6 6 3 3 6-6 5 5z"></path>
           <path d="M32 32v-13l-5 5-6-6-3 3 6 6-5 5z"></path>
           <path d="M0 32h13l-5-5 6-6-3-3-6 6-5-5z"></path>
           <path d="M0 0v13l5-5 6 6 3-3-6-6 5-5z"></path>
         </svg>
       </div>
-      <div class="fullScreen" v-show="isFullScreen" @click="toggleFullScreen">
-        <svg width="25" height="25" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <div v-show="isFullScreen" class="fullScreen" @click="toggleFullScreen">
+        <svg
+          width="25"
+          height="25"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path d="M18 14h13l-5-5 6-6-3-3-6 6-5-5z"></path>
           <path d="M18 18v13l5-5 6 6 3-3-6-6 5-5z"></path>
           <path d="M14 18h-13l5 5-6 6 3 3 6-6 5 5z"></path>

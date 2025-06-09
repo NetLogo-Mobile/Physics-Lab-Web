@@ -35,16 +35,16 @@ defineComponent({
   top: 0;
   left: 0;
   width: 100vw;
-  height: 35vh;
+  height: 25vh;
   z-index: 1;
 }
 
 .layout-right {
   position: absolute;
-  top: 35vh;
+  top: 25vh;
   left: 0;
   width: 100vw;
-  height: calc(100dvh - 35vh);
+  height: calc(100dvh - 25vh);
 }
 
 .scroll-container {
@@ -61,7 +61,11 @@ defineComponent({
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(128, 128, 128, 0.4) 30%, rgba(128, 128, 128, 0) 80%);
+  background: linear-gradient(
+    to bottom,
+    rgba(128, 128, 128, 0.4) 30%,
+    rgba(128, 128, 128, 0) 80%
+  );
   pointer-events: none;
   border-radius: 8px;
   z-index: 2;

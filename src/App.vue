@@ -1,14 +1,22 @@
 <template>
   <div id="app" @click="handleClick">
     <n-message-provider>
-      <Msg />
+      <Msg></Msg>
     </n-message-provider>
 
     <router-view v-slot="{ Component }">
       <keep-alive>
-        <component :is="Component" v-if="$route.meta.keepAlive" :key="$route.fullPath" />
+        <component
+          :is="Component"
+          v-if="$route.meta.keepAlive"
+          :key="$route.fullPath"
+        />
       </keep-alive>
-      <component :is="Component" v-if="!$route.meta.keepAlive" :key="$route.fullPath" />
+      <component
+        :is="Component"
+        v-if="!$route.meta.keepAlive"
+        :key="$route.fullPath"
+      />
     </router-view>
   </div>
 </template>
@@ -16,13 +24,13 @@
 <script setup lang="ts">
 import Msg from "./components/popup/msg.vue";
 import getPath from "./services/getPath.ts";
-import showUserCard from "./popup/usercard.ts"
+import showUserCard from "./popup/usercard.ts";
 window.$getPath = getPath;
 
 const handleClick = (event: MouseEvent) => {
   const target = event.target as HTMLElement;
   if (target.classList.contains("RUser")) {
-    showUserCard(target.dataset.user || "")
+    showUserCard(target.dataset.user || "");
   }
 };
 </script>
@@ -41,5 +49,5 @@ body {
   width: 100vw;
   background-color: white;
 }
-
-</style>./services/api/getPath.ts
+</style>
+./services/api/getPath.ts
