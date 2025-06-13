@@ -199,7 +199,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useResponsive } from "../composables/useResponsive";
+import { useResponsive } from "../layout/useResponsive";
 import Actions from "../components/blocks/Actions.vue";
 import Header from "../components/utils/Header.vue";
 import BlockAndActivity from "../components/blocks/BlockAndActivity.vue";
