@@ -1,0 +1,63 @@
+export default {
+  login: {
+    emailOrPhone: "邮箱 / 手机",
+    password: "密码 6~20 位",
+    confirm: "确认",
+    rememberMe: "记住我",
+    caution: "注意：您的密码将会明文存储在本地浏览器中",
+    token: "Token",
+    authCode: "AuthCode",
+    login: "登录",
+    loginByToken: "Token登录",
+    signup: "注册",
+    signupClosed: "暂不开放注册功能",
+    passwordAgain: "确认密码",
+    loginFailed: "登录失败",
+    autoLoginFailed: "自动登录失败",
+    loginError: "登录过程中发生错误",
+  },
+  user: {
+    level: "等级",
+    clickToLogin: "点击登录",
+  },
+  blackhole: {
+    title: "黑洞",
+    participate: "参与开发",
+  },
+  worklist: {
+    title: "作品列表",
+  },
+  profile: {
+    fans: "粉丝 {count}",
+    follows: "关注 {count}",
+    coverTip: "点击进入封面作品",
+    works: "作品",
+    comments: "留言板({count})",
+  },
+  comments: {
+    placeholder: "发布一条友善的言论",
+    home: "主页",
+    area: "评论区",
+  },
+  notfound: {
+    title: "404 未找到",
+  },
+  notifications: {
+    title: "通知",
+    all: "全部",
+    system: "系统消息",
+    comments: "回复和评论",
+    friends: "关注和粉丝",
+    works: "作品",
+    admin: "管理通知",
+  },
+  friends: {
+    title: "好友",
+    following: "关注",
+    follower: "粉丝",
+    volunteers: "志愿者",
+    editors: "编辑和管理员",
+    retired: "荣休编辑",
+    baned: "小黑屋",
+  },
+};

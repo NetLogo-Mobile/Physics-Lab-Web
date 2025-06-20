@@ -1,36 +1,36 @@
 <template>
   <Header>
-    <h1>通知</h1>
+    <h1>{{ t("notifications.title") }}</h1>
   </Header>
   <main>
     <div class="outer">
       <n-tabs type="line" animated justify-content="space-evenly">
-        <n-tab-pane name="全部" tab="全部">
+        <n-tab-pane name="全部" :tab="t('notifications.all')">
           <div class="item">
             <NotificationList notificationTypeIndexOfUI="0"></NotificationList>
           </div>
         </n-tab-pane>
-        <n-tab-pane name="系统消息" tab="系统消息">
+        <n-tab-pane name="系统消息" :tab="t('notifications.system')">
           <div class="item">
             <NotificationList notificationTypeIndexOfUI="1"></NotificationList>
           </div>
         </n-tab-pane>
-        <n-tab-pane name="回复和评论" tab="回复和评论">
+        <n-tab-pane name="回复和评论" :tab="t('notifications.comments')">
           <div class="item">
             <NotificationList notificationTypeIndexOfUI="3"></NotificationList>
           </div>
         </n-tab-pane>
-        <n-tab-pane name="关注和粉丝" tab="关注和粉丝">
+        <n-tab-pane name="关注和粉丝" :tab="t('notifications.friends')">
           <div class="item">
             <NotificationList notificationTypeIndexOfUI="2"></NotificationList>
           </div>
         </n-tab-pane>
-        <n-tab-pane name="作品" tab="作品">
+        <n-tab-pane name="作品" :tab="t('notifications.works')">
           <div class="item">
             <NotificationList notificationTypeIndexOfUI="4"></NotificationList>
           </div>
         </n-tab-pane>
-        <n-tab-pane name="管理通知" tab="管理通知">
+        <n-tab-pane name="管理通知" :tab="t('notifications.admin')">
           <div class="item">
             <NotificationList notificationTypeIndexOfUI="5"></NotificationList>
           </div>
@@ -42,6 +42,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 import NotificationList from "../components/messages/NotificationList.vue";
 import Header from "../components/utils/Header.vue";
 import Footer from "../components/utils/Footer.vue";

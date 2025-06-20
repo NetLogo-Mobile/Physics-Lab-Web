@@ -1,7 +1,7 @@
 <template>
   <div id="blackhole">
     <Header>
-      <h1>黑洞</h1>
+      <h1>{{ $t('blackhole.title') }}</h1>
     </Header>
     <!-- 高度：50px定值 -->
     <main>
@@ -19,7 +19,7 @@
                 "
                 type="Discussion"
                 :projects="block.Summaries"
-                :activityName="block.AuxiliaryText || '参与开发'"
+                :activityName="block.AuxiliaryText || $t('blackhole.participate')"
                 :activityBackground="getPath('/@base/assets/mechanics.png')"
                 :projectsName="block.Subject"
                 :activityProc="

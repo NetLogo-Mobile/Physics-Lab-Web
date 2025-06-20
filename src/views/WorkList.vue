@@ -5,7 +5,9 @@
       style="width: 2.7em"
       @click="goBack"
     />
-    <h2 style="margin-right: auto; margin-left: 20px">作品列表</h2>
+    <h2 style="margin-right: auto; margin-left: 20px">
+      {{ $t("worklist.title") }}
+    </h2>
   </Header>
 
   <div class="list">
@@ -18,6 +20,7 @@ import Header from "../components/utils/Header.vue";
 import WorksList from "../components/projects/itemList.vue";
 import { onMounted, onUnmounted, ref } from "vue";
 import { useRoute } from "vue-router";
+
 const router = useRoute();
 
 const itemsPerRow = ref(getItemsPerRow());

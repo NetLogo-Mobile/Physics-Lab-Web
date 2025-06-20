@@ -28,7 +28,7 @@
       v-model:value="comment"
       style="text-align: left"
       type="text"
-      placeholder="发布一条友善的言论"
+      :placeholder="t('comments.placeholder')"
       show-count
       :maxlength="300"
       :loading="isLoading"
@@ -44,13 +44,15 @@ import { useRoute } from "vue-router";
 import Header from "../components/utils/Header.vue";
 import parse from "../services/commonParser.ts";
 import postComment from "../services/postComment.ts";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const route = useRoute();
 let isLoading = ref(false);
 let replyID = ref("");
 let upDate = ref(0);
 let title = ref(
-  `${parse(route.params.name as string)} 的 ${route.params.category === "User" ? "主页" : "评论区"}`,
+  `${parse(route.params.name as string)} 的 ${route.params.category === "User" ? t("comments.home") : t("comments.area")}`,
 );
 
 let comment = ref("");

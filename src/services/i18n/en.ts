@@ -1,0 +1,63 @@
+export default {
+  login: {
+    emailOrPhone: "Email / Phone",
+    password: "Password 6~20 chars",
+    confirm: "Confirm",
+    rememberMe: "Remember me",
+    caution: "Caution: Your password will be saved in browser in plain text",
+    token: "Token",
+    authCode: "AuthCode",
+    login: "Login",
+    loginByToken: "Token Login",
+    signup: "Sign Up",
+    signupClosed: "Registration is not open yet",
+    passwordAgain: "Confirm Password",
+    loginFailed: "Login failed",
+    autoLoginFailed: "Auto login failed",
+    loginError: "Error occurred during login",
+  },
+  user: {
+    level: "Level",
+    clickToLogin: "Click to login",
+  },
+  blackhole: {
+    title: "blackhole",
+    participate: "co-development",
+  },
+    worklist: {
+    title: "work list",
+  },
+   profile: {
+    fans: "followers {count}",
+    follows: "following {count}",
+    coverTip: "Click to enter cover works",
+    works: "works",
+    comments: "message board({count})",
+  },
+  comments: {
+    placeholder: "Leave a message...",
+    home: "Home",
+    area: "Comment Area",
+  },
+  notfound: {
+    title: "404 Not Found",
+  },
+  notifications: {
+    title: "Notifications",
+    all: "All",
+    system: "System Messages",
+    comments: "Replies and Comments",
+    friends: "Followers and Following",
+    works: "Works",
+    admin: "Admin Notifications",
+  },
+  friends: {
+    title: "Friends",
+    following: "Following",
+    follower: "Followers",
+    volunteers: "Volunteers",
+    editors: "Editors and Admins",
+    retired: "Retired Editors",
+    baned: "Banned",
+  },
+};

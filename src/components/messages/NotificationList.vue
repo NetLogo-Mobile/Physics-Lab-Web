@@ -15,6 +15,9 @@ import Notification from "./NotificationItem.vue";
 import { getData } from "../../services/api/getData.ts";
 import Emitter from "../../services/eventEmitter";
 import InfiniteScroll from "../utils/infiniteScroll.vue";
+import { useI18n } from "vue-i18n";
+
+const { locale } = useI18n();
 
 interface NotificationItem {
   id: number;
@@ -175,10 +178,16 @@ const handleLoad = async (noTemplates = true) => {
 
     const defaultItems = messages.map((message: any) => {
       const template = templates.find((t: any) => t.ID === message.TemplateID);
-      return {
+
+const lang = (
+  ["Chinese", "English", "ChineseTraditional", "German", "French", "Japanese", "Italian", "Polish", "Spanish", "Ukrainian"].includes(locale.value)
+    ? locale.value
+    : "Chinese"
+) as keyof typeof template.Subject;
+        return {
         id: message.ID,
-        msg_title: fillInTemplate(template.Subject.Chinese, message),
-        msg: fillInTemplate(template.Content.Chinese, message),
+        msg_title: fillInTemplate(template.Subject[lang], message),
+        msg: fillInTemplate(template.Content[lang], message),
         msg_type: convertCategoryIDToUIIndex(message.CategoryID),
         category: message.Fields?.User
           ? "User"

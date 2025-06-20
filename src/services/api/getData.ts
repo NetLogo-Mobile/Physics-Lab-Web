@@ -1,6 +1,7 @@
 import Emitter from "../eventEmitter.ts";
 import { beforeRequest, afterRequest } from "./Interceptor.ts";
 import storageManager from "../storage.ts";
+import i18n from "../i18n/i18n.ts";
 
 export async function getData(path: string, body: unknown) {
   window.$message.destroyAll();
@@ -58,7 +59,7 @@ export async function login(
       Version: 2411,
       Device: {
         Identifier: "7db01528cf13e2199e141c402d79190e",
-        Language: "Chinese",
+        Language: i18n.global.locale.value,
       },
     }),
     headers: header,

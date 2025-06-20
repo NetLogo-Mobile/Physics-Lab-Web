@@ -9,10 +9,9 @@
           "
           alt="Avatar"
         />
-        <!-- 用户刚刚解封会出现图片404，或许日后要把这个逻辑改为获取用户上一张头像，先暂时用默认头像 -->
         <div class="user-info">
           <div class="username">{{ user.username }}</div>
-          <div class="level">Level {{ user.level }}</div>
+          <div class="level">{{ $t("user.level") }} {{ user.level }}</div>
         </div>
         <div class="resources">
           <div class="resource">
@@ -34,7 +33,6 @@
         </div>
       </div>
     </Header>
-    <!-- 高度：50px定值 -->
     <main>
       <div v-if="isLoading" class="loading"></div>
       <div v-if="!isLoading" class="block-container">
@@ -51,7 +49,7 @@
                 v-if="
                   block.$type.startsWith('Quantum.Models.Contents.TopicBlock')
                 "
-                type="Discussion"
+                type="Experiment"
                 :projects="block.Summaries"
                 :activityName="block.AuxiliaryText"
                 :activityBackground="getPath('/@base/assets/support.png')"
@@ -60,7 +58,7 @@
               />
               <Block
                 v-else
-                type="Discussion"
+                type="Experiment"
                 :data="block.Summaries.slice(0, maxProjectsPerBlock)"
                 :title="block.Header"
                 :link="targetLink(block.TargetLink)"
@@ -81,13 +79,13 @@
           pane-wrapper-style="margin: 0 -4px"
           pane-style="padding-left: 4px; padding-right: 4px; box-sizing: border-box;"
         >
-          <n-tab-pane name="signin" tab="登录">
+          <n-tab-pane name="signin" :tab="$t('login.login')">
             <n-form :show-label="false">
               <n-form-item-row>
                 <n-input
                   v-model:value="emailOrPhone"
                   class="inputArea"
-                  placeholder="邮箱 / 手机"
+                  :placeholder="$t('login.emailOrPhone')"
                   clearable
                 >
                   <template #suffix>
@@ -100,32 +98,29 @@
                   v-model:value="loginPassword"
                   show-password-on="click"
                   class="inputArea"
-                  placeholder="密码 6~20 位"
+                  :placeholder="$t('login.password')"
                   type="password"
                   clearable
                 />
               </n-form-item-row>
               <input v-model="rememberMe" type="checkbox" />
-              <label>记住我</label>
-              <!-- <p style="color: red; font-size: small" v-if="memoryMe">
-                注意：您的密码将会明文存储在本地浏览器中 Caution:Your password will be DIRECTLY saved in local web browser WITHOUT encryption
-              </p> -->
+              <label>{{ $t("login.rememberMe") }}</label>
             </n-form>
             <n-button
               type="primary"
               class="loginButton"
               @click="handlePasswordLogin"
             >
-              确认
+              {{ $t("login.confirm") }}
             </n-button>
           </n-tab-pane>
-          <n-tab-pane name="signinByToken" tab="Token登录">
+          <n-tab-pane name="signinByToken" :tab="$t('login.loginByToken')">
             <n-form :show-label="false">
               <n-form-item-row>
                 <n-input
                   v-model:value="loginToken"
                   class="inputArea"
-                  placeholder="Token"
+                  :placeholder="$t('login.token')"
                   clearable
                 >
                 </n-input>
@@ -134,28 +129,28 @@
                 <n-input
                   v-model:value="authCode"
                   class="inputArea"
-                  placeholder="AuthCode"
+                  :placeholder="$t('login.authCode')"
                   clearable
                 >
                 </n-input>
               </n-form-item-row>
               <input v-model="rememberMe" type="checkbox" />
-              <label>记住我</label>
+              <label>{{ $t("login.rememberMe") }}</label>
             </n-form>
             <n-button
               type="primary"
               class="loginButton"
               @click="handleTokenLogin"
             >
-              确认
+              {{ $t("login.confirm") }}
             </n-button>
           </n-tab-pane>
-          <n-tab-pane name="signup" tab="注册">
-            <h3 style="align-self: center">暂不开放注册功能</h3>
+          <n-tab-pane name="signup" :tab="$t('login.signup')">
+            <h3 style="align-self: center">{{ $t("login.signupClosed") }}</h3>
             <n-form :showLabel="false">
               <n-form-item-row>
                 <n-input
-                  placeholder="邮箱"
+                  :placeholder="$t('login.emailOrPhone')"
                   class="inputArea"
                   clearable
                   disabled
@@ -169,7 +164,7 @@
                 <n-input
                   show-password-on="click"
                   class="inputArea"
-                  placeholder="密码 6~20 位"
+                  :placeholder="$t('login.password')"
                   type="password"
                   clearable
                   disabled
@@ -179,7 +174,7 @@
                 <n-input
                   show-password-on="click"
                   class="inputArea"
-                  placeholder="确认密码"
+                  :placeholder="$t('login.passwordAgain')"
                   type="password"
                   clearable
                   disabled
@@ -187,7 +182,7 @@
               </n-form-item-row>
             </n-form>
             <n-button type="primary" disabled class="loginButton">
-              注册
+              {{ $t("login.signup") }}
             </n-button>
           </n-tab-pane>
         </n-tabs>
@@ -222,6 +217,7 @@ import { getUserUrl } from "../services/utils.ts";
 import "../layout/loading.css";
 import "../layout/startPage.css";
 import storageManager from "../services/storage.ts";
+import { useI18n } from "vue-i18n";
 
 const showLoginModal = ref(false);
 const isLoading = ref(true);
@@ -232,11 +228,13 @@ const loginToken = ref("");
 const authCode = ref("");
 const rememberMe = ref(false);
 
+const { t } = useI18n();
+
 const user = ref({
   coins: 12345,
   gems: 12345,
   level: 12,
-  username: "点击登录",
+  username: t("user.clickToLogin"),
   avatarUrl: getPath("/@base/assets/user/default-avatar.png"),
   ID: "",
 });
@@ -273,7 +271,7 @@ async function handleLogin(loginMethod: () => Promise<any>) {
     const response = await loginMethod();
 
     if (response.Status !== 200) {
-      window.$message.error(response.Message || "登录失败");
+      window.$message.error(t("login.loginFailed"));
       storageManager.setStr("loginStatus", "false", 24 * 60 * 60 * 1000);
       return;
     }
@@ -305,12 +303,11 @@ async function handleLogin(loginMethod: () => Promise<any>) {
 function updateUserProfile(userData: any) {
   storageManager.setStr("nickName", userData.Nickname);
   storageManager.setStr("userID", userData.ID);
-
   user.value = {
     coins: userData.Gold,
     gems: userData.Diamond,
     level: userData.Level,
-    username: userData.Nickname || "点击登录",
+    username: userData.Nickname || t("user.clickToLogin"),
     avatarUrl: getUserUrl(userData),
     ID: userData.ID,
   };

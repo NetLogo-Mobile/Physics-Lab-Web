@@ -23,8 +23,16 @@
             :tag="userData.User?.Verification || 'user'"
             style="color: aquamarine; font-weight: bold"
           ></Tag>
-          <Tag :tag="'粉丝 ' + userData.Statistic.FollowerCount"></Tag>
-          <Tag :tag="'关注 ' + userData.Statistic.FollowingCount"></Tag>
+          <Tag
+            :tag="
+              t('profile.fans', { count: userData.Statistic.FollowerCount })
+            "
+          ></Tag>
+          <Tag
+            :tag="
+              t('profile.follows', { count: userData.Statistic.FollowingCount })
+            "
+          ></Tag>
         </div>
         <div v-if="userData.Statistic?.Cover" class="coverProject">
           <router-link
@@ -42,7 +50,9 @@
               position: relative;
             "
           >
-            <p style="margin: 0; font-size: smaller">点击进入封面作品</p>
+            <p style="margin: 0; font-size: smaller">
+              {{ t("profile.coverTip") }}
+            </p>
             <p style="margin: 0; font-size: medium">
               {{ userData.Statistic.Cover?.Subject }}
             </p>
@@ -57,7 +67,7 @@
           justify-content="space-evenly"
           type="line"
         >
-          <n-tab-pane name="Intro" tab="作品" animated>
+          <n-tab-pane name="Intro" :tab="t('profile.works')" animated>
             <div id="project-list" class="projects">
               <div v-for="[t, d] in Object.entries(expData)" :key="t">
                 <Block
@@ -71,7 +81,9 @@
           </n-tab-pane>
           <n-tab-pane
             name="Comment"
-            :tab="`留言板(${userData.Statistic.CommentCount})`"
+            :tab="
+              t('profile.comments', { count: userData.Statistic.CommentCount })
+            "
           >
             <div class="right-bottom-container">
               <div class="message-wrapper">
@@ -114,6 +126,8 @@ import postComment from "../services/postComment.ts";
 import Adaptation from "../layout/Adaptation.vue";
 import "../layout/AdaptationView.css";
 import { getCoverUrl, getUserUrl } from "../services/utils.ts";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 let comment = ref("");
 let isLoading = ref(false);
