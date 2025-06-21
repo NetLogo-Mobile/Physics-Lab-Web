@@ -24,10 +24,10 @@ export default {
     title: "blackhole",
     participate: "co-development",
   },
-    worklist: {
+  worklist: {
     title: "work list",
   },
-   profile: {
+  profile: {
     fans: "followers {count}",
     follows: "following {count}",
     coverTip: "Click to enter cover works",

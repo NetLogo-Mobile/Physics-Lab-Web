@@ -179,12 +179,23 @@ const handleLoad = async (noTemplates = true) => {
     const defaultItems = messages.map((message: any) => {
       const template = templates.find((t: any) => t.ID === message.TemplateID);
 
-const lang = (
-  ["Chinese", "English", "ChineseTraditional", "German", "French", "Japanese", "Italian", "Polish", "Spanish", "Ukrainian"].includes(locale.value)
-    ? locale.value
-    : "Chinese"
-) as keyof typeof template.Subject;
-        return {
+      const lang = (
+        [
+          "Chinese",
+          "English",
+          "ChineseTraditional",
+          "German",
+          "French",
+          "Japanese",
+          "Italian",
+          "Polish",
+          "Spanish",
+          "Ukrainian",
+        ].includes(locale.value)
+          ? locale.value
+          : "Chinese"
+      ) as keyof typeof template.Subject;
+      return {
         id: message.ID,
         msg_title: fillInTemplate(template.Subject[lang], message),
         msg: fillInTemplate(template.Content[lang], message),
