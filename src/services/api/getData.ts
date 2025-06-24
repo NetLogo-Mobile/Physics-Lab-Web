@@ -3,6 +3,21 @@ import { beforeRequest, afterRequest } from "./Interceptor.ts";
 import storageManager from "../storage.ts";
 import i18n from "../i18n/i18n.ts";
 
+/**
+ * 发送POST请求到指定的API路径，并附带提供的请求体。
+ * 注意：本API会使用本地存储的登录凭据Token和AuthCode，但不会处理未登录或者权限不足，使用本API必须手动处理错误。
+ * Sends a POST request to the specified API path with the provided body.
+ * Note: This API will use the login credentials Token and AuthCode from local storage, but it does not handle errors for not being logged in or insufficient permissions. You must handle these errors manually when using this API.
+ *
+ * - 销毁所有现有的消息，在请求之前和之后。 Destroys all existing messages before and after the request.
+ * - 执行`beforeRequest`和`afterRequest`钩子，以允许预处理和后处理。 Executes `beforeRequest` and `afterRequest` hooks to allow pre- and post-processing.
+ * - 如果服务器响应不是OK，则发出错误事件。 Emits an error event if the server response is not OK.
+ * - 自动附加来自存储的身份验证头。 Automatically attaches authentication headers from storage.
+ *
+ * @param path - API端点路径（相对于基本API URL）。 The API endpoint path (relative to the base API URL).
+ * @param body - 作为JSON发送的请求负载。 The request payload to be sent as JSON.
+ * @returns 一个Promise，该Promise将解析为响应数据，或者如果中断了流，则解析为结果的钩子。 A promise that resolves with the response data, or with the result of the hooks if they interrupt the flow.
+ */
 export async function getData(path: string, body: unknown) {
   window.$message.destroyAll();
   const beforeRes = beforeRequest(path);
@@ -35,6 +50,20 @@ export async function getData(path: string, body: unknown) {
   });
 }
 
+/**
+ * 在首页进行登录操作。 Login operation on the Home.vue
+ * 注意，不进行本操作无法访问其他任何API接口（除非有本地缓存），所以在处理任何其他API时都要处理是否登录的错误（不等同于没有“类似管理行为”的权限）
+ * 可以使用EventEmitter来发布LoginRequired事件
+ * Note that without performing this operation, you cannot access any other API interfaces (unless there is local cache).
+ * Therefore, when handling any other API, you should handle the error of whether the user is
+ *
+ * 订阅laoding、error、success事件，并管理用户登录状态存储。使用`window.$message`显示消息。
+ * Emits loading, error, and success events via `Emitter` and manages user login status in storage. Displays messages using `window.$message`.
+ *
+ * @param arg1 - 用户名或者API令牌，取决于IsToken。’The username or API token, depending on `is_token`.
+ * @param arg2 - 密码或者API认证码，取决于IsToken。The password or API auth code, depending on `is_token`.
+ * @returns 成功时返回服务器响应数据，失败时发出错误事件。A promise that resolves to the server response data if successful, or emits an error event on failure.
+ */
 export async function login(
   arg1: string | null,
   arg2: string | null,
