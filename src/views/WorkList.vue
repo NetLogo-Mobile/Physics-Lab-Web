@@ -11,7 +11,14 @@
   </Header>
 
   <div class="list">
-    <WorksList :row="itemsPerRow" :q="decodeString(router.params.config)" />
+    <WorksList
+      :row="itemsPerRow"
+      :q="
+        route.params.config
+          ? decodeHrefToQueryObj(route.params.config as string)
+          : {}
+      "
+    />
   </div>
 </template>
 
@@ -20,20 +27,12 @@ import Header from "../components/utils/Header.vue";
 import WorksList from "../components/projects/itemList.vue";
 import { onMounted, onUnmounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import { decodeHrefToQueryObj } from "../services/utils";
 
-const router = useRoute();
+const route = useRoute();
 
 const itemsPerRow = ref(getItemsPerRow());
 
-function decodeString(base64Input: any) {
-  const latin1String = atob(base64Input.replace(/DEVIDER/g, "/"));
-  const utf8Bytes = new Uint8Array(
-    [...latin1String].map((char) => char.charCodeAt(0)),
-  );
-  const jsonString = new TextDecoder().decode(utf8Bytes);
-  const result = JSON.parse(jsonString);
-  return result;
-}
 //Calculates the number of Items displayed and loaded at a time.
 /**
  * @requires window.innerWidth

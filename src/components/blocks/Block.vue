@@ -5,12 +5,7 @@
       <div id="more" @click="jump">更多</div>
     </div>
     <div style="display: flex; flex-direction: column; gap: 10px">
-      <Detailed
-        v-for="(item, index) in data"
-        :key="index"
-        :data="item"
-        :type="type"
-      />
+      <Detailed v-for="(item, index) in data" :key="index" :data="item" />
     </div>
   </div>
 </template>

@@ -16,7 +16,7 @@
         <p class="title" v-html="parse(data.Subject)"></p>
         <p class="subtitle">{{ data.User.Nickname }}</p>
         <div class="subtitle">
-          <Tag v-for="i in data.Tags" :type="type" :tag="i" />
+          <Tag v-for="i in data.Tags" :category="data.Category" :tag="i" />
         </div>
       </div>
     </div>
@@ -39,9 +39,8 @@ interface IData {
   Image: number;
 }
 
-const { data, type } = defineProps<{
+const { data } = defineProps<{
   data: IData;
-  type: string;
 }>();
 const imgUrl = getCoverUrl(data);
 </script>

@@ -27,14 +27,14 @@
                 :activityProc="
                   getActivityProc(block.AuxiliaryLink || 'internal://co-dev')
                 "
-                :link="targetLink(block.TargetLink)"
+                :link="EncodeAPITargetLink(block.TargetLink)"
               />
               <Block
                 v-else
                 type="Discussion"
                 :data="block.Summaries.slice(0, maxProjectsPerBlock)"
                 :title="block.Header"
-                :link="targetLink(block.TargetLink)"
+                :link="EncodeAPITargetLink(block.TargetLink)"
               />
             </div>
           </n-gi>
@@ -54,7 +54,7 @@ import Block from "../components/blocks/Block.vue";
 import Footer from "../components/utils/Footer.vue";
 import { getData } from "../services/api/getData.ts";
 import { NGrid, NGi } from "naive-ui";
-import { strToQueryObj as targetLink } from "../services/utils.ts";
+import { EncodeAPITargetLink } from "../services/utils.ts";
 import getPath from "../services/getPath";
 import "../layout/loading.css";
 import "../layout/startPage.css";

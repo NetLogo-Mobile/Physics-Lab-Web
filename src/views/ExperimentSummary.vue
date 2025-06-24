@@ -18,14 +18,17 @@
           <div class="title" v-html="parseInline(data.Subject)"></div>
           <div style="position: absolute; z-index: 100">
             <Tag
+              v-if="route.params.category"
               :tag="route.params.category as string"
               style="color: aquamarine; font-weight: bold"
-            ></Tag>
+              :category="data.Category"
+            />
             <Tag
-              v-for="(tag, index) in data.Tags"
+              v-for="(tag, index) in data.Tags.filter((t) => !!t)"
               :key="index"
               :tag="tag"
-            ></Tag>
+              :category="data.Category"
+            />
           </div>
         </div>
         <div style="margin-top: auto">

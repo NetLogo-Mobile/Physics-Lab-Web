@@ -54,14 +54,14 @@
                 :activityName="block.AuxiliaryText"
                 :activityBackground="getPath('/@base/assets/support.png')"
                 :projectsName="block.Subject"
-                :link="targetLink(block.TargetLink)"
+                :link="EncodeAPITargetLink(block.TargetLink)"
               />
               <Block
                 v-else
                 type="Experiment"
                 :data="block.Summaries.slice(0, maxProjectsPerBlock)"
                 :title="block.Header"
-                :link="targetLink(block.TargetLink)"
+                :link="EncodeAPITargetLink(block.TargetLink)"
               />
             </div>
           </n-gi>
@@ -211,7 +211,7 @@ import {
   NGrid,
 } from "naive-ui";
 import router from "../router";
-import { strToQueryObj as targetLink } from "../services/utils.ts";
+import { EncodeAPITargetLink } from "../services/utils.ts";
 import getPath from "../services/getPath";
 import { getUserUrl } from "../services/utils.ts";
 import "../layout/loading.css";
