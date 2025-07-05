@@ -19,6 +19,7 @@ export default {
   user: {
     level: "Level",
     clickToLogin: "Click to login",
+    noSignatur: "there's nothing",
   },
   blackhole: {
     title: "blackhole",
@@ -26,6 +27,7 @@ export default {
   },
   worklist: {
     title: "work list",
+    more: "More",
   },
   profile: {
     fans: "followers {count}",
@@ -59,5 +61,20 @@ export default {
     editors: "Editors and Admins",
     retired: "Retired Editors",
     baned: "Banned",
+  },
+  messagesI18n: {
+    errorOnDelete: "Failed to delete message, please try again later",
+  },
+  errors: {
+    unknownError:
+      "An unknown error occurred, you can try refreshing the page,or use the settings to enable error display for more details",
+    networkError: "Network error, please check your connection",
+    serverError: "Server error, please try again later",
+  },
+  expeSummary: {
+    enterExp: "Enter experience ",
+    introTab: "Intro",
+    intro: "Experiment Introduction",
+    wordCount: "Word Count",
   },
 };

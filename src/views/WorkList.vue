@@ -25,48 +25,17 @@
 <script setup lang="ts">
 import Header from "../components/utils/Header.vue";
 import WorksList from "../components/projects/itemList.vue";
-import { onMounted, onUnmounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { decodeHrefToQueryObj } from "../services/utils";
+import { useResponsive } from "../layout/useResponsive";
 
 const route = useRoute();
 
-const itemsPerRow = ref(getItemsPerRow());
-
-//Calculates the number of Items displayed and loaded at a time.
-/**
- * @requires window.innerWidth
- * @returns {int} Number of Items that fits the window
- */
-function getItemsPerRow() {
-  const width = window.innerWidth;
-  switch (true) {
-    case width >= 1200:
-      return 5;
-    case width >= 800:
-      return 4;
-    case width >= 500:
-      return 3;
-    default:
-      return 2;
-  }
-}
-
-const handleResize = () => {
-  itemsPerRow.value = getItemsPerRow();
-};
+const { itemsPerRow } = useResponsive();
 
 const goBack = () => {
   window.history.back();
 };
-
-onMounted(() => {
-  window.addEventListener("resize", handleResize);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("resize", handleResize);
-});
 </script>
 
 <style scoped>

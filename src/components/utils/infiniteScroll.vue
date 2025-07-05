@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-// 实现高性能的无限滚动加载功能，适用于长列表数据的动态加载场景。通过观察哨兵元素触发加载事件
+// 通过观察哨兵元素触发加载事件 To trigger load events by observing sentinel elements
 // <template>
 //   <InfiniteScroll
 //     :initial-items="initialData"
@@ -16,13 +16,13 @@
 //   >
 //     <template #default="{ items }">
 //       <div v-for="item in items" :key="item.id">
-//         <!-- 自定义内容 -->
+//         <!-- 这里把数据控制权交给父组件  Here the data control is transferred to the parent component -->
 //         {{ item.content }}
 //       </div>
 //     </template>
 
 //     <template #loading>
-//       正在加载更多...
+//       在加载时展示 show while loading
 //     </template>
 //   </InfiniteScroll>
 // </template>
@@ -121,7 +121,7 @@ defineExpose({ reset });
 .observer-element {
   height: 10px;
   visibility: hidden;
-  /* background-color: red; */
+  background-color: red;
   margin-top: -100px;
 }
 

@@ -29,6 +29,8 @@
 
 <script setup>
 import getPath from "../../services/getPath";
+// 本模块只是界面，没有具体的业务逻辑
+//  This module is just a UI component without specific business logic
 </script>
 
 <style>

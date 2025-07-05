@@ -19,6 +19,7 @@ export default {
   user: {
     level: "等级",
     clickToLogin: "点击登录",
+    noSignatur: "这个人很神秘，什么也没有写",
   },
   blackhole: {
     title: "黑洞",
@@ -26,6 +27,7 @@ export default {
   },
   worklist: {
     title: "作品列表",
+    more: "更多",
   },
   profile: {
     fans: "粉丝 {count}",
@@ -59,5 +61,20 @@ export default {
     editors: "编辑和管理员",
     retired: "荣休编辑",
     baned: "小黑屋",
+  },
+  messagesI18n: {
+    errorOnDelete: "删除消息失败，请稍后再试",
+  },
+  errors: {
+    unknownError:
+      "发生未知错误，可以尝试刷新页面，或者在设置内打卡显示错误查看详细信息",
+    networkError: "网络错误，请检查您的网络连接",
+    serverError: "服务器发生错误，请稍后再试",
+  },
+  expeSummary: {
+    enterExp: "进入体验 ",
+    introTab: "简介",
+    intro: "实验介绍",
+    wordCount: "字数统计",
   },
 };

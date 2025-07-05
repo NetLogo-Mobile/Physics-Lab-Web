@@ -11,7 +11,8 @@
   }
 }
 
-/* 消息列表容器 */
+/* 消息列表容器 ，需要留出底部输入框的高度*/
+/* Container for messages, need to leave space for input box at bottom */
 .message-wrapper {
   position: absolute;
   top: 2px;

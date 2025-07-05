@@ -16,6 +16,7 @@ const { tag, category } = defineProps<{ tag: string; category: string }>();
 
 const APILink = `${category.toLowerCase()}://Tags/${tag}`;
 const jump = () => {
+  if (category === "User") return;
   router.push(`/list/${EncodeAPITargetLink(APILink)}`);
 };
 </script>

@@ -251,7 +251,7 @@ onMounted(async () => {
       window.$message.error("自动登录失败");
       _data = await login(null, null);
     }
-    storageManager.setStr("token", _data.Token, 10 * 24 * 60 * 60 * 1000); // token保存十天
+    storageManager.setStr("token", _data.Token, 10 * 24 * 60 * 60 * 1000); // token保存十天  save for 10 days
     storageManager.setStr("authCode", _data.AuthCode, 10 * 24 * 60 * 60 * 1000);
     return _data;
   });

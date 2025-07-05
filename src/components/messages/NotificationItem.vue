@@ -14,7 +14,8 @@
           <img id="notification_icon" :src="msg_icon_url" />
         </div>
         <div id="notification_text" class="notification_text">
-          <!-- 我认为是在没必要专门再去渲染邮件，所以暂时这样 -->
+          <!-- 我认为是在没必要专门像APP一样渲染邮件，所以暂时这样 -->
+          <!-- I think it's unnecessary to render emails like an app, so I'll do it this way for now -->
           <n-ellipsis
             expand-trigger="click"
             line-clamp="2"

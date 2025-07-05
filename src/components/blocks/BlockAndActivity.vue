@@ -1,4 +1,6 @@
 <template>
+  <!-- API的$Type:TopicBlock的对应组件 -->
+  <!-- The component corresponding to the API's $Type:TopicBlock -->
   <div style="height: 100%">
     <div
       class="container"
@@ -19,6 +21,8 @@
         ></Works>
       </div>
     </div>
+    <!-- activity的内容和APP端不一致，但是我们不在这里处理，将会在API层面修改服务器端响应在渲染，参见getData.ts -->
+    <!-- The content of activity is different from the app version, but we won't handle it here. Instead, we will modify the server response at the API level, see getData.ts -->
     <div
       class="activity"
       :style="{ backgroundImage: `url(${activityBackground})` }"
@@ -29,20 +33,22 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Works from "../projects/brief.vue";
 import router from "../../router";
 import { getCoverUrl } from "../../services/utils.ts";
-const { projects, type, link } = defineProps({
-  projects: Array,
-  type: String,
-  activityName: String,
-  activityBackground: String,
-  projectsName: String,
-  activityProc: Function,
-  link: String,
-});
+const { projects, type, link } = defineProps<{
+  projects: any[];
+  type: string;
+  activityName: string;
+  activityBackground: string;
+  projectsName: string;
+  activityProc?: (event: MouseEvent) => void;
+  link: string;
+}>();
 
+// 会使用最新一个作品的封面作为盒子的背景
+// Use the cover of the latest project as the background of the box
 const ProjectsBackground = getCoverUrl(projects[0]);
 
 const jump = () => {

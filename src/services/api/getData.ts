@@ -6,13 +6,12 @@ import i18n from "../i18n/i18n.ts";
 /**
  * 发送POST请求到指定的API路径，并附带提供的请求体。
  * 注意：本API会使用本地存储的登录凭据Token和AuthCode，但不会处理未登录或者权限不足，使用本API必须手动处理错误。
+ *  在请求之前和之后会销毁所有现有的消息，执行`beforeRequest`和`afterRequest`钩子，以允许预处理和后处理。
+ *
  * Sends a POST request to the specified API path with the provided body.
  * Note: This API will use the login credentials Token and AuthCode from local storage, but it does not handle errors for not being logged in or insufficient permissions. You must handle these errors manually when using this API.
- *
- * - 销毁所有现有的消息，在请求之前和之后。 Destroys all existing messages before and after the request.
- * - 执行`beforeRequest`和`afterRequest`钩子，以允许预处理和后处理。 Executes `beforeRequest` and `afterRequest` hooks to allow pre- and post-processing.
- * - 如果服务器响应不是OK，则发出错误事件。 Emits an error event if the server response is not OK.
- * - 自动附加来自存储的身份验证头。 Automatically attaches authentication headers from storage.
+ * Destroys all existing messages before and after the request.
+ * Executes `beforeRequest` and `afterRequest` hooks to allow pre- and post-processing.
  *
  * @param path - API端点路径（相对于基本API URL）。 The API endpoint path (relative to the base API URL).
  * @param body - 作为JSON发送的请求负载。 The request payload to be sent as JSON.
@@ -37,6 +36,10 @@ export async function getData(path: string, body: unknown) {
     window.$message.destroyAll();
     if (!response.ok) {
       return response.json().then(() => {
+        // 这里的错误处理仅处理API本身非2xx的错误，及服务器本身出了问题
+        // 而Response.data中的错误是API本身的错误（如权限不足、参数错误等），需要在调用API时处理
+        // This error handling only deals with non-2xx errors from the API itself, and server issues.
+        // Errors in Response.data are API-specific errors (like insufficient permissions, parameter errors
         Emitter.emit("error", "无法与服务器通讯，请稍候再试", 3);
       });
     }
@@ -54,10 +57,10 @@ export async function getData(path: string, body: unknown) {
  * 在首页进行登录操作。 Login operation on the Home.vue
  * 注意，不进行本操作无法访问其他任何API接口（除非有本地缓存），所以在处理任何其他API时都要处理是否登录的错误（不等同于没有“类似管理行为”的权限）
  * 可以使用EventEmitter来发布LoginRequired事件
+ * 订阅laoding、error、success事件，并管理用户登录状态存储。使用`window.$message`显示消息。
+ *
  * Note that without performing this operation, you cannot access any other API interfaces (unless there is local cache).
  * Therefore, when handling any other API, you should handle the error of whether the user is
- *
- * 订阅laoding、error、success事件，并管理用户登录状态存储。使用`window.$message`显示消息。
  * Emits loading, error, and success events via `Emitter` and manages user login status in storage. Displays messages using `window.$message`.
  *
  * @param arg1 - 用户名或者API令牌，取决于IsToken。’The username or API token, depending on `is_token`.

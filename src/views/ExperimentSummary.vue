@@ -41,7 +41,7 @@
             "
           >
             <n-button type="info" strong round disabled class="enter">
-              进入实验
+              {{ t("expeSummary.enterExp") }}
             </n-button>
           </div>
         </div>
@@ -55,7 +55,7 @@
           justify-content="space-evenly"
           type="line"
         >
-          <n-tab-pane name="Intro" tab="简介">
+          <n-tab-pane name="Intro" tab="{{ t('expeSummary.introTab') }}">
             <div class="gray">
               <div style="width: 100%; height: fit-content">
                 <div
@@ -106,18 +106,18 @@
                       margin-bottom: 2px;
                     "
                   >
-                    实验介绍
+                    {{ t("expeSummary.intro") }}
                   </h3>
                   <div
                     style="height: 90%; max-width: 100%; word-break: break-all"
                   >
                     <div
                       class="intro"
-                      style="text-align: left"
+                      style="text-align: left; font-size: medium"
                       v-html="parse(data.Description)"
                     ></div>
                     <div style="font-weight: bold; text-align: left">
-                      字数统计:
+                      {{ t("expeSummary.wordCount") }}
                     </div>
                   </div>
                 </div>
@@ -144,7 +144,7 @@
                   v-model:value="comment"
                   style="text-align: left"
                   type="text"
-                  placeholder="发布一条友善的言论"
+                  :placeholder="t('comments.placeholder')"
                   show-count
                   :maxlength="400"
                   :loading="isLoading"
@@ -160,7 +160,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { getData } from "../services/api/getData.ts";
 import { NTabs, NTabPane } from "naive-ui";
@@ -174,26 +174,16 @@ import "highlight.js/styles/github.css";
 import "../../node_modules/katex/dist/katex.min.css";
 import { getCoverUrl, getUserUrl } from "../services/utils.ts";
 import Adaptation from "../layout/Adaptation.vue";
-import { useResponsive } from "../layout/useResponsive";
 import "../layout/AdaptationView.css";
+import { useI18n } from "vue-i18n";
 
 const comment = ref("");
 const isLoading = ref(false);
-const upDate = ref(1);
+const upDate = ref(1); // 用于使用watch触发刷新 To trigger a refresh using watch
 const replyID = ref("");
 const selectedTab = ref("Intro");
-
 const route = useRoute();
-const { fontSize } = useResponsive();
-const setCSSVariables = () => {
-  document.documentElement.style.setProperty("--font-size", fontSize.value);
-};
-
-setCSSVariables();
-
-watch(fontSize, () => {
-  setCSSVariables();
-});
+const { t } = useI18n();
 
 const data = ref({
   Type: 0,
@@ -247,7 +237,7 @@ function handleMsgClick(item: any) {
   comment.value = `回复@${item.msg_title}: `;
 }
 
-const handleEnter = async () => {
+async function handleEnter() {
   await postComment(
     comment,
     isLoading,
@@ -256,13 +246,11 @@ const handleEnter = async () => {
     replyID,
     upDate,
   );
-};
+}
 
-const goBack = () => {
+function goBack() {
   window.history.back();
-};
-
-window.$parse = parse;
+}
 </script>
 
 <style scoped>
@@ -309,10 +297,6 @@ window.$parse = parse;
     width: 80%;
     bottom: 50px;
   }
-}
-
-.intro {
-  font-size: var(--font-size);
 }
 
 div {

@@ -50,4 +50,3 @@ body {
   background-color: white;
 }
 </style>
-./services/api/getPath.ts

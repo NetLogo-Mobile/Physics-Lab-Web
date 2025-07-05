@@ -27,6 +27,8 @@ interface User {
   User: any;
 }
 
+// cols需要在父组件传参，这可能会在好友界面和Profile界面（未实现）展现
+//  Props `cols` needs to be passed from the parent component, which may be displayed in the Friends page and Profile page (not implemented yet).
 const { userid, type } = defineProps({
   userid: String,
   type: String,

@@ -1,3 +1,5 @@
+/* 这个加载元素样式是（几乎）覆盖全屏的图片，不是APP端的那种遮罩加载 */
+/* This loading element style is almost covering the full screen of the image, not the APP-like mask loading */
 .loading {
   position: fixed;
   top: 70px;

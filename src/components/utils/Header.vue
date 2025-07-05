@@ -1,6 +1,7 @@
 <template>
   <div class="header-container">
     <slot></slot>
+    <!-- @see https://icomoon.io/app/ -->
     <div class="buttons">
       <div class="logout" @click="logout">
         <svg
@@ -61,13 +62,17 @@ const toggleFullScreen = () => {
   }
 };
 
-const logout = () => {
+/**
+ *  强制刷新，但是日后需要修改本地存储清理逻辑
+ * Force refresh, but the local storage clearing logic needs to be modified in the future
+ *  @deprecated
+ */
+function logout() {
   localStorage.clear();
   Emitter.emit("info", "您已退出登录！", 1);
-  // 强制刷新
   window.location.href = window.$getPath("/@root");
   window.location.reload();
-};
+}
 </script>
 
 <style scoped>

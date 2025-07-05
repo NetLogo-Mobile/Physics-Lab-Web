@@ -9,7 +9,7 @@ const messages = {
 
 const i18n = createI18n({
   legacy: false,
-  locale: "English",
+  locale: "Chinese",
   fallbackLocale: "Chinese",
   messages,
 });

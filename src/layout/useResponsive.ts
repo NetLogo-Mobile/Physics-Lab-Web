@@ -1,6 +1,5 @@
 import { ref, onMounted, onUnmounted } from "vue";
 
-// 断点配置，可根据需要扩展
 const breakpoints = {
   mobile: 0,
   tablet: 500,
@@ -10,10 +9,10 @@ const breakpoints = {
 };
 
 /**
+ * 依据当前窗口宽度计算响应式布局参数
  * A composable function that provides responsive layout values (ref) based on the current window width.
- * This hook returns reactive references automatically update when the window is resized.
  *
- * @returns {Object}
+ * @returns {Object} 会在响应式变化时自动更新的响应式布局参数对象。Reactive references automatically update when the window is resized.
  *
  * @example
  * ```typescript
@@ -26,12 +25,12 @@ const breakpoints = {
 export function useResponsive() {
   const width = ref(window.innerWidth);
 
-  // 响应式参数
   const itemsPerRow = ref(getItemsPerRow(width.value));
-  const maxProjectsPerBlock = ref(getMaxProjectsPerBlock(width.value));
+  const maxProjectsPerBlock = ref(getMaxProjectsPerLine(width.value));
   const fontSize = ref(getFontSize(width.value));
 
   // 首页等展示的盒子数量 or 好友界面的数量
+  // The number of boxes displayed on the homepage or in the friends list
   function getItemsPerRow(w: number) {
     if (w >= breakpoints.wide) return 4;
     if (w >= breakpoints.laptop) return 3;
@@ -39,13 +38,18 @@ export function useResponsive() {
     return 1;
   }
 
-  function getMaxProjectsPerBlock(w: number) {
+  //  WorkList界面每行的作品盒子数量
+  // The number of work boxes per line in the WorkList page
+  function getMaxProjectsPerLine(w: number) {
     if (w >= breakpoints.desktop) return 6;
     if (w >= breakpoints.laptop) return 5;
-    if (w >= breakpoints.tablet) return 5;
-    return 4;
+    if (w >= breakpoints.tablet) return 4;
+    if (w >= breakpoints.mobile) return 3;
+    return 2;
   }
 
+  // ExperimentSummary字体大小
+  // The font size of the ExperimentSummary
   function getFontSize(w: number) {
     if (w >= breakpoints.wide) return "20px";
     if (w >= breakpoints.desktop) return "18px";
@@ -57,7 +61,7 @@ export function useResponsive() {
   function handleResize() {
     width.value = window.innerWidth;
     itemsPerRow.value = getItemsPerRow(width.value);
-    maxProjectsPerBlock.value = getMaxProjectsPerBlock(width.value);
+    maxProjectsPerBlock.value = getMaxProjectsPerLine(width.value);
     fontSize.value = getFontSize(width.value);
   }
 
