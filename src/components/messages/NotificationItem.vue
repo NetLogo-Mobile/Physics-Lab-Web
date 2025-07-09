@@ -7,20 +7,18 @@
       <div
         id="notification_title"
         class="notification_title"
-        v-html="parse(notification.msg_title, true)"
+        v-html="msgTitleHtml"
       ></div>
       <div id="notification_message" class="notification_message">
         <div id="notification_icon" class="notification_icon">
           <img id="notification_icon" :src="msg_icon_url" />
         </div>
         <div id="notification_text" class="notification_text">
-          <!-- 我认为是在没必要专门像APP一样渲染邮件，所以暂时这样 -->
-          <!-- I think it's unnecessary to render emails like an app, so I'll do it this way for now -->
           <n-ellipsis
             expand-trigger="click"
             line-clamp="2"
             :tooltip="false"
-            v-html="parse(notification.msg, true)"
+            v-html="msgHtml"
           >
           </n-ellipsis>
         </div>
@@ -31,7 +29,8 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
-import parse from "../../services/commonParser.ts";
+import { useAsyncHtml } from "../../services/utils.ts";
+import parse from "../../services/wasm/commonParser.ts";
 import showUserCard from "../../popup/usercard.ts";
 import { getAvatarUrl } from "../../services/getUserCurentAvatarByID";
 
@@ -70,6 +69,12 @@ const msg_icon_url = computed(() => {
       return "";
   }
 });
+
+const msgTitleHtml = useAsyncHtml(
+  () => props.notification.msg_title,
+  (v) => parse(v),
+);
+const msgHtml = useAsyncHtml(() => props.notification.msg, (v) => parse(v));
 
 function showComment() {
   if (props.notification.msg_type === 2) {

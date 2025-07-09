@@ -42,7 +42,8 @@ import { ref } from "vue";
 import MessagesList from "../components/messages/MessageList.vue";
 import { useRoute } from "vue-router";
 import Header from "../components/utils/Header.vue";
-import parse from "../services/commonParser.ts";
+import parse from "../services/wasm/commonParser.ts";
+import { useAsyncHtml } from "../services/utils.ts";
 import postComment from "../services/postComment.ts";
 import { useI18n } from "vue-i18n";
 
@@ -51,8 +52,9 @@ const route = useRoute();
 let isLoading = ref(false);
 let replyID = ref("");
 let upDate = ref(0);
-let title = ref(
-  `${parse(route.params.name as string)} 的 ${route.params.category === "User" ? t("comments.home") : t("comments.area")}`,
+const title = useAsyncHtml(
+  () => route.params.name as string,
+  (v) => parse(v)
 );
 let comment = ref(""); // 输入的内容 Input content
 

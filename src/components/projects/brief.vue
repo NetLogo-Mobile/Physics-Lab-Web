@@ -8,9 +8,9 @@
     <div class="card" :type="type">
       <img :src="imgUrl" class="icon" />
       <div class="text">
-        <p class="title" v-html="parse(data.Subject)"></p>
+        <p class="title" v-html="subjectHtml"></p>
         <p class="subtitle">
-          {{ data.User.Nickname + "&nbsp;&nbsp;-" + formattedDate }}
+          {{ data.User.Nickname + "\u00A0\u00A0-" + formattedDate }}
         </p>
       </div>
     </div>
@@ -19,8 +19,9 @@
 
 <script setup>
 import { computed } from "vue";
-import parse from "../../services/commonParser.ts";
+import parse from "../../services/wasm/commonParser.ts";
 import { getCoverUrl } from "../../services/utils.ts";
+import { useAsyncHtml } from "../../services/utils.ts";
 
 const { data, type } = defineProps({
   data: Object,
@@ -28,6 +29,7 @@ const { data, type } = defineProps({
 });
 
 const imgUrl = getCoverUrl(data);
+const subjectHtml = useAsyncHtml(() => data.Subject, parse);
 const timestamp = computed(() => {
   const hexId = data.ID.slice(0, 8);
   const decimalId = parseInt(hexId, 16);

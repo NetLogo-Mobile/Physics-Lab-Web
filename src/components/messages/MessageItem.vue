@@ -22,7 +22,7 @@
         <div
           id="notification_text"
           class="notification_text"
-          v-html="parse(message.msg, true)"
+          v-html="msgHtml"
         ></div>
       </div>
     </div>
@@ -31,7 +31,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
-import parse from "../../services/advancedParser.ts";
+import { useAsyncHtml } from "../../services/utils.ts";
+import parse from "../../services/wasm/commonParser.ts";
 import showUserCard from "../../popup/usercard.ts";
 import storageManager from "../../services/storage";
 import { getAvatarUrl } from "../../services/getUserCurentAvatarByID";
@@ -80,6 +81,8 @@ function handleReply() {
 function deleteMsg() {
   emit("deleteMsg", props.message);
 }
+
+const msgHtml = useAsyncHtml(() => props.message.msg, (v) => parse(v));
 </script>
 
 <style scoped>

@@ -15,7 +15,7 @@
             style="width: 2.7em"
             @click="goBack"
           />
-          <div class="title" v-html="parseInline(data.Subject)"></div>
+          <div class="title" v-html="subjectHtml"></div>
           <div style="position: absolute; z-index: 100">
             <Tag
               v-if="route.params.category"
@@ -85,7 +85,7 @@
                     </p>
                     <p
                       style="color: gray; margin: 0%; width: 100%"
-                      v-html="parseInline(data.User.Signature)"
+                      v-html="signatureHtml"
                     ></p>
                   </div>
                 </div>
@@ -114,7 +114,7 @@
                     <div
                       class="intro"
                       style="text-align: left; font-size: medium"
-                      v-html="parse(data.Description)"
+                      v-html="descriptionHtml"
                     ></div>
                     <div style="font-weight: bold; text-align: left">
                       {{ t("expeSummary.wordCount") }}
@@ -166,8 +166,9 @@ import { getData } from "../services/api/getData.ts";
 import { NTabs, NTabPane } from "naive-ui";
 import Tag from "../components/utils/TagLarger.vue";
 import MessageList from "../components/messages/MessageList.vue";
-import parse from "../services/advancedParser.ts";
-import parseInline from "../services/commonParser.ts";
+import parse from "../services/wasm/advancedParser.ts";
+import { useAsyncHtml } from "../services/utils.ts";
+import parseInline from "../services/wasm/commonParser.ts";
 import showUserCard from "../popup/usercard";
 import postComment from "../services/postComment.ts";
 import "highlight.js/styles/github.css";
@@ -219,6 +220,13 @@ const data = ref({
     Verification: "Banned",
   },
 });
+
+// 用于渲染 data.Subject
+const subjectHtml = useAsyncHtml(() => data.value.Subject, parseInline);
+// 用于渲染 data.User.Signature
+const signatureHtml = useAsyncHtml(() => data.value.User.Signature, parseInline);
+// 用于渲染 data.Description（如需异步解析）
+const descriptionHtml = useAsyncHtml(() => Array.isArray(data.value.Description) ? data.value.Description.join('\n') : data.value.Description, parse);
 
 const coverUrl = getCoverUrl(data.value);
 let avatarUrl = getUserUrl(data.value.User);

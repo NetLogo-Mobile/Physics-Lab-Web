@@ -14,7 +14,7 @@
     <div class="card">
       <img :src="imgUrl" class="icon" />
       <div class="text">
-        <p class="title" v-html="parse(data.Subject)"></p>
+        <p class="title" v-html="subjectHtml"></p>
         <p class="subtitle">{{ data.User.Nickname }}</p>
         <div class="subtitle">
           <Tag v-for="i in data.Tags" :category="data.Category" :tag="i" />
@@ -26,8 +26,9 @@
 
 <script setup lang="ts">
 import Tag from "../utils/Tag.vue";
-import parse from "../../services/commonParser.ts";
+import parse from "../../services/wasm/commonParser.ts";
 import { getCoverUrl } from "../../services/utils";
+import { useAsyncHtml } from "../../services/utils.ts";
 
 interface IData {
   ID: string;
@@ -44,6 +45,7 @@ const { data } = defineProps<{
   data: IData;
 }>();
 const imgUrl = getCoverUrl(data);
+const subjectHtml = useAsyncHtml(() => data.Subject, parse);
 </script>
 
 <style scoped>
