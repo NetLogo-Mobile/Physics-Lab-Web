@@ -31,7 +31,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
-import { getData } from "../../services/api/getData";
 import parse from "../../services/advancedParser.ts";
 import showUserCard from "../../popup/usercard.ts";
 import storageManager from "../../services/storage";
@@ -60,24 +59,27 @@ if (currentUserIdStorage.status === "success" && currentUserIdStorage.value) {
 }
 const avatarUrl = ref("/assets/user/default-avatar.png");
 
-const fetchAvatar = async () => {
-  avatarUrl.value = await getAvatarUrl(props.message.userID);
+const setCurrentAvatar = async () => {
+  console.log(props.message.userID === "");
+  if (props.message.userID !== "") {
+    // 有些地方是匿名的，所以userID为空，不设置心得头像就会沿用默认头像
+    // Some places are anonymous, so if userID is empty, the default avatar will be used.
+    avatarUrl.value = await getAvatarUrl(props.message.userID);
+  }
 };
 
-onMounted(fetchAvatar);
-watch(() => props.message.userID, fetchAvatar);
+onMounted(setCurrentAvatar);
+watch(() => props.message.userID, setCurrentAvatar);
 
-const handleReply = () => {
+function handleReply() {
   emit("msgClick", props.message);
-};
+}
 
-const deleteMsg = async () => {
-  await getData("Messages/RemoveComment", {
-    TargetType: props.message.type,
-    CommentID: props.message.id,
-  });
+// 删除消息需要将n事件上报到父组件，因为其具有数据所有权
+//The delete message needs to report the  event to the parent component, because it has ownership of the data.
+function deleteMsg() {
   emit("deleteMsg", props.message);
-};
+}
 </script>
 
 <style scoped>

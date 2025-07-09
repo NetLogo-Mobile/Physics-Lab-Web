@@ -5,7 +5,7 @@
       <div class="info">
         <div class="username">{{ user.Nickname }}</div>
         <div class="signature">
-          {{ user.Signature || "这个人很神秘，什么也没有写" }}
+          {{ user.Signature || $t("user.noSignature") }}
         </div>
       </div>
     </div>

@@ -25,6 +25,7 @@ import { getData } from "../../services/api/getData.ts";
 import type { PropType } from "vue";
 import Emitter from "../../services/eventEmitter.ts";
 import InfiniteScroll from "../utils/infiniteScroll.vue";
+import { useI18n } from "vue-i18n";
 
 interface MessageItem {
   id: string;
@@ -43,16 +44,38 @@ const { ID, Category, upDate } = defineProps({
   upDate: Number,
 });
 
-let items = ref<MessageItem[]>([]);
+let items = ref<MessageItem[]>([]); // 前端的消息列表  front-end message list
 const loading = ref(false);
 let noMore = ref(false);
 let skip = 0;
 let from: any = null;
+const { t } = useI18n();
 
 const emit = defineEmits(["msgClick"]);
 
-function deleteMsg(message: MessageItem) {
-  items.value = items.value.filter((item: any) => item.id !== message.id);
+async function deleteMsg(message: MessageItem) {
+  const index = items.value.findIndex((item: any) => item.id === message.id);
+  let removed: MessageItem[] = [];
+  if (index !== -1) {
+    removed = items.value.splice(index, 1);
+    // splice方法会直接改动数据的
+    // method splice will directly modify the data
+    removed = [...removed];
+  }
+  try {
+    const re = await getData("Messages/RemoveComment", {
+      TargetType: message.type,
+      CommentID: message.id,
+    });
+    // 删除未成功，加回列表原有位置
+    // if the delete failed, add the removed item back to the original position
+    if (re.Status !== 200 && index !== -1) {
+      items.value.splice(index, 0, removed[0]);
+      Emitter.emit("error", t("messagesI18n.errorOnDelete"), 2);
+    }
+  } catch (error) {
+    Emitter.emit("error", t("error.unknownError"), 2, error);
+  }
 }
 
 function handleMsgClick(message: MessageItem) {

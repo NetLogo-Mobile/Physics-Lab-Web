@@ -96,4 +96,3 @@ const handleClick = () => {
   white-space: nowrap;
 }
 </style>
-../../services/utils

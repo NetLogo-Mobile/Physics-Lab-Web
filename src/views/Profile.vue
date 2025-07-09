@@ -20,15 +20,18 @@
             {{ userData.User.Nickname }}
           </div>
           <Tag
+            category="User"
             :tag="userData.User?.Verification || 'user'"
             style="color: aquamarine; font-weight: bold"
           ></Tag>
           <Tag
+            category="User"
             :tag="
               t('profile.fans', { count: userData.Statistic.FollowerCount })
             "
           ></Tag>
           <Tag
+            category="User"
             :tag="
               t('profile.follows', { count: userData.Statistic.FollowingCount })
             "

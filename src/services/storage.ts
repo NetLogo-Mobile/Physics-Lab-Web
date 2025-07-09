@@ -1,4 +1,5 @@
 // 我们强制要求在使用本地存储获取变量是必须判断其状态
+// We force the requirement to check the status when using local storage to get variables
 type StorageStatus = "success" | "expired" | "empty";
 
 interface StorageResult<T> {

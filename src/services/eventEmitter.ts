@@ -10,7 +10,7 @@ type EventHandlerMap = {
   loginRequired: () => void;
   loading: (msg: string, duration: number) => void;
   warning: (msg: string, duration: number) => void;
-  error: (msg: string, duration: number) => void;
+  error: (msg: string, duration: number, details?: any) => void;
   info: (msg: string, duration: number) => void;
   success: (msg: string, duration: number) => void;
 };

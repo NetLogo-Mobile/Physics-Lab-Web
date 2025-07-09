@@ -32,7 +32,7 @@ interface NotificationItem {
 
 const items = ref<NotificationItem[]>([]);
 const loading = ref(false);
-let skip = 0;
+let skip = 0; // 获取消息API的必要参数 A necessary parameter for the GetMessages API
 const noMore = ref(false);
 let templates: any = [
   {
@@ -77,49 +77,14 @@ let templates: any = [
     AvailableUntil: 1893477600000,
     Push: 0,
   },
-  {
-    ID: "5c9114e9ce50092ed4453fd5",
-    Identifier: "Attention-Followed",
-    CategoryID: 2,
-    Management: false,
-    Subject: {
-      Chinese: "新的关注者！",
-      English: "New follower!",
-      ChineseTraditional: "新的關注者！",
-      German: "Neuer Anhänger",
-      French: "Nouveau disciple!",
-      Japanese: "新しいフォロワー！",
-      Italian: "Nuovo follower!",
-      Polish: "Nowy obserwujący!",
-      Spanish: "¡Nuevo seguidor!",
-      Ukrainian: "Новий підписник!",
-    },
-    Content: {
-      Chinese: "{Users} 关注了你。",
-      English: "{Users} followed you.",
-      ChineseTraditional: "{Users} 關注了你。",
-      German: "{Users} ist dir gefolgt.",
-      French: "{Users} vous a suivi.",
-      Japanese: "{Users} さんがあなたをフォローしました。",
-      Italian: "{Users} ti hanno seguito.",
-      Polish: "{Users} obserwują Cię.",
-      Spanish: "{Users} te siguió.",
-      Ukrainian: "{Users} підписалися на вас.",
-    },
-    Description: null,
-    Bonuses: null,
-    Action: null,
-    CombineLimit: 10,
-    AvailableFrom: 1546322400000,
-    AvailableUntil: 1893477600000,
-    Push: 0,
-  },
-];
+]; // 仅仅是为了类型推断  Only for type inference
 
 const { notificationTypeIndexOfUI } = defineProps([
   "notificationTypeIndexOfUI",
 ]);
 
+// 以下两个函数是API糟糕设计的糟糕解决方案，既然厄能跑，不建议尝试修改
+// These two functions are bad solutions to the bad design of the API. Since it can run, it is not recommended to try to modify them.
 function convertCategoryIDToUIIndex(n: number) {
   return n === 2 ? 3 : n === 3 ? 2 : n;
 }

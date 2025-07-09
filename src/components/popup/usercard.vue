@@ -9,6 +9,7 @@
           @click="jumpToUser(props.userid)"
         />
         <!-- 阻止冒泡，使得只有点击遮罩才关闭 -->
+        <!-- Prevents bubbling, so that only clicking on the overlay will close it -->
         <p class="username">{{ name }}</p>
         <p class="snt">{{ snt || "这个人很神秘，什么也么有写" }}</p>
       </div>

@@ -45,7 +45,6 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-const { t } = useI18n();
 import UserList from "../components/friends/list.vue";
 import Header from "../components/utils/Header.vue";
 import Footer from "../components/utils/Footer.vue";
@@ -54,6 +53,7 @@ import { useResponsive } from "../layout/useResponsive";
 import storageManager from "../services/storage";
 const userID = storageManager.getStr("userID").value as string;
 const { itemsPerRow } = useResponsive();
+const { t } = useI18n();
 </script>
 
 <style scoped>

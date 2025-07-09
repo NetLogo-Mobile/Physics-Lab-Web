@@ -3,7 +3,7 @@
     <Header>
       <h1>{{ $t("blackhole.title") }}</h1>
     </Header>
-    <!-- 高度：50px定值 -->
+    <!-- Height：50px fixed -->
     <main>
       <div v-if="loading" class="loading"></div>
       <div v-if="!loading" class="block-container">
@@ -25,7 +25,10 @@
                 :activityBackground="getPath('/@base/assets/mechanics.png')"
                 :projectsName="block.Subject"
                 :activityProc="
-                  getActivityProc(block.AuxiliaryLink || 'internal://co-dev')
+                  (event) =>
+                    getActivityProc(
+                      block.AuxiliaryLink || 'internal://co-dev',
+                    )?.(event) ?? undefined
                 "
                 :link="EncodeAPITargetLink(block.TargetLink)"
               />
@@ -70,6 +73,8 @@ const goToDevelopment = () => {
   window.open("https://github.com/wsxiaolin/physics-lab-web");
 };
 
+// 部分活动链接是web版本特有的 Some activity links are specific to the web version
+// @see Interceptor.AfterRequest
 const activityLinkMap: Record<string, () => void> = {
   "internal://forum": goToWebCommunity,
   "internal://co-dev": goToDevelopment,
@@ -77,8 +82,14 @@ const activityLinkMap: Record<string, () => void> = {
 
 const getActivityProc = (
   link: string | undefined,
-): (() => void) | undefined => {
-  return link ? activityLinkMap[link] : undefined;
+): ((event: MouseEvent) => void) => {
+  const fn = link ? activityLinkMap[link] : undefined;
+  return fn
+    ? (event: MouseEvent) => {
+        event?.preventDefault?.();
+        fn();
+      }
+    : () => {};
 };
 
 const { itemsPerRow, maxProjectsPerBlock } = useResponsive();

@@ -1,7 +1,9 @@
 type PUser = {
   ID: string;
   Avatar: number;
-  Verification: string;
+  Verification?: string;
+  // 封禁用户直接返回默认头像 ，在getUserCurentAvatarByID.ts中不会传入Verification。所以可选
+  // If the user is banned, return the default avatar directly. It will not be passed in Verification in getUserCurentAvatarByID.ts. So it's optional.
 };
 
 type PProjects = {
@@ -54,6 +56,7 @@ export function EncodeAPITargetLink(input: string) {
     ExcludeTags: null,
   };
   // 处理前缀以确定 Category
+  // To handle the prefix to determine Category
   result.Category = input.startsWith("d") ? "Discussion" : "Experiment";
   const segments = input.split("://").slice(1).join("://");
   const parts = segments.split("/");
@@ -74,6 +77,7 @@ export function EncodeAPITargetLink(input: string) {
     }
   }
   // 确保 Tag 和 ExcludeTags 是数组或 null
+  // Ensure that Tag and ExcludeTags are arrays or null
   if (!Array.isArray(result.Tags) || result.Tags.length === 0) {
     result.Tags = null;
   }

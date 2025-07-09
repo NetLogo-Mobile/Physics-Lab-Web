@@ -14,7 +14,6 @@ interface IIntercetporResponse {
 
 const noMessagesPath = ["/Users/GetUser"];
 
-// 替换原有的 get/set 调用为 getStr/getObj/setStr/setObj
 const initialHistoryResult = storageManager.getObj("requestHistoryMap");
 const initialHistory =
   initialHistoryResult.status === "success" && initialHistoryResult.value

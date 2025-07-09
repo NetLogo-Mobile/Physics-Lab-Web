@@ -14,10 +14,10 @@ let cache = (() => {
  * @returns {string} url
  */
 
-export async function getAvatarUrl(ID, useCache = true) {
+export async function getAvatarUrl(ID: string, useCache = true) {
   let avatarIndex = 0;
-  // 72小时缓存
-  // 注意，在任何getUser请求都会刷新本缓存
+  // 72小时缓存, 注意，在任何getUser请求都会刷新本缓存
+  // 72-hour cache, note that any getUser request will refresh this cache
   if (
     useCache &&
     cache[ID] &&
@@ -28,25 +28,27 @@ export async function getAvatarUrl(ID, useCache = true) {
     avatarIndex = cache[ID][0];
   } else {
     try {
-      // 创建一个新的Promise用于超时
+      // Promise用于超时
+      // Promise is used for timeout
       const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error("请求超时")), 3000); // 3秒超时
+        setTimeout(() => reject(new Error("请求超时")), 30000); // 30秒 30s
       });
-      // 使用Promise.race来处理请求和超时
       const response = await Promise.race([
         getData("/Users/GetUser", { ID }),
         timeoutPromise,
       ]);
-      avatarIndex = response.Data.User.Avatar;
+      avatarIndex = response.Data?.User?.Avatar;
+      if (!avatarIndex) {
+        return "/assets/user/default-avatar.png";
+      }
       cache[ID] = [avatarIndex, Date.now()];
       storageManager.setObj(
         "userIDAndAvartarIDMap",
         cache,
         72 * 60 * 60 * 1000,
-      ); // 72小时缓存
+      ); // 72小时 72 hours
     } catch (error) {
       console.error("获取头像失败", error);
-      // 返回默认头像的URL
       return "/assets/user/default-avatar.png";
     }
   }

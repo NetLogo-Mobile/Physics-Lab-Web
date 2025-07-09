@@ -54,8 +54,8 @@ let upDate = ref(0);
 let title = ref(
   `${parse(route.params.name as string)} 的 ${route.params.category === "User" ? t("comments.home") : t("comments.area")}`,
 );
+let comment = ref(""); // 输入的内容 Input content
 
-let comment = ref("");
 const goBack = () => {
   window.history.back();
 };

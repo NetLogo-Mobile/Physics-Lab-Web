@@ -1,11 +1,13 @@
 <template>
+  <!-- Adaptation用于Profile和ExperimentSummaries页面的适配，他们都是两个区块，宽屏左右分布，长屏上下分布。 -->
+  <!-- Adaptation is used for the Profile and ExperimentSummaries pages, which have two blocks, distributed left and right in wide screens, and top and bottom in long screens. -->
   <div class="basic-layout">
-    <!-- 封面区域插槽 -->
+    <!-- 封面区域  cover area -->
     <div class="layout-left">
       <slot name="left"></slot>
     </div>
 
-    <!-- 内容区域插槽 -->
+    <!-- 作品介绍或者个人作品列表  Experiment introduction or personal work list -->
     <div class="layout-right">
       <div class="scroll-container">
         <slot name="right"></slot>
@@ -29,7 +31,7 @@ defineComponent({
   overflow-x: hidden;
 }
 
-/* 默认竖屏布局 */
+/* 默认竖屏布局  Default vertical layout */
 .layout-left {
   position: absolute;
   top: 0;
@@ -71,7 +73,7 @@ defineComponent({
   z-index: 2;
 }
 
-/* 横屏布局 */
+/* 横屏布局  Horizontal layout */
 @media (min-aspect-ratio: 1/1) {
   .layout-left {
     width: 50vw;
@@ -98,6 +100,7 @@ defineComponent({
   bottom: 0;
   overflow-y: hidden;
 }
+
 .div {
   box-sizing: border-box;
 }

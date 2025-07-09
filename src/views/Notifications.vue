@@ -5,6 +5,8 @@
   <main>
     <div class="outer">
       <n-tabs type="line" animated justify-content="space-evenly">
+        <!-- notificationTypeIndexOfUI 是糟糕的，不建议改动 @see NotificationList.vue -->
+        <!-- The parameter `notificationTypeIndexOfUI` is poorly designed, do not modify it. @see NotificationList.vue -->
         <n-tab-pane name="全部" :tab="t('notifications.all')">
           <div class="item">
             <NotificationList notificationTypeIndexOfUI="0"></NotificationList>

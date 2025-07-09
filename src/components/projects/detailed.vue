@@ -10,6 +10,7 @@
     }"
   >
     <!-- 早期实验区作品类型为null -->
+    <!-- Early works in the experimental area have a type of null -->
     <div class="card">
       <img :src="imgUrl" class="icon" />
       <div class="text">
