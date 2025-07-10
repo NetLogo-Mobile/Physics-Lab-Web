@@ -33,9 +33,8 @@
 import { ref, onMounted, watch } from "vue";
 import parse from "../../services/advancedParser.ts";
 import showUserCard from "../../popup/usercard.ts";
-import storageManager from "../../services/storage";
 import { getAvatarUrl } from "../../services/getUserCurentAvatarByID";
-import Emitter from "../../services/eventEmitter";
+import storageManager from "../../services/storage.ts";
 
 const props = defineProps<{
   message: {
@@ -48,15 +47,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(["msgClick", "deleteMsg"]);
-
-let currentUserId = "";
-
-const currentUserIdStorage = storageManager.getStr("userID");
-if (currentUserIdStorage.status === "success" && currentUserIdStorage.value) {
-  currentUserId = currentUserIdStorage.value;
-} else {
-  Emitter.emit("loginRequired");
-}
+const currentUserId = storageManager.getObj("userInfo")?.value?.id || "";
 const avatarUrl = ref("/assets/user/default-avatar.png");
 
 const setCurrentAvatar = async () => {

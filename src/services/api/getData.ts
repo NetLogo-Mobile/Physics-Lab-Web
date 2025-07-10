@@ -4,9 +4,7 @@ import storageManager from "../storage.ts";
 import i18n from "../i18n/i18n.ts";
 
 /**
- * 发送POST请求到指定的API路径，并附带提供的请求体。
- * 注意：本API会使用本地存储的登录凭据Token和AuthCode，但不会处理未登录或者权限不足，使用本API必须手动处理错误。
- *  在请求之前和之后会销毁所有现有的消息，执行`beforeRequest`和`afterRequest`钩子，以允许预处理和后处理。
+ * 本API会使用本地存储的登录凭据Token和AuthCode，但不会处理未登录或者权限不足，使用本API必须手动处理错误。
  *
  * Sends a POST request to the specified API path with the provided body.
  * Note: This API will use the login credentials Token and AuthCode from local storage, but it does not handle errors for not being logged in or insufficient permissions. You must handle these errors manually when using this API.
@@ -18,7 +16,14 @@ import i18n from "../i18n/i18n.ts";
  * @returns 一个Promise，该Promise将解析为响应数据，或者如果中断了流，则解析为结果的钩子。 A promise that resolves with the response data, or with the result of the hooks if they interrupt the flow.
  */
 export async function getData(path: string, body: unknown) {
-  window.$message.destroyAll();
+  const userInfo = storageManager.getObj("userInfo");
+  console.log(userInfo);
+  if (userInfo.status === "empty" || userInfo.status === "expired") {
+    Emitter.emit("loginRequired");
+    return;
+  }
+  const token = userInfo.value.token;
+  const authCode = userInfo.value.authCode;
   const beforeRes = beforeRequest(path);
   if (beforeRes.continue === false) {
     return beforeRes.data;
@@ -26,14 +31,12 @@ export async function getData(path: string, body: unknown) {
   return fetch(window.$getPath("/@api" + path), {
     method: "POST",
     body: JSON.stringify(body),
-    // @ts-expect-error 暂无类型信息 There is no type information
     headers: {
       "Content-Type": "application/json",
-      "x-API-Token": storageManager.getStr("token").value || undefined,
-      "x-API-AuthCode": storageManager.getStr("authCode").value || undefined,
+      "x-API-Token": token,
+      "x-API-AuthCode": authCode,
     },
   }).then((response) => {
-    window.$message.destroyAll();
     if (!response.ok) {
       return response.json().then(() => {
         // 这里的错误处理仅处理API本身非2xx的错误，及服务器本身出了问题
@@ -72,8 +75,10 @@ export async function login(
   arg2: string | null,
   is_token = false,
 ) {
-  window.$message.destroyAll();
-  Emitter.emit("loading", "正在与服务器通信...", 50);
+  let messageRef = window.$message.loading("loading", {
+    duration: 30 * 1000,
+  });
+
   let username = is_token ? null : arg1;
   let password = is_token ? null : arg2;
   let header = { "Content-Type": "application/json" };
@@ -96,18 +101,13 @@ export async function login(
     }),
     headers: header,
   }).then(async (response) => {
-    window.$message.destroyAll();
     if (!response.ok) {
       return response.json().then(() => {
         Emitter.emit("error", "无法与服务器通讯，请稍候再试", 3);
       });
     }
     return response.json().then((data) => {
-      window.$message.destroyAll();
-      if (password) {
-        storageManager.setStr("loginStatus", "true", 10 * 24 * 60 * 60 * 1000);
-        Emitter.emit("success", "登录成功", 1);
-      }
+      messageRef.destroy();
       return data;
     });
   });

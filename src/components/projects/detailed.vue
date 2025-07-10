@@ -4,7 +4,7 @@
       name: 'ExperimentSummary',
       params: {
         category: data.Category || 'Experiment',
-        id: data.ID
+        id: data.ID,
       },
     }"
   >

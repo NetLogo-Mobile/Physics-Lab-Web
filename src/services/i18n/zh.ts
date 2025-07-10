@@ -15,6 +15,7 @@ export default {
     loginFailed: "登录失败",
     autoLoginFailed: "自动登录失败",
     loginError: "登录过程中发生错误",
+    wrong: "用户名或密码错误",
   },
   user: {
     level: "等级",

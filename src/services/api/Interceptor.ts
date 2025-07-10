@@ -1,6 +1,8 @@
-import Emitter from "../eventEmitter.ts";
+import type { MessageReactive } from "naive-ui";
 import translateErrorMessage from "../i18n/translateErrorMessage.ts";
 import storageManager from "../storage.ts";
+
+let messageRef: MessageReactive;
 
 interface IResponse {
   Status: number;
@@ -56,7 +58,6 @@ function rateLimit(path: string): boolean {
 }
 
 export function beforeRequest(path: string): IIntercetporResponse {
-  window.$message.destroyAll();
   if (rateLimit(path)) {
     return {
       continue: false,
@@ -64,16 +65,18 @@ export function beforeRequest(path: string): IIntercetporResponse {
     };
   }
   if (!noMessagesPath.some((p) => path === p))
-    Emitter.emit("loading", "正在与服务器通信...", 40);
+    messageRef = window.$message.loading("正在加载...", {
+      duration: 40000,
+    });
   return { continue: true, data: null };
 }
 
 export function afterRequest(response: IResponse): IIntercetporResponse {
-  window.$message.destroyAll();
   let re = response;
   if (response.Status !== 200) {
     re.Message = translateErrorMessage(response.Message);
   }
+  messageRef.destroy();
   return {
     continue: false,
     data: re,

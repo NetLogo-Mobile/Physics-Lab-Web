@@ -83,6 +83,7 @@ const router = createRouter({
 // });
 
 Emitter.on("loginRequired", () => {
+  Emitter.emit("error", "当前操作需要登录", 3);
   router.push("/");
 });
 

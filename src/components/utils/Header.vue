@@ -48,6 +48,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Emitter from "../../services/eventEmitter.ts";
+import storageManager from "../../services/storage.ts";
 let isFullScreen = ref(false);
 
 const toggleFullScreen = () => {
@@ -68,7 +69,7 @@ const toggleFullScreen = () => {
  *  @deprecated
  */
 function logout() {
-  localStorage.clear();
+  storageManager.remove("userInfo");
   Emitter.emit("info", "您已退出登录！", 1);
   window.location.href = window.$getPath("/@root");
   window.location.reload();

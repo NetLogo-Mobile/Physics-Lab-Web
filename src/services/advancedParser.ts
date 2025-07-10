@@ -1,3 +1,5 @@
+// 本文件即将废弃，请勿修改
+
 import DOMPurify from "dompurify";
 import markdown from "markdown-it";
 // @ts-expect-error 暂无类型信息 There is no type information

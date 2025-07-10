@@ -15,6 +15,7 @@ export default {
     loginFailed: "Login failed",
     autoLoginFailed: "Auto login failed",
     loginError: "Error occurred during login",
+    wrong: "incorrect username or password",
   },
   user: {
     level: "Level",

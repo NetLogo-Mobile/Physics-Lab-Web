@@ -1,6 +1,6 @@
 <template>
   <div id="app" @click="handleClick">
-    <n-message-provider>
+    <n-message-provider :max="2">
       <Msg></Msg>
     </n-message-provider>
 

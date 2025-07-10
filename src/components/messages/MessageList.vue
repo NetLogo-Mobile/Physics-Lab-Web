@@ -26,6 +26,7 @@ import type { PropType } from "vue";
 import Emitter from "../../services/eventEmitter.ts";
 import InfiniteScroll from "../utils/infiniteScroll.vue";
 import { useI18n } from "vue-i18n";
+import storageManager from "../../services/storage.ts";
 
 interface MessageItem {
   id: string;
@@ -83,6 +84,11 @@ function handleMsgClick(message: MessageItem) {
 }
 
 const handleLoad = async () => {
+  console.log(storageManager.getObj("userInfo"));
+  if (storageManager.getObj("userInfo")?.value?.loginStatus === false) {
+    Emitter.emit("loginRequired");
+    return;
+  }
   if (loading.value || noMore.value === true) return;
   loading.value = true;
   const getMessagesResponse = await getData("Messages/GetComments", {

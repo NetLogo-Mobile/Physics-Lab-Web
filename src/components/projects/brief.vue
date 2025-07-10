@@ -2,7 +2,7 @@
   <router-link
     :to="{
       name: 'ExperimentSummary',
-      params: { category: data.Category, id: data.ID},
+      params: { category: data.Category, id: data.ID },
     }"
   >
     <div class="card" :type="type">

@@ -1,3 +1,5 @@
+// 本文件即将废弃，请勿修改
+
 import DOMPurify from "dompurify";
 
 /**

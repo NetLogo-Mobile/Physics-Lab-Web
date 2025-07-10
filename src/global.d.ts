@@ -1,27 +1,33 @@
-interface Window {
+import type { MessageReactive } from "naive-ui";
+
+declare global{
+  interface Window {
   $message: {
     loading: (
       message: string,
       config?: { duration: number; closable?: boolean },
-    ) => void;
+    ) => MessageReactive;
     success: (
       message: string,
       config?: { duration: number; closable?: boolean },
-    ) => void;
+    ) => MessageReactive;
     warning: (
       message: string,
       config?: { duration: number; closable?: boolean },
-    ) => void;
+    ) => MessageReactive;
     error: (
       message: string,
       config?: { duration: number; closable?: boolean },
-    ) => void;
+    ) => MessageReactive;
     info: (
       message: string,
       config?: { duration: number; closable?: boolean },
-    ) => void;
+    ) => MessageReactive;
     destroyAll: () => void;
   };
   $getPath: (path: string) => string;
-  $parse: (text: string | string[], isInline?: boolean) => string; // 请勿在实际代码中使用，仅供
+  $parse: (text: string | string[], isInline?: boolean) => string; // for test only
 }
+
+}
+
