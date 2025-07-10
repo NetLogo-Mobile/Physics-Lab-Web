@@ -4,7 +4,7 @@
       <!-- title的i18n应当是服务器返回自动i处理的 -->
       <!-- The title should be processed automatically by the server for i18n -->
       <div id="title">{{ title }}</div>
-      <div id="more" @click="jump">{{ $t("more") }}</div>
+      <div id="more" @click="jump">{{ $t("worklist.more") }}</div>
     </div>
     <div style="display: flex; flex-direction: column; gap: 10px">
       <Detailed v-for="(item, index) in data" :key="index" :data="item" />
