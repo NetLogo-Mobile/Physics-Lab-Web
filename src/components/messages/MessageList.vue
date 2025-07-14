@@ -84,7 +84,6 @@ function handleMsgClick(message: MessageItem) {
 }
 
 const handleLoad = async () => {
-  console.log(storageManager.getObj("userInfo"));
   if (storageManager.getObj("userInfo")?.value?.loginStatus === false) {
     Emitter.emit("loginRequired");
     return;

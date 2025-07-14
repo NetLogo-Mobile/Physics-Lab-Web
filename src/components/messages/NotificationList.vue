@@ -16,11 +16,12 @@ import { getData } from "../../services/api/getData.ts";
 import Emitter from "../../services/eventEmitter";
 import InfiniteScroll from "../utils/infiniteScroll.vue";
 import { useI18n } from "vue-i18n";
+import storageManager from "../../services/storage.ts";
 
 const { locale } = useI18n();
 
 interface NotificationItem {
-  id: number;
+  id: string;
   msg_title: string;
   msg: string;
   msg_type: number;
@@ -28,6 +29,29 @@ interface NotificationItem {
   tid: string;
   name: string;
   uid: string;
+}
+
+interface PMessage {
+  Fields: {
+    User?: string;
+    UserID?: string;
+    Discussion?: string;
+    DiscussionID?: string;
+    Experiment?: string;
+    ExperimentID?: string;
+    Content: string;
+    TargetName?: string; // 当前登录者的名称，the nickname of the current user
+    Unitl: string;
+    Editor: string;
+  };
+  Users: string[];
+  UserNames: string[];
+  Numbers: {
+    Gold: string;
+  };
+  ID: string;
+  TemplateID: string;
+  CategoryID: number;
 }
 
 const items = ref<NotificationItem[]>([]);
@@ -93,7 +117,7 @@ function convertUIIndexToCategoryID(n: number) {
   return n === 3 ? 2 : n === 2 ? 3 : n;
 }
 
-function fillInTemplate(data: string, message: any) {
+function fillInTemplate(data: string, message: PMessage) {
   const re = data
     .replace(
       /{Users}/g,
@@ -109,7 +133,11 @@ function fillInTemplate(data: string, message: any) {
         : `<experiment${message.Fields?.ExperimentID}>${message.Fields?.Experiment}</experiment>`,
     )
     .replace(/{\$Content}/g, message.Fields.Content)
-    .replace(/{\$TargetName}/g, localStorage.getItem("nickName") || "朋友")
+    .replace(
+      /{\$TargetName}/g,
+      message.Fields.TargetName ||
+        storageManager.getObj("userInfo").value?.nickName,
+    )
     .replace(/{\$Until}/g, message.Fields.Unitl)
     .replace(/{\$Editor}/g, message.Fields.Editor)
     .replace(/{\$Gold}/g, message.Numbers?.Gold)
@@ -134,14 +162,14 @@ const handleLoad = async (noTemplates = true) => {
       templates = getMessagesResponse.Data.Templates;
     }
 
-    const messages = getMessagesResponse.Data.Messages;
+    const messages = getMessagesResponse.Data.Messages as PMessage[];
 
     if (messages.length === 0) {
       noMore.value = true;
       Emitter.emit("warning", "没有更多了", 2);
     }
 
-    const defaultItems = messages.map((message: any) => {
+    const defaultItems = messages.map((message) => {
       const template = templates.find((t: any) => t.ID === message.TemplateID);
 
       const lang = (
@@ -173,11 +201,13 @@ const handleLoad = async (noTemplates = true) => {
         tid:
           message.Fields?.UserID ||
           message.Fields?.DiscussionID ||
-          message.Fields?.ExperimentID,
+          message.Fields?.ExperimentID ||
+          "",
         name:
           message.Fields?.Discussion ||
           message.Fields?.Experiment ||
-          message.Fields?.User,
+          message.Fields?.User ||
+          "",
         uid: message.Users[0],
       };
     });

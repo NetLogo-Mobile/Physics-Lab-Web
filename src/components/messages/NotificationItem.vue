@@ -1,7 +1,7 @@
 <template>
   <div class="notification_container">
     <div class="img" @click.stop="showUserCard(notification.uid)">
-      <img id="avatar" :src="avatarUrl" />
+      <img id="avatar" :src="getPath(avatarUrl)" />
     </div>
     <div id="notification" class="notification" @click="showComment">
       <div
@@ -11,7 +11,7 @@
       ></div>
       <div id="notification_message" class="notification_message">
         <div id="notification_icon" class="notification_icon">
-          <img id="notification_icon" :src="msg_icon_url" />
+          <img id="notification_icon" :src="getPath(msg_icon_url)" />
         </div>
         <div id="notification_text" class="notification_text">
           <!-- 我认为是在没必要专门像APP一样渲染邮件，所以暂时这样 -->
@@ -34,6 +34,7 @@ import { ref, computed, onMounted, watch } from "vue";
 import parse from "../../services/commonParser.ts";
 import showUserCard from "../../popup/usercard.ts";
 import { getAvatarUrl } from "../../services/getUserCurentAvatarByID";
+import getPath from "../../services/getPath.ts";
 
 const props = defineProps<{
   notification: {
@@ -47,9 +48,12 @@ const props = defineProps<{
   };
 }>();
 
-const avatarUrl = ref("/assets/user/default-avatar.png");
+const avatarUrl = ref("/@base/assets/user/default-avatar.png");
 const fetchAvatar = async () => {
-  avatarUrl.value = await getAvatarUrl(props.notification.uid);
+  avatarUrl.value =
+    props.notification.msg_type === 1
+      ? "/@base/assets/messages/Message-Unread.png"
+      : await getAvatarUrl(props.notification.uid);
 };
 onMounted(fetchAvatar);
 watch(() => props.notification.uid, fetchAvatar);
@@ -57,15 +61,15 @@ watch(() => props.notification.uid, fetchAvatar);
 const msg_icon_url = computed(() => {
   switch (props.notification.msg_type) {
     case 1:
-      return "/assets/icons/notifications_system.png";
+      return "/@base/assets/icons/notifications_system.png";
     case 2:
-      return "/assets/icons/notifications_comments.png";
+      return "/@base/assets/icons/notifications_comments.png";
     case 3:
-      return "/assets/icons/notifications_followers.png";
+      return "/@base/assets/icons/notifications_followers.png";
     case 4:
-      return "/assets/icons/notifications_projects.png";
+      return "/@base/assets/icons/notifications_projects.png";
     case 5:
-      return "/assets/icons/notifications_admin.png";
+      return "/@base/assets/icons/notifications_admin.png";
     default:
       return "";
   }

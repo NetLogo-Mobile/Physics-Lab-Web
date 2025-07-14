@@ -239,7 +239,6 @@ const { itemsPerRow, maxProjectsPerBlock } = useResponsive();
 
 onMounted(async () => {
   const userInfo = storageManager.getObj("userInfo");
-  console.log(userInfo);
   if (userInfo.status === "success" && userInfo.value?.loginStatus === true) {
     const res = await login(userInfo.value.token, userInfo.value.authCode);
     loadPageData(res);
@@ -286,7 +285,6 @@ async function loadPageData(response: any) {
     ID: userData.ID,
   };
 
-  console.log(response);
   if (!response.Data.User?.Nickname) {
     if (storageManager.getObj("userInfo").status === "empty") {
       // 退出登录后至少得保证有一个匿名的token
@@ -305,6 +303,7 @@ async function loadPageData(response: any) {
       authCode: response.AuthCode,
       loginStatus: true,
       id: userData.ID,
+      nickName: userData.Nickname,
     });
   }
 }

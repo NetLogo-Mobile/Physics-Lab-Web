@@ -51,7 +51,7 @@ const currentUserId = storageManager.getObj("userInfo")?.value?.id || "";
 const avatarUrl = ref("/assets/user/default-avatar.png");
 
 const setCurrentAvatar = async () => {
-  console.log(props.message.userID === "");
+  // console.log(props.message.userID === "");
   if (props.message.userID !== "") {
     // 有些地方是匿名的，所以userID为空，不设置心得头像就会沿用默认头像
     // Some places are anonymous, so if userID is empty, the default avatar will be used.

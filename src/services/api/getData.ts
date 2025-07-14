@@ -17,7 +17,6 @@ import i18n from "../i18n/i18n.ts";
  */
 export async function getData(path: string, body: unknown) {
   const userInfo = storageManager.getObj("userInfo");
-  console.log(userInfo);
   if (userInfo.status === "empty" || userInfo.status === "expired") {
     Emitter.emit("loginRequired");
     return;
