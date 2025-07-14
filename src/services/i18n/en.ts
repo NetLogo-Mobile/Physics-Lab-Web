@@ -78,4 +78,11 @@ export default {
     intro: "Experiment Introduction",
     wordCount: "Word Count",
   },
+  date:{
+    justNow: "Just now",
+    minutesAgo: "{minutes} minutes ago",
+    hoursAgo: "{hours} hours ago",
+    yesterday: "Yesterday",
+    dayBeforeYesterday: "The day before yesterday",
+  }
 };

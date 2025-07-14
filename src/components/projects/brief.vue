@@ -20,7 +20,9 @@
 <script setup>
 import { computed } from "vue";
 import parse from "../../services/commonParser.ts";
-import { getCoverUrl } from "../../services/utils.ts";
+import { getCoverUrl,formatDate } from "../../services/utils.ts";
+
+window.formtDate = formatDate;
 
 const { data, type } = defineProps({
   data: Object,
@@ -28,16 +30,8 @@ const { data, type } = defineProps({
 });
 
 const imgUrl = getCoverUrl(data);
-const timestamp = computed(() => {
-  const hexId = data.ID.slice(0, 8);
-  const decimalId = parseInt(hexId, 16);
-  return decimalId * 1000;
-});
 const formattedDate = computed(() => {
-  const date = new Date(timestamp.value);
-  const month = (date.getMonth() + 1).toString().padStart(2, "0");
-  const day = date.getDate().toString().padStart(2, "0");
-  return `${month}/${day}`;
+  return formatDate(data.ID);
 });
 </script>
 
