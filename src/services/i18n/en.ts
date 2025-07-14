@@ -20,7 +20,7 @@ export default {
   user: {
     level: "Level",
     clickToLogin: "Click to login",
-    noSignatur: "there's nothing",
+    noSignature: "there's nothing",
   },
   blackhole: {
     title: "blackhole",

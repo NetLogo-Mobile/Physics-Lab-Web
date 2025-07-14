@@ -20,7 +20,7 @@ export default {
   user: {
     level: "等级",
     clickToLogin: "点击登录",
-    noSignatur: "这个人很神秘，什么也没有写",
+    noSignature: "这个人很神秘，什么也没有写",
   },
   blackhole: {
     title: "黑洞",

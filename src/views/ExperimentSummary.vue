@@ -55,7 +55,7 @@
           justify-content="space-evenly"
           type="line"
         >
-          <n-tab-pane name="Intro" tab="{{ t('expeSummary.introTab') }}">
+          <n-tab-pane name="Intro" :tab=" t('expeSummary.introTab') ">
             <div class="gray">
               <div style="width: 100%; height: fit-content">
                 <div
