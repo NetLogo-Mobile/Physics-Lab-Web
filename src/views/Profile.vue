@@ -14,8 +14,8 @@
           <img
             src="/assets/library/Navigation-Return.png"
             style="width: 2.7em"
-            @click="goBack"
             class="return"
+            @click="goBack"
           />
           <div style="color: white; font-size: 2em; text-align: left">
             {{ userData.User.Nickname }}

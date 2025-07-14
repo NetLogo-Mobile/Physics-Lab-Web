@@ -20,7 +20,7 @@
 <script setup>
 import { computed } from "vue";
 import parse from "../../services/commonParser.ts";
-import { getCoverUrl,formatDate } from "../../services/utils.ts";
+import { getCoverUrl, formatDate } from "../../services/utils.ts";
 
 window.formtDate = formatDate;
 

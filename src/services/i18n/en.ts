@@ -77,12 +77,13 @@ export default {
     introTab: "Intro",
     intro: "Experiment Introduction",
     wordCount: "Word Count",
+    comments: "comments",
   },
-  date:{
+  date: {
     justNow: "Just now",
     minutesAgo: "{minutes} minutes ago",
     hoursAgo: "{hours} hours ago",
     yesterday: "Yesterday",
     dayBeforeYesterday: "The day before yesterday",
-  }
+  },
 };

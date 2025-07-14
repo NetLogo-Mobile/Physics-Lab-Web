@@ -29,8 +29,7 @@ defineComponent({
   width: 100vw;
   overflow: hidden;
   overflow-x: hidden;
-  --left-height:28vh;
-
+  --left-height: 28vh;
 }
 
 /* 默认竖屏布局  Default vertical layout */

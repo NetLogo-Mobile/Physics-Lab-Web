@@ -13,8 +13,8 @@
           <img
             src="/assets/library/Navigation-Return.png"
             style="width: 2.7em"
-            @click="goBack"
             class="return"
+            @click="goBack"
           />
           <div class="title" v-html="parseInline(data.Subject)"></div>
           <div style="position: absolute; z-index: 100">
@@ -56,7 +56,7 @@
           justify-content="space-evenly"
           type="line"
         >
-          <n-tab-pane name="Intro" :tab=" t('expeSummary.introTab') ">
+          <n-tab-pane name="Intro" :tab="t('expeSummary.introTab')">
             <div class="gray">
               <div style="width: 100%; height: fit-content">
                 <div
@@ -125,7 +125,10 @@
               </div>
             </div>
           </n-tab-pane>
-          <n-tab-pane name="Comment" :tab="`评论(${data.Comments})`">
+          <n-tab-pane
+            name="Comment"
+            :tab="`${t('expeSummary.comments')}(${data.Comments})`"
+          >
             <div class="right-bottom-container">
               <div class="message-wrapper">
                 <MessageList

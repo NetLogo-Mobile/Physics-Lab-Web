@@ -2,7 +2,7 @@
   <div class="work-box" @click="handleClick">
     <div class="cover">
       <img :src="imgUrl" alt="" />
-      <div class="time">{{ formatDate(item.ID,false,"yearMonthDay") }}</div>
+      <div class="time">{{ formatDate(item.ID, false, "yearMonthDay") }}</div>
     </div>
     <div class="info">
       <div class="title">{{ item.Subject }}</div>
@@ -48,7 +48,7 @@ const handleClick = () => {
 .cover {
   width: 100%;
   height: 150px;
-  position: relative; 
+  position: relative;
 }
 
 .cover img {
@@ -59,12 +59,12 @@ const handleClick = () => {
 }
 
 .cover .time {
-  position: absolute; 
-  top: 8px; 
-  right: 8px; 
-  color: white; 
-  font-size: medium; 
-  mix-blend-mode:difference; 
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: white;
+  font-size: medium;
+  mix-blend-mode: difference;
 }
 
 .info {

@@ -28,10 +28,10 @@ export function useResponsive() {
   const blockItemsPerRow = ref(getBlockItemsPerRow(width.value));
   const maxProjectsPerBlock = ref(getMaxProjectsPerLine(width.value));
   const fontSize = ref(getFontSize(width.value));
-  const friendItemsPerRow = ref(getFriendItemsPerRow(width.value))
+  const friendItemsPerRow = ref(getFriendItemsPerRow(width.value));
 
-  // 首页等展示的盒子数量 
-  // The number of boxes displayed on the homepage 
+  // 首页等展示的盒子数量
+  // The number of boxes displayed on the homepage
   function getBlockItemsPerRow(w: number) {
     if (w >= breakpoints.wide) return 4;
     if (w >= breakpoints.laptop) return 3;
@@ -39,9 +39,9 @@ export function useResponsive() {
     return 1;
   }
 
-  // 好友界面展示的盒子数量 
-  // The number of boxes displayed on the friends.vue 
-  function getFriendItemsPerRow(w:number){
+  // 好友界面展示的盒子数量
+  // The number of boxes displayed on the friends.vue
+  function getFriendItemsPerRow(w: number) {
     if (w >= breakpoints.wide) return 5;
     if (w >= breakpoints.desktop) return 4;
     if (w >= breakpoints.laptop) return 3;
@@ -73,7 +73,7 @@ export function useResponsive() {
     blockItemsPerRow.value = getBlockItemsPerRow(width.value);
     maxProjectsPerBlock.value = getMaxProjectsPerLine(width.value);
     fontSize.value = getFontSize(width.value);
-    friendItemsPerRow.value = getFriendItemsPerRow(width.value)
+    friendItemsPerRow.value = getFriendItemsPerRow(width.value);
   }
 
   onMounted(() => {

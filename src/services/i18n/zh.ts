@@ -77,6 +77,7 @@ export default {
     introTab: "简介",
     intro: "实验介绍",
     wordCount: "字数统计",
+    comments: "评论",
   },
   date: {
     justNow: "刚刚",
@@ -84,5 +85,5 @@ export default {
     hoursAgo: "{hours} 小时前",
     yesterday: "昨天",
     dayBeforeYesterday: "前天",
-  }
+  },
 };

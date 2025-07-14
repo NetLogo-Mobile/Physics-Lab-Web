@@ -24,12 +24,12 @@ import { getUserUrl } from "../../services/utils";
 const { user } = defineProps<{
   user: any;
 }>();
-const iconPath = ref(getPath("/@base/assets/user/Status-None.png"))
+const iconPath = ref(getPath("/@base/assets/user/Status-None.png"));
 const avararUrl = getUserUrl(user);
 
 async function getIconPath() {
   const re = await getData("/Users/GetUser", { ID: user.ID });
-  return getIcon(Number(re.Data.Relation))
+  return getIcon(Number(re.Data.Relation));
 }
 
 function getIcon(relation: number) {
@@ -47,9 +47,8 @@ function getIcon(relation: number) {
 
 onMounted(async () => {
   const p = await getIconPath();
-  iconPath.value = getPath(p)
+  iconPath.value = getPath(p);
 });
-
 </script>
 
 <style scoped>
@@ -104,7 +103,7 @@ onMounted(async () => {
   margin-right: 20px;
 }
 
-.icon>img {
+.icon > img {
   width: 100%;
 }
 </style>

@@ -10,7 +10,7 @@
     <div id="notification" class="notification">
       <div id="notification_title" class="notification_title">
         <div class="name">{{ message.msg_title }}</div>
-        <div class="time">{{ formatDate(message.id,true) }}</div>
+        <div class="time">{{ formatDate(message.id, true) }}</div>
         <div
           v-if="currentUserId === message.userID"
           class="delete"
@@ -162,10 +162,10 @@ function deleteMsg() {
   background-color: #f0f0f0;
 }
 
-.time{
-  margin-left:5px;
+.time {
+  margin-left: 5px;
   font-weight: normal;
-  color:grey;
+  color: grey;
 }
 
 div {
