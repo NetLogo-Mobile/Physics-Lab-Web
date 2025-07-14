@@ -1,3 +1,6 @@
+import { isSameDay, isThisYear, differenceInCalendarDays, differenceInMinutes, differenceInHours } from 'date-fns';
+import i18n from "./i18n/i18n"
+
 type PUser = {
   ID: string;
   Avatar: number;
@@ -16,9 +19,9 @@ export function getUserUrl(user: PUser): string {
     user.Avatar === 0 || user.Verification === "Banned"
       ? "/@base/assets/user/default-avatar.png"
       : `/@static/users/avatars/${user.ID.slice(0, 4)}/${user.ID.slice(4, 6)}/${user.ID.slice(
-          6,
-          8,
-        )}/${user.ID.slice(8, 24)}/${user.Avatar}.jpg`;
+        6,
+        8,
+      )}/${user.ID.slice(8, 24)}/${user.Avatar}.jpg`;
 
   return window.$getPath(url);
 }
@@ -110,3 +113,72 @@ export function decodeHrefToQueryObj(base64Input: string) {
   const result = JSON.parse(jsonString);
   return result;
 }
+
+/**
+ * 格式化日期文本 format date text
+ * @param id 物实ID The id of physicsLab
+ * @param showRelative 是否显示相对时间  Whether to show relative time
+ * @param type 格式化配置名称 format config
+ * @see i18n.ts
+ * @returns 格式化后的日期文本 Formatted date text
+ */
+export function formatDate(
+  id: string,
+  showRelative?: boolean,
+  type?: string
+): string {
+  // 1. 提取并转换16进制时间戳
+  // 1. Extract and convert 16-bit timestamp
+  const hexTimestamp = id.substring(0, 8);
+  const timestampSeconds = parseInt(hexTimestamp, 16);
+  const date = new Date(timestampSeconds * 1000);
+  console.log(date, timestampSeconds)
+  const now = new Date();
+
+  // 2. 处理相对时间 (当 showRelative=true 且日期在3天内)
+  // 2. Handle relative time (when showRelative=true and date is within 3 days)
+  if (showRelative) {
+    console.log(1111)
+    const diffDays = differenceInCalendarDays(now, date);
+
+    // 当天的时间处理
+    // Time processing for today
+    if (isSameDay(date, now)) {
+      const diffMinutes = differenceInMinutes(now, date);
+
+      if (diffMinutes < 1) {
+        return i18n.global.t('date.justNow') as string; // "刚刚"
+      } else if (diffMinutes < 60) {
+        return i18n.global.t('date.minutesAgo', { minutes: diffMinutes }) as string; // "X分钟前"
+      } else {
+        const diffHours = differenceInHours(now, date);
+        return i18n.global.t('date.hoursAgo', { hours: diffHours }) as string; // "X小时前"
+      }
+    }
+    // 昨天
+    // Yesterday
+    else if (diffDays === 1) {
+      return i18n.global.t('date.yesterday') as string;
+    }
+    // 前天
+    // Day before yesterday
+    else if (diffDays === 2) {
+      return i18n.global.t('date.dayBeforeYesterday') as string;
+    }
+  }
+
+  // 3. 常规日期格式化
+  // 3. Regular date formatting
+  if (type) {
+    return i18n.global.d(date, type);
+  } else {
+    if (isSameDay(date, now)) {
+      return i18n.global.d(date, 'time');
+    } else if (isThisYear(date)) {
+      return i18n.global.d(date, 'monthDay');
+    } else {
+      return i18n.global.d(date, 'yearMonthDay');
+    }
+  }
+}
+

@@ -78,4 +78,11 @@ export default {
     intro: "实验介绍",
     wordCount: "字数统计",
   },
+  date: {
+    justNow: "刚刚",
+    minutesAgo: "{minutes} 分钟前",
+    hoursAgo: "{hours} 小时前",
+    yesterday: "昨天",
+    dayBeforeYesterday: "前天",
+  }
 };
