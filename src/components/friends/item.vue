@@ -8,18 +8,48 @@
           {{ user.Signature || $t("user.noSignature") }}
         </div>
       </div>
+      <div class="icon">
+        <img :src="iconPath" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
 import showUserCard from "../../popup/usercard.ts";
+import getPath from "../../services/getPath";
+import { getData } from "../../services/api/getData";
 import { getUserUrl } from "../../services/utils";
 const { user } = defineProps<{
   user: any;
 }>();
-
+const iconPath = ref(getPath("/@base/assets/user/Status-None.png"))
 const avararUrl = getUserUrl(user);
+
+async function getIconPath() {
+  const re = await getData("/Users/GetUser", { ID: user.ID });
+  return getIcon(Number(re.Data.Relation))
+}
+
+function getIcon(relation: number) {
+  switch (relation) {
+    case 1:
+      return "/@base/assets/user/Status-Following.png";
+    case 2:
+      return "/@base/assets/user/Status-Followed.png";
+    case 3:
+      return "/@base/assets/user/Status-Friend.png";
+    default:
+      return "/@base/assets/user/Status-None.png";
+  }
+}
+
+onMounted(async () => {
+  const p = await getIconPath();
+  iconPath.value = getPath(p)
+});
+
 </script>
 
 <style scoped>
@@ -66,5 +96,15 @@ const avararUrl = getUserUrl(user);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.icon {
+  height: 25px;
+  width: 25px;
+  margin-right: 20px;
+}
+
+.icon>img {
+  width: 100%;
 }
 </style>
