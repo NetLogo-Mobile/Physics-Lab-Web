@@ -2,6 +2,7 @@
   <div class="work-box" @click="handleClick">
     <div class="cover">
       <img :src="imgUrl" alt="" />
+      <div class="time">{{ formatDate(item.ID,false,"yearMonthDay") }}</div>
     </div>
     <div class="info">
       <div class="title">{{ item.Subject }}</div>
@@ -17,7 +18,7 @@
 
 <script setup lang="ts">
 import router from "../../router";
-import { getCoverUrl, getUserUrl } from "../../services/utils";
+import { getCoverUrl, getUserUrl, formatDate } from "../../services/utils";
 
 const { item } = defineProps<{
   item: any;
@@ -47,6 +48,7 @@ const handleClick = () => {
 .cover {
   width: 100%;
   height: 150px;
+  position: relative; 
 }
 
 .cover img {
@@ -54,6 +56,15 @@ const handleClick = () => {
   height: 100%;
   object-fit: cover;
   border-radius: 5% 5% 0 0;
+}
+
+.cover .time {
+  position: absolute; 
+  top: 8px; 
+  right: 8px; 
+  color: white; 
+  font-size: medium; 
+  mix-blend-mode:difference; 
 }
 
 .info {

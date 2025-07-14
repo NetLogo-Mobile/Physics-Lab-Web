@@ -5,18 +5,24 @@ import { createI18n } from "vue-i18n";
 const datetimeFormats = {
   'Chinese': {
     time: {
-      hour: 'numeric' as const,  // 使用numeric代替short
+      hour: 'numeric' as const,  
       minute: 'numeric' as const,
       hour12: false
     },
     monthDay: {
       month: 'numeric' as const,
-      day: 'numeric' as const
+      day: 'numeric' as const,
+      hour: 'numeric' as const,  
+      minute: 'numeric' as const,
+      hour12: false
     },
     yearMonthDay: {
       year: 'numeric' as const,
       month: 'numeric' as const,
-      day: 'numeric' as const
+      day: 'numeric' as const,
+      hour: 'numeric' as const,  
+      minute: 'numeric' as const,
+      hour12: false
     }
   }
 };

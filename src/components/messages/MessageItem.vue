@@ -10,6 +10,7 @@
     <div id="notification" class="notification">
       <div id="notification_title" class="notification_title">
         <div class="name">{{ message.msg_title }}</div>
+        <div class="time">{{ formatDate(message.id,true) }}</div>
         <div
           v-if="currentUserId === message.userID"
           class="delete"
@@ -35,6 +36,7 @@ import parse from "../../services/advancedParser.ts";
 import showUserCard from "../../popup/usercard.ts";
 import { getAvatarUrl } from "../../services/getUserCurentAvatarByID";
 import storageManager from "../../services/storage.ts";
+import { formatDate } from "../../services/utils";
 
 const props = defineProps<{
   message: {
@@ -159,6 +161,13 @@ function deleteMsg() {
 #notification_container:hover {
   background-color: #f0f0f0;
 }
+
+.time{
+  margin-left:5px;
+  font-weight: normal;
+  color:grey;
+}
+
 div {
   box-sizing: border-box;
 }
