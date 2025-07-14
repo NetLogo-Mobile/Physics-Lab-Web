@@ -51,7 +51,7 @@ import Footer from "../components/utils/Footer.vue";
 import { NTabs, NTabPane } from "naive-ui";
 import { useResponsive } from "../layout/useResponsive";
 import storageManager from "../services/storage";
-const userID = storageManager.getStr("userID").value as string;
+const userID = storageManager.getObj("userInfo").value?.id;
 const { itemsPerRow } = useResponsive();
 const { t } = useI18n();
 </script>
