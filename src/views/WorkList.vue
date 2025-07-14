@@ -12,7 +12,7 @@
 
   <div class="list">
     <WorksList
-      :row="itemsPerRow"
+      :row="blockItemsPerRow"
       :q="
         route.params.config
           ? decodeHrefToQueryObj(route.params.config as string)
@@ -31,7 +31,7 @@ import { useResponsive } from "../layout/useResponsive";
 
 const route = useRoute();
 
-const { itemsPerRow } = useResponsive();
+const { blockItemsPerRow } = useResponsive();
 
 const goBack = () => {
   window.history.back();

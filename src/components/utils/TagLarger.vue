@@ -28,7 +28,7 @@ const jump = () => {
   background-color: hsla(0, 6%, 7%, 0.559);
   color: white;
 
-  font-size: 0.65em;
+  font-size: 0.8em;
 
   padding: 0.1em 7px;
   margin: 0 3px;

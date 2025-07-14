@@ -15,6 +15,7 @@
             src="/assets/library/Navigation-Return.png"
             style="width: 2.7em"
             @click="goBack"
+            class="return"
           />
           <div style="color: white; font-size: 2em; text-align: left">
             {{ userData.User.Nickname }}
@@ -248,8 +249,13 @@ const goBack = () => {
   padding: 8px;
 }
 
+@media (max-aspect-ratio: 1/1) {
+  .return {
+    display: none;
+  }
+}
+
 div {
   box-sizing: border-box;
 }
 </style>
-../services/api/getData.ts

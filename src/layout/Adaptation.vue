@@ -29,6 +29,8 @@ defineComponent({
   width: 100vw;
   overflow: hidden;
   overflow-x: hidden;
+  --left-height:28vh;
+
 }
 
 /* 默认竖屏布局  Default vertical layout */
@@ -37,16 +39,16 @@ defineComponent({
   top: 0;
   left: 0;
   width: 100vw;
-  height: 25vh;
+  height: var(--left-height);
   z-index: 1;
 }
 
 .layout-right {
   position: absolute;
-  top: 25vh;
+  top: var(--left-height);
   left: 0;
   width: 100vw;
-  height: calc(100dvh - 25vh);
+  height: calc(100dvh - var(--left-height));
 }
 
 .scroll-container {

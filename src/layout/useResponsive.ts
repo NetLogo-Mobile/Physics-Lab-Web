@@ -16,7 +16,7 @@ const breakpoints = {
  *
  * @example
  * ```typescript
- * const { width, itemsPerRow, maxProjectsPerBlock, fontSize } = useResponsive();
+ * const { width, blockItemsPerRow, maxProjectsPerBlock, fontSize } = useResponsive();
  * ```
  * ```vue
  * <My :param="fontsize"></My>
@@ -25,17 +25,27 @@ const breakpoints = {
 export function useResponsive() {
   const width = ref(window.innerWidth);
 
-  const itemsPerRow = ref(getItemsPerRow(width.value));
+  const blockItemsPerRow = ref(getBlockItemsPerRow(width.value));
   const maxProjectsPerBlock = ref(getMaxProjectsPerLine(width.value));
   const fontSize = ref(getFontSize(width.value));
+  const friendItemsPerRow = ref(getFriendItemsPerRow(width.value))
 
-  // 首页等展示的盒子数量 or 好友界面的数量
-  // The number of boxes displayed on the homepage or in the friends list
-  function getItemsPerRow(w: number) {
+  // 首页等展示的盒子数量 
+  // The number of boxes displayed on the homepage 
+  function getBlockItemsPerRow(w: number) {
     if (w >= breakpoints.wide) return 4;
     if (w >= breakpoints.laptop) return 3;
     if (w >= breakpoints.tablet) return 2;
     return 1;
+  }
+
+  // 好友界面展示的盒子数量 
+  // The number of boxes displayed on the friends.vue 
+  function getFriendItemsPerRow(w:number){
+    if (w >= breakpoints.wide) return 5;
+    if (w >= breakpoints.desktop) return 4;
+    if (w >= breakpoints.laptop) return 3;
+    return 2;
   }
 
   //  WorkList界面每行的作品盒子数量
@@ -60,9 +70,10 @@ export function useResponsive() {
 
   function handleResize() {
     width.value = window.innerWidth;
-    itemsPerRow.value = getItemsPerRow(width.value);
+    blockItemsPerRow.value = getBlockItemsPerRow(width.value);
     maxProjectsPerBlock.value = getMaxProjectsPerLine(width.value);
     fontSize.value = getFontSize(width.value);
+    friendItemsPerRow.value = getFriendItemsPerRow(width.value)
   }
 
   onMounted(() => {
@@ -74,7 +85,8 @@ export function useResponsive() {
 
   return {
     width,
-    itemsPerRow,
+    blockItemsPerRow,
+    friendItemsPerRow,
     maxProjectsPerBlock,
     fontSize,
     breakpoints,

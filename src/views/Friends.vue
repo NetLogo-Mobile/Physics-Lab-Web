@@ -10,32 +10,32 @@
     >
       <n-tab-pane name="following" :tab="t('friends.following')">
         <div class="item">
-          <UserList :userid="userID" type="1" :cols="itemsPerRow" />
+          <UserList :userid="userID" type="1" :cols="friendItemsPerRow" />
         </div>
       </n-tab-pane>
       <n-tab-pane name="follower" :tab="t('friends.follower')">
         <div class="item">
-          <UserList :userid="userID" type="0" :cols="itemsPerRow" />
+          <UserList :userid="userID" type="0" :cols="friendItemsPerRow" />
         </div>
       </n-tab-pane>
       <n-tab-pane name="volunteers" :tab="t('friends.volunteers')">
         <div class="item">
-          <UserList :userid="userID" type="3" :cols="itemsPerRow" />
+          <UserList :userid="userID" type="3" :cols="friendItemsPerRow" />
         </div>
       </n-tab-pane>
       <n-tab-pane name="editors" :tab="t('friends.editors')">
         <div class="item">
-          <UserList :userid="userID" type="4" :cols="itemsPerRow" />
+          <UserList :userid="userID" type="4" :cols="friendItemsPerRow" />
         </div>
       </n-tab-pane>
       <n-tab-pane name="en" :tab="t('friends.retired')">
         <div class="item">
-          <UserList :userid="userID" type="5" :cols="itemsPerRow" />
+          <UserList :userid="userID" type="5" :cols="friendItemsPerRow" />
         </div>
       </n-tab-pane>
       <n-tab-pane name="baned" :tab="t('friends.baned')">
         <div class="item">
-          <UserList :userid="userID" type="2" :cols="itemsPerRow" />
+          <UserList :userid="userID" type="2" :cols="friendItemsPerRow" />
         </div>
       </n-tab-pane>
     </n-tabs>
@@ -52,7 +52,7 @@ import { NTabs, NTabPane } from "naive-ui";
 import { useResponsive } from "../layout/useResponsive";
 import storageManager from "../services/storage";
 const userID = storageManager.getObj("userInfo").value?.id;
-const { itemsPerRow } = useResponsive();
+const { friendItemsPerRow } = useResponsive();
 const { t } = useI18n();
 </script>
 

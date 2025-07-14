@@ -14,6 +14,7 @@
             src="/assets/library/Navigation-Return.png"
             style="width: 2.7em"
             @click="goBack"
+            class="return"
           />
           <div class="title" v-html="parseInline(data.Subject)"></div>
           <div style="position: absolute; z-index: 100">
@@ -256,7 +257,7 @@ function goBack() {
 <style scoped>
 .title {
   color: white;
-  font-size: 1.5em;
+  font-size: 1.8em;
   text-align: left;
   position: relative;
   z-index: 30;
@@ -296,6 +297,14 @@ function goBack() {
     padding: 10px 10%;
     width: 80%;
     bottom: 50px;
+  }
+}
+
+@media (max-aspect-ratio: 1/1) {
+  .return {
+    display: blobk;
+    /* 等到做了收藏和支持，这里会被隐藏 */
+    /* Wait until you do the collection and support, this will be hidden */
   }
 }
 

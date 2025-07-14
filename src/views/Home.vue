@@ -36,7 +36,7 @@
     <main>
       <div v-if="isLoading" class="loading"></div>
       <div v-if="!isLoading" class="block-container">
-        <n-grid :x-gap="12" :y-gap="12" :cols="itemsPerRow">
+        <n-grid :x-gap="12" :y-gap="12" :cols="blockItemsPerRow">
           <n-gi>
             <Actions />
           </n-gi>
@@ -235,7 +235,7 @@ const user = ref({
   ID: "",
 });
 
-const { itemsPerRow, maxProjectsPerBlock } = useResponsive();
+const { blockItemsPerRow, maxProjectsPerBlock } = useResponsive();
 
 onMounted(async () => {
   const userInfo = storageManager.getObj("userInfo");
