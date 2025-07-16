@@ -1,24 +1,16 @@
 <template>
   <Header>
-    <img
-      src="/assets/library/Navigation-Return.png"
-      style="width: 2.7em"
-      @click="goBack"
-    />
+    <img src="/assets/library/Navigation-Return.png" style="width: 2.7em" @click="goBack" />
     <h2 style="margin-right: auto; margin-left: 20px">
       {{ $t("worklist.title") }}
     </h2>
   </Header>
 
   <div class="list">
-    <WorksList
-      :row="blockItemsPerRow"
-      :q="
-        route.params.config
-          ? decodeHrefToQueryObj(route.params.config as string)
-          : {}
-      "
-    />
+    <WorksList :row="maxProjectsPerBlock" :q="route.params.config
+        ? decodeHrefToQueryObj(route.params.config as string)
+        : {}
+      " />
   </div>
 </template>
 
@@ -31,7 +23,7 @@ import { useResponsive } from "../layout/useResponsive";
 
 const route = useRoute();
 
-const { blockItemsPerRow } = useResponsive();
+const { maxProjectsPerBlock } = useResponsive();
 
 const goBack = () => {
   window.history.back();
