@@ -48,7 +48,7 @@ const { ID, Category, upDate } = defineProps({
 let items = ref<PMessageItem[]>([]); // 前端的消息列表  front-end message list
 const loading = ref(false);
 let noMore = ref(false);
-let skip = 0;
+let skip = ref(0);
 let from: any = null;
 const { t } = useI18n();
 
@@ -95,7 +95,7 @@ const handleLoad = async () => {
     TargetType: Category,
     CommentID: from || "",
     Take: 20,
-    Skip: skip || 0,
+    Skip: skip.value || 0,
   });
 
   const messages = getMessagesResponse.Data.Comments;
@@ -115,7 +115,7 @@ const handleLoad = async () => {
 
   items.value = [...items.value, ...defaultItems];
   loading.value = false;
-  skip += 20;
+  skip.value += 20;
   if (_length < 20) {
     noMore.value = true;
     Emitter.emit("warning", "没有更多了", 1);
@@ -127,7 +127,7 @@ watch(
   () => upDate,
   () => {
     items.value = [];
-    skip = 0;
+    skip.value = 0;
     from = null;
     handleLoad();
   },

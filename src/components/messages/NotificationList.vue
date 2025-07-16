@@ -56,7 +56,7 @@ interface PMessage {
 
 const items = ref<NotificationItem[]>([]);
 const loading = ref(false);
-let skip = 0; // 获取消息API的必要参数 A necessary parameter for the GetMessages API
+let skip = ref(0); // 获取消息API的必要参数 A necessary parameter for the GetMessages API
 const noMore = ref(false);
 let templates: any = [
   {
@@ -147,14 +147,14 @@ function fillInTemplate(data: string, message: PMessage) {
 
 // 处理加载事件
 const handleLoad = async (noTemplates = true) => {
-  if (loading.value) return;
+  if (loading.value) return; // Lock
   if (noMore.value) return;
   loading.value = true;
   try {
     const getMessagesResponse = await getData("/Messages/GetMessages", {
       CategoryID: convertUIIndexToCategoryID(notificationTypeIndexOfUI),
       Take: 20,
-      Skip: skip,
+      Skip: skip.value,
       NoTemplates: noTemplates,
     });
 
@@ -214,7 +214,7 @@ const handleLoad = async (noTemplates = true) => {
 
     items.value = [...items.value, ...defaultItems];
     loading.value = false;
-    skip += 20;
+    skip.value += 20;
   } catch (error) {
     Emitter.emit("error", String(error), 5);
   }

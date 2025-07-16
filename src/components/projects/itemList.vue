@@ -35,18 +35,17 @@ const items = ref<Item[]>([]);
 const from = ref("");
 const isGettingData = ref(false);
 
-let skip = 0;
-let noMore = false;
-let hasInformed = false;
+let skip = ref(0);
+let noMore = ref(false);
+let hasInformed = ref(false);
 
 async function handleLoad() {
-  if (noMore) {
-    if (!hasInformed) Emitter.emit("warning", "没有更多了", 1);
-    hasInformed = true;
+  if (noMore.value) {
+    if (!hasInformed.value) Emitter.emit("warning", "没有更多了", 1);
+    hasInformed.value = true;
     return;
   }
-  if (isGettingData.value === true) return;
-
+  if (isGettingData.value === true) return; // Lock
   isGettingData.value = true;
 
   // 这里展示了全部可用参数
@@ -64,7 +63,7 @@ async function handleLoad() {
       UserID: null,
       Special: null,
       From: from.value === "" ? null : from.value,
-      Skip: skip,
+      Skip: skip.value,
       Take: 24,
       Days: 0,
       Sort: 0,
@@ -73,9 +72,9 @@ async function handleLoad() {
     },
   });
   if (getProjectsRes.Data.$values.length < 24) {
-    noMore = true;
+    noMore.value = true;
   }
-  skip += 24;
+  skip.value += 24;
   items.value.push(...getProjectsRes.Data.$values);
   from.value = items.value[items.value.length - 1]?.ID;
   isGettingData.value = false;

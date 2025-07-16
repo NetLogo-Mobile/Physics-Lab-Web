@@ -36,30 +36,33 @@ const { userid, type } = defineProps({
 });
 
 let loading = ref(false);
-let skip = 0;
-let noMore = false;
-let hasInformed = false;
+let skip = ref(0);
+let noMore = ref(false);
+let hasInformed = ref(false);
 const items = ref<User[]>([]);
+// Vue对于Ref会自动处理数据竞争问题
+// Vue automatically handles data race issues with Ref.
 
 async function handleLoad() {
+  if (loading.value) return; // Serves as a "lock"
   loading.value = true;
-  if (noMore) {
-    if (!hasInformed) Emitter.emit("warning", "没有更多了", 1);
-    hasInformed = true;
+  if (noMore.value) {
+    if (!hasInformed.value) Emitter.emit("warning", "没有更多了", 1);
+    hasInformed.value = true;
     return;
   }
   const getRelationsRes = await getData("/Users/GetRelations", {
     UserID: userid,
     DisplayType: type,
-    Skip: skip,
+    Skip: skip.value,
     Take: 24,
     Query: "",
   });
-  if (getRelationsRes.Data.$values.length < 24) {
-    noMore = true;
-  }
+  // 在某些地方用的skip传入的是时间戳，但是这里找不到可能与时间戳有关的逻辑，skip为整数也能work
+  // In some places, the 'skip' is a timestamp, but here there doesn't seem to be any logic related to the timestamp; 'skip' as an integer also works.
+  noMore.value = getRelationsRes.Data.$values.length < 24;
   loading.value = false;
-  skip += 24;
+  skip.value += 24;
   items.value = [...items.value, ...getRelationsRes.Data.$values];
 }
 
