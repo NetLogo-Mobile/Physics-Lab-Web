@@ -27,7 +27,7 @@ export async function getData(path: string, body: unknown) {
   if (beforeRes.continue === false) {
     return beforeRes.data;
   }
-  return fetch(window.$getPath("/@api" + path), {
+  return fetch(window.$getPath(`/@api${path}`), {
     method: "POST",
     body: JSON.stringify(body),
     headers: {

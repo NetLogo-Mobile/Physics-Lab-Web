@@ -6,7 +6,7 @@
     @load="handleLoad"
   >
     <template #default="{ items }">
-      <div v-for="item in items as MessageItem[]" :key="item.id">
+      <div v-for="item in items as PMessageItem[]" :key="item.id">
         <MessageItem
           :message="item"
           @msgClick="handleMsgClick"
@@ -28,7 +28,7 @@ import InfiniteScroll from "../utils/infiniteScroll.vue";
 import { useI18n } from "vue-i18n";
 import storageManager from "../../services/storage.ts";
 
-interface MessageItem {
+interface PMessageItem {
   id: string;
   userID: string;
   msg_title: string;
@@ -45,7 +45,7 @@ const { ID, Category, upDate } = defineProps({
   upDate: Number,
 });
 
-let items = ref<MessageItem[]>([]); // 前端的消息列表  front-end message list
+let items = ref<PMessageItem[]>([]); // 前端的消息列表  front-end message list
 const loading = ref(false);
 let noMore = ref(false);
 let skip = 0;
@@ -54,9 +54,9 @@ const { t } = useI18n();
 
 const emit = defineEmits(["msgClick"]);
 
-async function deleteMsg(message: MessageItem) {
+async function deleteMsg(message: PMessageItem) {
   const index = items.value.findIndex((item: any) => item.id === message.id);
-  let removed: MessageItem[] = [];
+  let removed: PMessageItem[] = [];
   if (index !== -1) {
     removed = items.value.splice(index, 1);
     // splice方法会直接改动数据的
@@ -79,7 +79,7 @@ async function deleteMsg(message: MessageItem) {
   }
 }
 
-function handleMsgClick(message: MessageItem) {
+function handleMsgClick(message: PMessageItem) {
   emit("msgClick", message);
 }
 
@@ -104,7 +104,7 @@ const handleLoad = async () => {
   from = messages[messages.length - 1]?.ID;
 
   const defaultItems = messages.map(
-    (message: any): MessageItem => ({
+    (message: any): PMessageItem => ({
       id: message.ID,
       userID: message.UserID,
       msg_title: message.Nickname,

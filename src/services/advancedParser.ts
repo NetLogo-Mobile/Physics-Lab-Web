@@ -206,7 +206,7 @@ function parse(text: string | string[], isInline: boolean = false) {
   if (Array.isArray(text)) {
     // 按一定规则拼接为一个字符串
     let text_ = "",
-      last_is_code: boolean = false;
+      last_is_code = false;
     for (let i = 0; i < text.length; ++i) {
       let next_is_code = (text[i].match(/\`\`\`/g)?.length || 0) & 1;
 
@@ -215,7 +215,7 @@ function parse(text: string | string[], isInline: boolean = false) {
         next_is_code ||
         /^( |\t)*(\-|\*|\#|\d+\.)/.test(text[i])
       ) {
-        text_ += text[i] + "\n";
+        text_ += `${text[i]}\n`;
       } else if (/^ *<.*> *$/.test(text[i])) {
         let slice_start = 0;
         while (true) {
@@ -229,7 +229,7 @@ function parse(text: string | string[], isInline: boolean = false) {
           ++slice_start;
         }
 
-        text_ += text[i].slice(slice_start) + "<br/>";
+        text_ += `${text[i].slice(slice_start)}<br/>`;
       } else {
         let slice_start = 0;
         while (true) {
@@ -247,7 +247,7 @@ function parse(text: string | string[], isInline: boolean = false) {
           text_ += `<blockquote>${text[i].slice(text[i].search(">") + 1)}</blockquote>\n\n`;
           continue;
         }
-        text_ += text[i].slice(slice_start) + "  \n";
+        text_ += `${text[i].slice(slice_start)}  \n`;
       }
       if (next_is_code) {
         last_is_code = !last_is_code;

@@ -38,7 +38,7 @@ function rateLimit(path: string): boolean {
   }
 
   switch (path) {
-    case "/Messages/PostComment":
+    case "/Messages/PostComment": {
       const list = history;
       let n = 0;
       for (let i = list.length - 1; i >= 0; i--) {
@@ -47,6 +47,7 @@ function rateLimit(path: string): boolean {
           return true;
         }
       }
+    }
   }
   requestHistoryMap.set(path, [...history, Date.now()]);
   storageManager.setObj(

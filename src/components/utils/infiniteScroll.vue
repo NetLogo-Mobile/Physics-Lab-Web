@@ -73,7 +73,7 @@ const initObserver = () => {
   );
 
   if (sentinel.value) observer.observe(sentinel.value);
-  sentinel.value?.style.setProperty("margin-top", props.marginTop + "px");
+  sentinel.value?.style.setProperty("margin-top", `${props.marginTop}px`);
 };
 
 const handleLoad = async () => {

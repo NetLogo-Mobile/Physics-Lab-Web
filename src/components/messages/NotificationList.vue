@@ -103,9 +103,9 @@ let templates: any = [
   },
 ]; // 仅仅是为了类型推断  Only for type inference
 
-const { notificationTypeIndexOfUI } = defineProps([
-  "notificationTypeIndexOfUI",
-]);
+const { notificationTypeIndexOfUI } = defineProps<{
+  notificationTypeIndexOfUI: number;
+}>();
 
 // 以下两个函数是API糟糕设计的糟糕解决方案，既然厄能跑，不建议尝试修改
 // These two functions are bad solutions to the bad design of the API. Since it can run, it is not recommended to try to modify them.

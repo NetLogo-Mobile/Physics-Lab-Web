@@ -12,18 +12,18 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Detailed from "../projects/detailed.vue";
 import router from "../../router";
-const { link } = defineProps({
-  data: Array,
-  title: String,
-  type: String,
-  link: String,
-});
-const jump = () => {
+const { link } = defineProps<{
+  data: any[];
+  title: string;
+  type: string;
+  link: string;
+}>();
+function jump() {
   router.push(`/list/${link}`);
-};
+}
 </script>
 
 <style scoped>

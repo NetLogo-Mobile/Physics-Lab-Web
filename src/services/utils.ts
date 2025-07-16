@@ -138,7 +138,6 @@ export function formatDate(
   const hexTimestamp = id.substring(0, 8);
   const timestampSeconds = parseInt(hexTimestamp, 16);
   const date = new Date(timestampSeconds * 1000);
-  console.log(date, timestampSeconds);
   const now = new Date();
 
   // 2. 处理相对时间 (当 showRelative=true 且日期在3天内)

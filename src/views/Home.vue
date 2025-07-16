@@ -294,8 +294,6 @@ async function loadPageData(response: any) {
         authCode: response.AuthCode,
         loginStatus: false,
       });
-    } else {
-      return;
     }
   } else {
     storageManager.setObj("userInfo", {

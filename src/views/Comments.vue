@@ -61,7 +61,7 @@ const goBack = () => {
 };
 
 function handleMsgClick(item: any) {
-  replyID = item.userID;
+  replyID.value = item.userID;
   comment.value = `回复@${item.msg_title}: `;
 }
 

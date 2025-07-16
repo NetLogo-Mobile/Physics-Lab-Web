@@ -27,12 +27,12 @@ import getPath from "./services/getPath.ts";
 import showUserCard from "./popup/usercard.ts";
 window.$getPath = getPath;
 
-const handleClick = (event: MouseEvent) => {
+function handleClick(event: MouseEvent) {
   const target = event.target as HTMLElement;
   if (target.classList.contains("RUser")) {
     showUserCard(target.dataset.user || "");
   }
-};
+}
 </script>
 
 <style>
