@@ -1,27 +1,46 @@
 <template>
   <Adaptation>
     <template #left>
-      <div class="cover" :style="{
-        backgroundImage: `url(${coverUrl})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-      }">
+      <div
+        class="cover"
+        :style="{
+          backgroundImage: `url(${coverUrl})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+        }"
+      >
         <div style="text-align: left">
-          <img src="/assets/library/Navigation-Return.png" style="width: 2.7em" class="return" @click="goBack" />
+          <img
+            src="/assets/library/Navigation-Return.png"
+            style="width: 2.7em"
+            class="return"
+            @click="goBack"
+          />
           <div class="title" v-html="parseInline(data.Subject)"></div>
           <div style="position: absolute; z-index: 100">
-            <Tag v-if="route.params.category" :tag="'C-' + route.params.category as string"
-              style="color: aquamarine; font-weight: bold" :category="data.Category" />
-            <Tag v-for="(tag, index) in data.Tags.filter((t) => !!t)" :key="index" :tag="tag"
-              :category="data.Category" />
+            <Tag
+              v-if="route.params.category"
+              :tag="('C-' + route.params.category) as string"
+              style="color: aquamarine; font-weight: bold"
+              :category="data.Category"
+            />
+            <Tag
+              v-for="(tag, index) in data.Tags.filter((t) => !!t)"
+              :key="index"
+              :tag="tag"
+              :category="data.Category"
+            />
           </div>
         </div>
         <div style="margin-top: auto">
-          <div class="btns" style="
+          <div
+            class="btns"
+            style="
               display: flex;
               justify-content: center;
               justify-content: space-around;
-            ">
+            "
+          >
             <n-button type="info" strong round disabled class="enter">
               {{ t("expeSummary.enterExp") }}
             </n-button>
@@ -32,48 +51,72 @@
 
     <template #right>
       <div style="text-align: center" class="context">
-        <n-tabs v-model:value="selectedTab" justify-content="space-evenly" type="line">
+        <n-tabs
+          v-model:value="selectedTab"
+          justify-content="space-evenly"
+          type="line"
+        >
           <n-tab-pane name="Intro" :tab="t('expeSummary.introTab')">
             <div class="gray">
               <div style="width: 100%; height: fit-content">
-                <div style="
+                <div
+                  style="
                     display: flex;
                     height: 60px;
                     background-color: white;
                     border-radius: 10px;
                     margin: 5px;
-                  " @click="showUserCard(data.User.ID)">
-                  <img :src="avatarUrl" style="margin: auto 10px; height: 90%; border-radius: 50%" />
+                  "
+                  @click="showUserCard(data.User.ID)"
+                >
+                  <img
+                    :src="avatarUrl"
+                    style="margin: auto 10px; height: 90%; border-radius: 50%"
+                  />
                   <div style="text-align: left">
-                    <p style="
+                    <p
+                      style="
                         color: #007bff;
                         margin: 2% 0 2% 0;
                         width: 100%;
                         font-size: 16px;
-                      ">
+                      "
+                    >
                       {{ data.User.Nickname }}
                     </p>
-                    <p style="color: gray; margin: 0%; width: 100%" v-html="parseInline(data.User.Signature)"></p>
+                    <p
+                      style="color: gray; margin: 0%; width: 100%"
+                      v-html="parseInline(data.User.Signature)"
+                    ></p>
                   </div>
                 </div>
-                <div style="
+                <div
+                  style="
                     margin-top: 3%;
                     background-color: white;
                     border-radius: 10px;
                     padding: 10px;
                     margin: 5px;
-                  ">
-                  <h3 style="
+                  "
+                >
+                  <h3
+                    style="
                       color: #007bff;
                       text-align: left;
                       margin-top: 2px;
                       margin-bottom: 2px;
-                    ">
+                    "
+                  >
                     {{ t("expeSummary.intro") }}
                   </h3>
-                  <div style="height: 90%; max-width: 100%; word-break: break-all">
-                    <div class="intro" style="text-align: left; font-size: medium" v-html="parse(data.Description)">
-                    </div>
+                  <div
+                    style="height: 90%; max-width: 100%; word-break: break-all"
+                  >
+                    <div
+                      class="intro"
+                      style="text-align: left; font-size: medium"
+                      v-html="parse(data.Description)"
+                    ></div>
                     <div style="font-weight: bold; text-align: left">
                       {{ t("expeSummary.wordCount") }}
                     </div>
@@ -82,19 +125,35 @@
               </div>
             </div>
           </n-tab-pane>
-          <n-tab-pane name="Comment" :tab="`${t('expeSummary.comments')}(${data.Comments})`">
+          <n-tab-pane
+            name="Comment"
+            :tab="`${t('expeSummary.comments')}(${data.Comments})`"
+          >
             <div class="right-bottom-container">
               <div class="message-wrapper">
-                <MessageList :ID="route.params.id as string" :Category="route.params.category as
-        | 'Experiment'
-        | 'User'
-        | 'Discussion'
-        " :upDate="upDate" @msgClick="handleMsgClick" />
+                <MessageList
+                  :ID="route.params.id as string"
+                  :Category="
+                    route.params.category as
+                      | 'Experiment'
+                      | 'User'
+                      | 'Discussion'
+                  "
+                  :upDate="upDate"
+                  @msgClick="handleMsgClick"
+                />
               </div>
               <div class="sendComment">
-                <n-input v-model:value="comment" style="text-align: left" type="text"
-                  :placeholder="t('comments.placeholder')" show-count :maxlength="400" :loading="isLoading"
-                  @keyup.enter="handleEnter" />
+                <n-input
+                  v-model:value="comment"
+                  style="text-align: left"
+                  type="text"
+                  :placeholder="t('comments.placeholder')"
+                  show-count
+                  :maxlength="400"
+                  :loading="isLoading"
+                  @keyup.enter="handleEnter"
+                />
               </div>
             </div>
           </n-tab-pane>

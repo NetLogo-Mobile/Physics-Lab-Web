@@ -49,13 +49,13 @@ const routes = [
     path: "/friends",
     name: "friends",
     component: () => import("../views/Friends.vue"),
-    meta: { keepAlive: false },
+    meta: { keepAlive: true },
   },
   {
     path: "/list/:config",
     name: "list",
     component: () => import("../views/WorkList.vue"),
-    meta: { keepAlive: true },
+    meta: { keepAlive: false },
   },
   {
     path: "/:catchAll(.*)",

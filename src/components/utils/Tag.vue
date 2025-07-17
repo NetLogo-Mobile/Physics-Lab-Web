@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="tag && !tag.startsWith('Type-') && tag!=='交流'"
+    v-if="tag && !tag.startsWith('Type-') && tag !== '交流'"
     class="tag"
     @click.stop.prevent="jump"
     v-text="tag.startsWith('C-') ? tag.slice(2) : tagName"
@@ -11,10 +11,10 @@
 <script setup lang="ts">
 import router from "../../router";
 import { EncodeAPITargetLink } from "../../services/utils";
-import getTagName from "../../services/i18n/getTagName"
+import getTagName from "../../services/i18n/getTagName";
 
 const { tag, category } = defineProps<{ tag: string; category: string }>();
-const tagName = getTagName(tag)
+const tagName = getTagName(tag);
 const APILink = `${category.toLowerCase()}://Tags/${tag}`;
 const jump = () => {
   router.push(`/list/${EncodeAPITargetLink(APILink)}`);

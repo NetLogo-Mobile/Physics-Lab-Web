@@ -30,8 +30,8 @@ export default {
     more: "更多",
   },
   profile: {
-    fans: "粉丝 {count}",
-    follows: "关注 {count}",
+    fans: "C-粉丝 {count}", // Magic: to make sure it is rendered by Tag componemt
+    follows: "C-关注 {count}", // Magic: to make sure it is rendered by Tag componemt
     coverTip: "点击进入封面作品",
     works: "作品",
     comments: "留言板({count})",
@@ -90,6 +90,6 @@ export default {
     unFollow: "取消关注用户",
     cantFollowYourself: "不能关注你自己",
     following: "关注",
-    follower: "粉丝"
-  }
+    follower: "粉丝",
+  },
 };

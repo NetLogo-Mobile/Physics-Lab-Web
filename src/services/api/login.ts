@@ -22,7 +22,7 @@ export default async function (a: string | null, b: string | null) {
       if (res.Status === 200) {
         return res;
       } else {
-        storageManager.remove("userInfo")
+        storageManager.remove("userInfo");
         Emitter.emit("error", res.Message, 3);
       }
     });

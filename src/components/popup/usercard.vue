@@ -2,7 +2,12 @@
   <div class="container" :style="{ zIndex: 100 }" @click="close">
     <div class="user" @click.stop="">
       <div class="user-info">
-        <img :src="avatar" alt="User Avatar" class="avatar" @click="jumpToUser(props.userid)" />
+        <img
+          :src="avatar"
+          alt="User Avatar"
+          class="avatar"
+          @click="jumpToUser(props.userid)"
+        />
         <!-- 阻止冒泡，使得只有点击遮罩才关闭 -->
         <!-- Prevents bubbling, so that only clicking on the overlay will close it -->
         <p class="username">{{ name }}</p>
@@ -23,15 +28,28 @@
           <div>{{ fragmentCount }}</div>
         </div>
         <div class="num">
-          <img src="/assets/user/Image-Experiments.png" style="filter: brightness(0.9); height: 25px" />
-          <img src="/assets/user/Image-Stars.png" style="filter: brightness(0.9); height: 25px" />
-          <img src="/assets/user/Image-Prestige.png" style="filter: brightness(0.9); height: 25px" />
+          <img
+            src="/assets/user/Image-Experiments.png"
+            style="filter: brightness(0.9); height: 25px"
+          />
+          <img
+            src="/assets/user/Image-Stars.png"
+            style="filter: brightness(0.9); height: 25px"
+          />
+          <img
+            src="/assets/user/Image-Prestige.png"
+            style="filter: brightness(0.9); height: 25px"
+          />
         </div>
       </div>
       <button v-show="!isFollowing" class="follow-button" @click="followUser">
         {{ t("userCard.follow") }}
       </button>
-      <button v-show="isFollowing" class="unfollow-button" @click="unfollowUser">
+      <button
+        v-show="isFollowing"
+        class="unfollow-button"
+        @click="unfollowUser"
+      >
         {{ t("userCard.unFollow") }}
       </button>
     </div>
@@ -44,7 +62,7 @@ import { getData } from "../../services/api/getData.ts";
 import Emitter from "../../services/eventEmitter";
 import { getUserUrl } from "../../services/utils";
 import storageManager from "../../services/storage";
-import { useI18n } from "vue-i18n"
+import { useI18n } from "vue-i18n";
 
 const props = defineProps({
   userid: String,
@@ -60,7 +78,7 @@ const postCount = ref(0);
 const starCount = ref(0);
 const fragmentCount = ref(0);
 const isFollowing = ref(false);
-const { t } = useI18n()
+const { t } = useI18n();
 let ID = "";
 
 const jumpToUser = (id) => {
@@ -103,7 +121,7 @@ async function followUser() {
   } else {
     if (re.Status === 400 && re.Data === "TargetID") {
       Emitter.emit("error", t("userCard.cantFollowYourself"), 2);
-    } else{
+    } else {
       Emitter.emit("error", re.Message, 2);
     }
   }

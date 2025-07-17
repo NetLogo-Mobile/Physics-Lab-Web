@@ -215,7 +215,7 @@ import "../layout/loading.css";
 import "../layout/startPage.css";
 import storageManager from "../services/storage.ts";
 import { useI18n } from "vue-i18n";
-import Emitter from "../services/eventEmitter"
+import Emitter from "../services/eventEmitter";
 
 const showLoginModal = ref(false);
 const isLoading = ref(true);
@@ -275,8 +275,8 @@ async function handleTokenLogin() {
 async function loadPageData(response: any) {
   isLoading.value = false;
   showLoginModal.value = false;
-  Emitter.emit("updateTagConfig",response.Data.ContentTags)
-  console.log(response.Data.ContentTags)
+  Emitter.emit("updateTagConfig", response.Data.ContentTags);
+  console.log(response.Data.ContentTags);
   blocks.value = [...response.Data.Library.Blocks];
   const userData = response.Data.User;
   user.value = {

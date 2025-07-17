@@ -22,7 +22,11 @@
           </div>
           <Tag
             category="User"
-            :tag="userData.User?.Verification || 'user'"
+            :tag="
+              userData.User?.Verification
+                ? 'C-' + userData.User?.Verification
+                : 'C-user'
+            "
             style="color: aquamarine; font-weight: bold"
           ></Tag>
           <Tag
@@ -79,6 +83,7 @@
                   :title="t"
                   :data="d"
                   :block-type="d[0].Category"
+                  :link="EncodeAPITargetLink(getLink(t))"
                 />
               </div>
             </div>
@@ -131,8 +136,9 @@ import Adaptation from "../layout/Adaptation.vue";
 import "../layout/AdaptationView.css";
 import { getCoverUrl, getUserUrl } from "../services/utils.ts";
 import { useI18n } from "vue-i18n";
-const { t } = useI18n();
+import { EncodeAPITargetLink } from "../services/utils.ts";
 
+const { t } = useI18n();
 let comment = ref("");
 let isLoading = ref(false);
 let upDate = ref(1);
@@ -200,7 +206,8 @@ function handleMsgClick(item: any) {
   replyID.value = item.userID;
   comment.value = `回复@${item.msg_title}: `;
 }
-const handleEnter = async () => {
+
+async function handleEnter() {
   await postComment(
     comment,
     isLoading,
@@ -209,11 +216,31 @@ const handleEnter = async () => {
     replyID,
     upDate,
   );
-};
+}
 
-const goBack = () => {
+function goBack() {
   window.history.back();
-};
+}
+
+function getLink(name: string) {
+  console.log(name);
+  switch (name) {
+    case "Latest-Experiments":
+      return `experiments://UserID/${route.params.id}`;
+    case "Featured-Experiments":
+      return `experiments://UserID/${route.params.id}/Tags/精选`;
+    case "Latest-Discussions":
+      return `discussions://UserID/${route.params.id}`;
+    case "Featured-Discussions":
+      return `discussions://UserID/${route.params.id}/Tags/精选`;
+    case "Popular-Discussions":
+      return `discussions://UserID/${route.params.id}/Sort/2`;
+    case "Popular-Experiments":
+      return `experiments://UserID/${route.params.id}/Sort/2`;
+    default:
+      return `discussions://user${route.params.id}`;
+  }
+}
 </script>
 
 <style scoped>

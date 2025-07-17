@@ -4,7 +4,9 @@
       <!-- title的i18n应当是服务器返回自动i处理的 -->
       <!-- The title should be processed automatically by the server for i18n -->
       <div id="title">{{ title }}</div>
-      <div id="more" @click="jump">{{ $t("worklist.more") }}</div>
+      <router-link id="more" :to="`/list/${link}`">
+        <div>{{ $t("worklist.more") }}</div>
+      </router-link>
     </div>
     <div style="display: flex; flex-direction: column; gap: 10px">
       <Detailed v-for="(item, index) in data" :key="index" :data="item" />
@@ -14,16 +16,12 @@
 
 <script setup lang="ts">
 import Detailed from "../projects/detailed.vue";
-import router from "../../router";
 const { link } = defineProps<{
   data: any[];
   title: string;
-  type: string;
+  type?: string;
   link: string;
 }>();
-function jump() {
-  router.push(`/list/${link}`);
-}
 </script>
 
 <style scoped>
@@ -52,6 +50,8 @@ function jump() {
 }
 
 #more {
+  text-decoration: none;
+  color: #007bff;
   align-self: flex-end;
   margin-left: auto;
   margin-right: 20px;
