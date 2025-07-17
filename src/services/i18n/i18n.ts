@@ -24,6 +24,11 @@ const datetimeFormats = {
       minute: "numeric" as const,
       hour12: true,
     },
+    date: {
+      year: "2-digit" as const,
+      month: "short" as const,
+      day: "numeric" as const,
+    },
   },
   English: {
     time: {
@@ -39,12 +44,17 @@ const datetimeFormats = {
       hour12: true,
     },
     yearMonthDay: {
-      year: "numeric" as const,
+      year: "2-digit" as const,
       month: "short" as const,
       day: "numeric" as const,
       hour: "numeric" as const,
       minute: "numeric" as const,
       hour12: true,
+    },
+    date: {
+      year: "2-digit" as const,
+      month: "short" as const,
+      day: "numeric" as const,
     },
   },
 };

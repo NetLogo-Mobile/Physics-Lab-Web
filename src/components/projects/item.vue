@@ -2,7 +2,7 @@
   <div class="work-box" @click="handleClick">
     <div class="cover">
       <img :src="imgUrl" alt="" />
-      <div class="time">{{ formatDate(item.ID, false, "yearMonthDay") }}</div>
+      <div class="time">{{ formatDate(item.ID, false, "date") }}</div>
     </div>
     <div class="info">
       <div class="title">{{ item.Subject }}</div>
@@ -64,7 +64,8 @@ const handleClick = () => {
   right: 8px;
   color: white;
   font-size: medium;
-  mix-blend-mode: difference;
+  /* mix-blend-mode: difference; */
+  /* 放弃解决白色底板看不清 give up solving white-background mode */
 }
 
 .info {
