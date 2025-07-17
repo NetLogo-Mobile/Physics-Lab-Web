@@ -4,7 +4,6 @@ export default {
     password: "密码 6~20 位",
     confirm: "确认",
     rememberMe: "记住我",
-    caution: "注意：您的密码将会明文存储在本地浏览器中",
     token: "Token",
     authCode: "AuthCode",
     login: "登录",

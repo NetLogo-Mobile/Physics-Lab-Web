@@ -53,8 +53,3 @@ export default async function (a: string | null, b: string | null) {
     );
   }
 }
-
-// x-api-authcode
-// B6mlgSqeVdMsovHG2If3WAD9L7yOEXrU
-// x-api-token
-// 0PQ49UM7ukSnFJigreRHps26xDIlLzYd

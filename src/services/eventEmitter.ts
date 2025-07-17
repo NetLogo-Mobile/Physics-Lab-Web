@@ -4,7 +4,8 @@ type Events =
   | "warning"
   | "error"
   | "info"
-  | "success";
+  | "success"
+  | "updateTagConfig";
 
 type EventHandlerMap = {
   loginRequired: () => void;
@@ -13,6 +14,7 @@ type EventHandlerMap = {
   error: (msg: string, duration: number, details?: any) => void;
   info: (msg: string, duration: number) => void;
   success: (msg: string, duration: number) => void;
+  updateTagConfig: (data: any) => void;
 };
 
 class EventEmitter {

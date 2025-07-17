@@ -4,7 +4,6 @@ export default {
     password: "Password 6~20 chars",
     confirm: "Confirm",
     rememberMe: "Remember me",
-    caution: "Caution: Your password will be saved in browser in plain text",
     token: "Token",
     authCode: "AuthCode",
     login: "Login",
