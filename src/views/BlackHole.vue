@@ -70,7 +70,7 @@ const goToWebCommunity = () => {
 };
 
 const goToDevelopment = () => {
-  window.open("https://github.com/wsxiaolin/physics-lab-web");
+  window.open("https://github.com/NetLogo-Mobile/Physics-Lab-Web");
 };
 
 // 部分活动链接是web版本特有的 Some activity links are specific to the web version
