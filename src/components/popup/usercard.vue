@@ -2,12 +2,7 @@
   <div class="container" :style="{ zIndex: 100 }" @click="close">
     <div class="user" @click.stop="">
       <div class="user-info">
-        <img
-          :src="avatar"
-          alt="User Avatar"
-          class="avatar"
-          @click="jumpToUser(props.userid)"
-        />
+        <img :src="avatar" alt="User Avatar" class="avatar" @click="jumpToUser(props.userid)" />
         <!-- 阻止冒泡，使得只有点击遮罩才关闭 -->
         <!-- Prevents bubbling, so that only clicking on the overlay will close it -->
         <p class="username">{{ name }}</p>
@@ -15,10 +10,10 @@
       </div>
       <div class="stats">
         <div class="stat-item">
-          <span>关注 {{ followingCount }}</span>
+          <span>{{ t("userCard.following") + followingCount }}</span>
         </div>
         <div class="stat-item">
-          <span>粉丝 {{ followerCount }}</span>
+          <span>{{ t("userCard.follower") + followerCount }}</span>
         </div>
       </div>
       <div class="data">
@@ -28,40 +23,28 @@
           <div>{{ fragmentCount }}</div>
         </div>
         <div class="num">
-          <img
-            src="/assets/user/Image-Experiments.png"
-            style="filter: brightness(0.9); height: 25px"
-          />
-          <img
-            src="/assets/user/Image-Stars.png"
-            style="filter: brightness(0.9); height: 25px"
-          />
-          <img
-            src="/assets/user/Image-Prestige.png"
-            style="filter: brightness(0.9); height: 25px"
-          />
+          <img src="/assets/user/Image-Experiments.png" style="filter: brightness(0.9); height: 25px" />
+          <img src="/assets/user/Image-Stars.png" style="filter: brightness(0.9); height: 25px" />
+          <img src="/assets/user/Image-Prestige.png" style="filter: brightness(0.9); height: 25px" />
         </div>
       </div>
       <button v-show="!isFollowing" class="follow-button" @click="followUser">
-        关注用户
+        {{ t("userCard.follow") }}
       </button>
-      <button
-        v-show="isFollowing"
-        class="unfollow-button"
-        @click="unfollowUser"
-      >
-        已关注
+      <button v-show="isFollowing" class="unfollow-button" @click="unfollowUser">
+        {{ t("userCard.unFollow") }}
       </button>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { getData } from "../../services/api/getData.ts";
 import Emitter from "../../services/eventEmitter";
 import { getUserUrl } from "../../services/utils";
 import storageManager from "../../services/storage";
+import { useI18n } from "vue-i18n"
 
 const props = defineProps({
   userid: String,
@@ -77,6 +60,7 @@ const postCount = ref(0);
 const starCount = ref(0);
 const fragmentCount = ref(0);
 const isFollowing = ref(false);
+const { t } = useI18n()
 let ID = "";
 
 const jumpToUser = (id) => {
@@ -117,7 +101,11 @@ async function followUser() {
     Emitter.emit("success", "关注成功", 2);
     isFollowing.value = true;
   } else {
-    Emitter.emit("error", re.Message);
+    if (re.Status === 400 && re.Data === "TargetID") {
+      Emitter.emit("error", t("userCard.cantFollowYourself"), 2);
+    } else{
+      Emitter.emit("error", re.Message, 2);
+    }
   }
 }
 

@@ -86,4 +86,11 @@ export default {
     yesterday: "昨天",
     dayBeforeYesterday: "前天",
   },
+  userCard: {
+    follow: "关注用户",
+    unFollow: "取消关注用户",
+    cantFollowYourself: "不能关注你自己",
+    following: "关注",
+    follower: "粉丝"
+  }
 };

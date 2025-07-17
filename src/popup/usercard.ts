@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import UserCard from "../components/popup/usercard.vue";
+import i18n from "../services/i18n/i18n.js";
 
 /**
  * 调用本函数打开用户信息卡，无需处理任何关闭事件，点击遮罩自动关闭
@@ -17,5 +18,6 @@ export default async function showUserCard(userid: string) {
       div.remove();
     },
   });
+  app.use(i18n);
   app.mount(div);
 }
