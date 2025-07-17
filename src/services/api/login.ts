@@ -1,4 +1,5 @@
 import Emitter from "../eventEmitter";
+import storageManager from "../storage";
 import { login } from "./getData";
 
 /**
@@ -21,6 +22,7 @@ export default async function (a: string | null, b: string | null) {
       if (res.Status === 200) {
         return res;
       } else {
+        storageManager.remove("userInfo")
         Emitter.emit("error", res.Message, 3);
       }
     });
@@ -31,23 +33,6 @@ export default async function (a: string | null, b: string | null) {
       },
     );
   } else {
-    // login by username and password
-    // const getLibraryData = login(null, null, true).then((res) => {
-    //   return res.Data.Library;
-    // });
-    // const getUserData = login(a, b).then((res) => {
-    //   if (res.Status === 200) {
-    //     return res;
-    //   }else{
-    //     window.$message.error(res.Message)
-    //   }
-    // });
-    // return Promise.all([getLibraryData, getUserData]).then(
-    //   ([library, user]) => {
-    //     user.Data.Library = library;
-    //     return user;
-    //   }
-    // );
     console.error(
       "login.ts 仅仅支持自动化登录，而自动化登录应当只使用token 和 authcode login.ts is only for automatic login, and automatic login should use token and authcode",
     );
