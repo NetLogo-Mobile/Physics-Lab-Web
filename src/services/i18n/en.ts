@@ -15,6 +15,8 @@ export default {
     autoLoginFailed: "Auto login failed",
     loginError: "Error occurred during login",
     wrong: "incorrect username or password",
+    terms:
+      "Please read and agree to our <a href='http://www.turtlesim.com/products/Term-Of-Use.txt' target='_blank'>Terms of Use</a> and <a href='https://turtlesim.com/products/Privacy-Policy.txt' target='_blank'>Privacy Policy</a>",
   },
   user: {
     level: "Level",

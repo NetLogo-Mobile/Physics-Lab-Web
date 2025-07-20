@@ -15,6 +15,8 @@ export default {
     autoLoginFailed: "自动登录失败",
     loginError: "登录过程中发生错误",
     wrong: "用户名或密码错误",
+    terms:
+      "请阅读并同意我们的<a href='http://www.turtlesim.com/products/Term-Of-Use.txt' target='_blank'>使用条款</a>和<a href='https://turtlesim.com/products/Privacy-Policy.txt' target='_blank'>隐私政策</a>",
   },
   user: {
     level: "等级",

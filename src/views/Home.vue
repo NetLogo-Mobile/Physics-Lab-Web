@@ -89,7 +89,10 @@
                   clearable
                 >
                   <template #suffix>
-                    <img src="/assets/login/icon-login.png" width="15px" />
+                    <img
+                      :src="getPath('/@base/assets/login/icon-login.png')"
+                      width="15px"
+                    />
                   </template>
                 </n-input>
               </n-form-item-row>
@@ -104,6 +107,7 @@
                 />
               </n-form-item-row>
             </n-form>
+            <p style="margin-bottom: 20px" v-html="$t('login.terms')"></p>
             <n-button
               type="primary"
               class="loginButton"
@@ -133,6 +137,7 @@
                 </n-input>
               </n-form-item-row>
             </n-form>
+            <p style="margin-bottom: 20px" v-html="$t('login.terms')"></p>
             <n-button
               type="primary"
               class="loginButton"
