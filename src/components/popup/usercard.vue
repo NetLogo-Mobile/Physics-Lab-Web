@@ -64,10 +64,10 @@ import { getUserUrl } from "../../services/utils";
 import storageManager from "../../services/storage";
 import { useI18n } from "vue-i18n";
 
-const props = defineProps({
-  userid: String,
-  close: Function,
-});
+const props = defineProps<{
+  userid: string;
+  close: () => void;
+}>();
 
 const name = ref("loading...");
 const snt = ref("loading...");
@@ -81,7 +81,7 @@ const isFollowing = ref(false);
 const { t } = useI18n();
 let ID = "";
 
-const jumpToUser = (id) => {
+const jumpToUser = (id: any) => {
   props.close();
   window.open(`${window.$getPath("/@root")}/profile/${id}`, "_self");
 };
@@ -136,7 +136,7 @@ async function unfollowUser() {
     Emitter.emit("success", "取关成功", 2);
     isFollowing.value = false;
   } else {
-    Emitter.emit("error", re.Message);
+    Emitter.emit("error", re.Message, 2);
   }
 }
 </script>
