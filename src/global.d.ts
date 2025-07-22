@@ -27,5 +27,8 @@ declare global {
     };
     $getPath: (path: string) => string;
     $parse: (text: string | string[], isInline?: boolean) => string; // for test only
+    $notification: {
+      warning: (opt: any) => void;
+    };
   }
 }

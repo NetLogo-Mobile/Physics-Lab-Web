@@ -2,6 +2,7 @@ import Emitter from "../eventEmitter.ts";
 import { beforeRequest, afterRequest } from "./Interceptor.ts";
 import storageManager from "../storage.ts";
 import i18n from "../i18n/i18n.ts";
+import { getDeviceInfo, getVisitorId } from "./getDevice.ts";
 
 /**
  * 本API会使用本地存储的登录凭据Token和AuthCode，但不会处理未登录或者权限不足，使用本API必须手动处理错误。
@@ -94,8 +95,9 @@ export async function login(
       Password: password,
       Version: 2411,
       Device: {
-        Identifier: "7db01528cf13e2199e141c402d79190e",
+        Identifier: getVisitorId(),
         Language: i18n.global.locale.value,
+        Platform: getDeviceInfo(),
       },
     }),
     headers: header,
