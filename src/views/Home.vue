@@ -281,7 +281,6 @@ async function loadPageData(response: any) {
   isLoading.value = false;
   showLoginModal.value = false;
   Emitter.emit("updateTagConfig", response.Data.ContentTags);
-  console.log(response.Data.ContentTags);
   blocks.value = [...response.Data.Library.Blocks];
   const userData = response.Data.User;
   user.value = {

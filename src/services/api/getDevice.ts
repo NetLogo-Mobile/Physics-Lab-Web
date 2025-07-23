@@ -8,7 +8,7 @@ export async function getVisitorId() {
 
 /**
  * 获取增浏览器和设备信息 / Get browser & device info*/
-export function getDeviceInfo() : Record<string, any> {
+export function getDeviceInfo(): Record<string, any> {
   return {
     Platform: navigator.platform,
     Model: (navigator as any).deviceModel,
@@ -20,9 +20,11 @@ export function getDeviceInfo() : Record<string, any> {
     ScreenWidth: screen.width,
     ScreenHeight: screen.height,
     ScreenDPI: (window as any).devicePixelRatio * 96,
-    ScreenSize: Math.sqrt(screen.width**2 + screen.height**2) / (window as any).devicePixelRatio / 160,
+    ScreenSize:
+      Math.sqrt(screen.width ** 2 + screen.height ** 2) /
+      (window as any).devicePixelRatio /
+      160,
     Timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    Language: navigator.language
-  }
+    Language: navigator.language,
+  };
 }
-

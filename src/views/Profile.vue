@@ -223,7 +223,6 @@ function goBack() {
 }
 
 function getLink(name: string) {
-  console.log(name);
   switch (name) {
     case "Latest-Experiments":
       return `experiments://UserID/${route.params.id}`;

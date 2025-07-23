@@ -85,15 +85,15 @@ export async function login(
   // It works ,though i do not konw why it works
   // If the server respones with status 500, please check everything about these params
   let Device = {
-    Identifier:await getVisitorId(),
+    Identifier: await getVisitorId(),
     Language: i18n.global.locale.value,
-  }
+  };
   if (is_token && arg1 && arg2) {
     // @ts-expect-error 暂无类型信息 There is no type information
     header["x-API-Token"] = arg1;
     // @ts-expect-error 暂无类型信息 There is no type information
     header["x-API-AuthCode"] = arg2;
-    Device = {...Device, ...getDeviceInfo(),}
+    Device = { ...Device, ...getDeviceInfo() };
   }
   return fetch(window.$getPath("/@api/Users/Authenticate"), {
     method: "POST",

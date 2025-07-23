@@ -17,6 +17,9 @@ export default {
     wrong: "incorrect username or password",
     terms:
       "Please read and agree to our <a href='http://www.turtlesim.com/products/Term-Of-Use.txt' target='_blank'>Terms of Use</a> and <a href='https://turtlesim.com/products/Privacy-Policy.txt' target='_blank'>Privacy Policy</a>",
+    reLogin: "Log back in to enable the latest configuration",
+    reLoginContent:
+      "The configuration item needs to be logged in again before it can be enabled, or you can close this pop-up window and not enable it for the time being",
   },
   user: {
     level: "Level",
@@ -93,5 +96,10 @@ export default {
     cantFollowYourself: "不能关注你自己",
     following: "关注",
     follower: "粉丝",
+  },
+  settings: {
+    language: "Language",
+    settings: "settings",
+    general: "General",
   },
 };

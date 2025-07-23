@@ -17,6 +17,9 @@ export default {
     wrong: "用户名或密码错误",
     terms:
       "请阅读并同意我们的<a href='http://www.turtlesim.com/products/Term-Of-Use.txt' target='_blank'>使用条款</a>和<a href='https://turtlesim.com/products/Privacy-Policy.txt' target='_blank'>隐私政策</a>",
+    reLogin: "重新登录以启用最新配置",
+    reLoginContent:
+      "配置项需要重新登录以后才能启用，也可以关闭此弹窗暂时不启用",
   },
   user: {
     level: "等级",
@@ -93,5 +96,10 @@ export default {
     cantFollowYourself: "不能关注你自己",
     following: "关注",
     follower: "粉丝",
+  },
+  settings: {
+    language: "界面语言",
+    settings: "应用设置",
+    general: "通用设置",
   },
 };
