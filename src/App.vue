@@ -50,7 +50,7 @@ setTimeout(async () => {
         const FingerprintJS = await import("@fingerprintjs/fingerprintjs");
         const fp = await FingerprintJS.load();
         const re = await fp.get();
-        document.cookie = `visitorID=${re.visitorId}`;
+        document.cookie = `visitorID=${re.visitorId};max-age=31536000`;
       },
     });
   }
