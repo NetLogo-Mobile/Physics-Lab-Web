@@ -7,25 +7,22 @@ export async function getVisitorId() {
 }
 
 /**
- * 获取增浏览器和设备信息 / Get browser & device info
- * @returns {string} 格式: "ua|浏览器@系统|屏幕(色深)|视口|触控" / Format: "ua|Browser@OS|Screen(bits)|Viewport|Touch"
- */
-export function getDeviceInfo() {
-  const ua = navigator.userAgent;
-  const os = /Windows/.test(ua)
-    ? "Win"
-    : /Mac/.test(ua)
-      ? "Mac"
-      : /Linux/.test(ua)
-        ? "Linux"
-        : /Android/.test(ua)
-          ? "Android"
-          : /iOS|iPhone/i.test(ua)
-            ? "iOS"
-            : "Other";
-  const screenInfo = `${window.screen.width}x${window.screen.height}(${window.screen.colorDepth}bit)`;
-  const viewport = `${window.innerWidth}x${window.innerHeight}`;
-  const touch = "ontouchstart" in window ? "Touch" : "NoTouch";
-
-  return `${ua}@${os}|${screenInfo}|${viewport}|${touch}`;
+ * 获取增浏览器和设备信息 / Get browser & device info*/
+export function getDeviceInfo() : Record<string, any> {
+  return {
+    Platform: navigator.platform,
+    Model: (navigator as any).deviceModel,
+    System: navigator.userAgent,
+    CPU: (navigator as any).hardwareConcurrency,
+    GPU: (navigator as any).gpu?.brand,
+    SystemMemory: (navigator as any).deviceMemory * 1024,
+    GraphicMemory: (navigator as any).gpu?.memory,
+    ScreenWidth: screen.width,
+    ScreenHeight: screen.height,
+    ScreenDPI: (window as any).devicePixelRatio * 96,
+    ScreenSize: Math.sqrt(screen.width**2 + screen.height**2) / (window as any).devicePixelRatio / 160,
+    Timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    Language: navigator.language
+  }
 }
+
