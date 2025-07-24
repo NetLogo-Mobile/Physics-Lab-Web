@@ -34,8 +34,8 @@
       </div>
     </Header>
     <main>
-      <div v-if="isLoading" class="loading"></div>
-      <div v-if="!isLoading" class="block-container">
+      <div v-show="isLoading" class="loading"></div>
+      <div v-show="!isLoading" class="block-container">
         <n-grid :x-gap="12" :y-gap="12" :cols="blockItemsPerRow">
           <n-gi>
             <Actions />

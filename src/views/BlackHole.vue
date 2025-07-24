@@ -5,8 +5,8 @@
     </Header>
     <!-- Height：50px fixed -->
     <main>
-      <div v-if="loading" class="loading"></div>
-      <div v-if="!loading" class="block-container">
+      <div v-show="loading" class="loading"></div>
+      <div v-show="!loading" class="block-container">
         <n-grid :x-gap="12" :y-gap="12" :cols="blockItemsPerRow">
           <n-gi
             v-for="block in blocks.filter((i: any) => i.Summaries.length > 0)"

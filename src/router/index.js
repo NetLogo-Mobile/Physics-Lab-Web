@@ -37,7 +37,7 @@ const routes = [
     path: "/Comments/:category/:id/:name",
     name: "Comments",
     component: () => import("../views/Comments.vue"),
-    meta: { keepAlive: false },
+    meta: { keepAlive: true },
   },
   {
     path: "/profile/:id",
