@@ -71,7 +71,7 @@ const props = defineProps<{
 
 const name = ref("loading...");
 const snt = ref("loading...");
-const avatar = ref("/assets/user/default-avatar.png");
+const avatar =  ref(window.$getPath("/assets/user/default-avatar.png"));
 const followingCount = ref(0);
 const followerCount = ref(0);
 const postCount = ref(0);

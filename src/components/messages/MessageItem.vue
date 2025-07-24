@@ -50,7 +50,7 @@ const props = defineProps<{
 
 const emit = defineEmits(["msgClick", "deleteMsg"]);
 const currentUserId = storageManager.getObj("userInfo")?.value?.id || "";
-const avatarUrl = ref("/assets/user/default-avatar.png");
+const avatarUrl = ref(window.$getPath("/assets/user/default-avatar.png"));
 
 const setCurrentAvatar = async () => {
   // console.log(props.message.userID === "");
