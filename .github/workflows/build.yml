@@ -1,0 +1,49 @@
+name: Deploy to gh-pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      # 安装 Git
+      - name: Install Git
+        run: sudo apt-get install git -y
+
+      # 切换到 gh-pages 分支
+      - name: Switch to gh-pages branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b gh-pages
+          git merge main --allow-unrelated-histories -m "Merge from main branch"
+
+      # 安装依赖
+      - name: Install dependencies
+        run: npm install
+
+      # 运行编译
+      - name: Build project
+        run: npm run build
+
+      # 推送到 gh-pages
+      - name: Push to gh-pages
+        run: |
+          git add -A
+          git commit -m "Deploy to gh-pages"
+          git push origin gh-pages
