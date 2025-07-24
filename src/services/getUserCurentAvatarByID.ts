@@ -39,7 +39,7 @@ export async function getAvatarUrl(ID: string, useCache = true) {
       ]);
       avatarIndex = response.Data?.User?.Avatar;
       if (!avatarIndex) {
-        return "/assets/user/default-avatar.png";
+        return window.$getPath("/@base/assets/user/default-avatar.png");
       }
       cache[ID] = [avatarIndex, Date.now()];
       storageManager.setObj(
@@ -49,7 +49,7 @@ export async function getAvatarUrl(ID: string, useCache = true) {
       ); // 72小时 72 hours
     } catch (error) {
       console.error("获取头像失败", error);
-      return "/assets/user/default-avatar.png";
+      return window.$getPath("/@base/assets/user/default-avatar.png");
     }
   }
   const user = { ID, Avatar: avatarIndex };
