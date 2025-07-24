@@ -99,6 +99,11 @@ const handleEnter = async () => {
   height: calc(100dvh - 50px);
 }
 
+.sendComment {
+  width:97%;
+  margin : 0 auto;
+}
+
 @media (min-aspect-ratio: 1/1) {
   .list {
     padding-left: 20px;

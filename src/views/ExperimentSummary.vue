@@ -316,6 +316,11 @@ function goBack() {
   }
 }
 
+.sendComment {
+  width:97%;
+  margin : 0 auto;
+}
+
 div {
   box-sizing: border-box;
 }

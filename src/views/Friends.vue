@@ -65,7 +65,7 @@ const { t } = useI18n();
 .item {
   position: absolute;
   width: 100%;
-  height: calc(100% - 170px);
+  height: calc(100% - 160px);
   overflow-x: hidden;
   background-color: #ccc3;
 }
