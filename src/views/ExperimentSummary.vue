@@ -317,8 +317,8 @@ function goBack() {
 }
 
 .sendComment {
-  width:97%;
-  margin : 0 auto;
+  width: 97%;
+  margin: 0 auto;
 }
 
 div {

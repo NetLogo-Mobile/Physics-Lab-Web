@@ -100,8 +100,8 @@ const handleEnter = async () => {
 }
 
 .sendComment {
-  width:97%;
-  margin : 0 auto;
+  width: 97%;
+  margin: 0 auto;
 }
 
 @media (min-aspect-ratio: 1/1) {

@@ -20,9 +20,10 @@ export function getDeviceInfo(): Record<string, any> {
     ScreenWidth: screen.width,
     ScreenHeight: screen.height,
     ScreenDPI: (window as any).devicePixelRatio * 96,
-    ScreenSize:
-      Math.round(Math.sqrt(screen.width ** 2 + screen.height ** 2) /
-        ((window as any).devicePixelRatio * 96)),
+    ScreenSize: Math.round(
+      Math.sqrt(screen.width ** 2 + screen.height ** 2) /
+        ((window as any).devicePixelRatio * 96),
+    ),
     Timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     Language: navigator.language,
   };

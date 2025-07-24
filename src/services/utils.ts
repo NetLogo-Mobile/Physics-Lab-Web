@@ -164,12 +164,20 @@ export function formatDate(
     // 昨天
     // Yesterday
     else if (diffDays === 1) {
-      return i18n.global.t("date.yesterday") as string;
+      return (
+        `${i18n.global.t("date.yesterday") as string 
+        } ${ 
+        i18n.global.d(date, "time")}`
+      );
     }
     // 前天
     // Day before yesterday
     else if (diffDays === 2) {
-      return i18n.global.t("date.dayBeforeYesterday") as string;
+      return (
+        `${i18n.global.t("date.dayBeforeYesterday") as string 
+        } ${ 
+        i18n.global.d(date, "time")}`
+      );
     }
   }
 
