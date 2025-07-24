@@ -76,7 +76,7 @@ export async function login(
   is_token = false,
 ) {
   let messageRef = window.$message.loading("loading", {
-    duration: 30 * 1000,
+    duration: 6000,
   });
 
   let username = is_token ? null : arg1;
