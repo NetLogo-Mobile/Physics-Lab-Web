@@ -199,7 +199,7 @@ const data = ref({
   Coauthors: [],
   Description: ["Loading..."],
   LocalizedDescription: null,
-  Tags: ["正在加载"],
+  Tags: ["C-Loading"],
   Visits: 0,
   Stars: 0,
   Supports: 0,
