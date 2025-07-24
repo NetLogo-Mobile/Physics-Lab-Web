@@ -737,5 +737,6 @@ Emitter.on("updateTagConfig", (data) => {
 
 export default function (tag: string): string {
   const tagObj = tagConfig.find((t) => t.Identifier === tag);
-  return tagObj?.Subject[i18n.global.locale.value] || "";
+  if (!tagObj) Emitter.emit("error", "Tag not found: " + tag, 3)
+  return (tagObj?.Subject as any)[i18n.global.locale.value] || "";
 }
