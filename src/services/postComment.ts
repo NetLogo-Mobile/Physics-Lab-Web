@@ -1,6 +1,7 @@
 import { getData } from "./api/getData";
 import Emitter from "./eventEmitter";
 import type { Ref } from "vue";
+import i18n from "./i18n/i18n"
 
 export default async function postComment(
   comment: Ref<string>,
@@ -19,7 +20,7 @@ export default async function postComment(
       TargetType: category,
       Content: comment.value,
       ReplyID: replyID.value,
-      Language: "from web",
+      Language: i18n.global.locale.value,
       Special: null,
     });
 
