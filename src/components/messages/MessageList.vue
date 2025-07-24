@@ -64,7 +64,7 @@ async function deleteMsg(message: PMessageItem) {
     removed = [...removed];
   }
   try {
-    const re = await getData("Messages/RemoveComment", {
+    const re = await getData("/Messages/RemoveComment", {
       TargetType: message.type,
       CommentID: message.id,
     });
@@ -90,7 +90,7 @@ const handleLoad = async () => {
   }
   if (loading.value || noMore.value === true) return;
   loading.value = true;
-  const getMessagesResponse = await getData("Messages/GetComments", {
+  const getMessagesResponse = await getData("/Messages/GetComments", {
     TargetID: ID,
     TargetType: Category,
     CommentID: from || "",
