@@ -26,6 +26,7 @@
                 :projectsName="block.Subject"
                 :activityProc="
                   (event) =>
+                    //@ts-ignore no need to infer its type
                     getActivityProc(
                       block.AuxiliaryLink || 'internal://co-dev'
                     )?.(event) ?? undefined
