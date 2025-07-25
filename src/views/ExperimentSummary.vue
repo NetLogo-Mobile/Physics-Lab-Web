@@ -188,7 +188,9 @@ const replyID = ref("");
 const selectedTab = ref("Intro");
 const route = useRoute();
 const { t } = useI18n();
-const returnImagePath = ref(window.$getPath('/@base/assets/library/Navigation-Return.png'));
+const returnImagePath = ref(
+  window.$getPath("/@base/assets/library/Navigation-Return.png"),
+);
 
 const data = ref({
   Type: 0,
@@ -225,7 +227,9 @@ const data = ref({
   },
 });
 
-let coverUrl = ref(window.$getPath("/@base/assets/messages/Experiment-Default.png"));
+let coverUrl = ref(
+  window.$getPath("/@base/assets/messages/Experiment-Default.png"),
+);
 let avatarUrl = getUserUrl(data.value.User);
 
 onMounted(async () => {
@@ -241,7 +245,7 @@ onMounted(async () => {
     referrerPolicy: "no-referrer",
     mode: "no-cors",
   });
-  coverUrl.value = getCoverUrl(res.Data)
+  coverUrl.value = getCoverUrl(res.Data);
 });
 
 function handleMsgClick(item: any) {

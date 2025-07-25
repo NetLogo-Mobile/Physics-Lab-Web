@@ -24,10 +24,10 @@ export const settingsConfig = [
             onPositiveClick: async () => {
               storageManager.remove("userInfo");
               window.$Logger.logEvent({
-                category:"Account",
-                action:"Switch-Language",
-                label:"newValue",
-                timestamp: Date.now()
+                category: "Account",
+                action: "Switch-Language",
+                label: "newValue",
+                timestamp: Date.now(),
               });
               Emitter.emit("loginRequired");
             },

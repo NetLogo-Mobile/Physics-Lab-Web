@@ -25,10 +25,10 @@ export default async function postComment(
     });
 
     window.$Logger.logEvent({
-        category: "Community",
-        action: "Comment",
-        label: category,
-        timestamp: Date.now(),
+      category: "Community",
+      action: "Comment",
+      label: category,
+      timestamp: Date.now(),
     });
 
     if (response.Status === 200) {

@@ -120,8 +120,8 @@ export function decodeHrefToQueryObj(base64Input: string) {
   for (const k in result) {
     if (Object.prototype.hasOwnProperty.call(result, k)) {
       const v = result[k];
-      if(Array.isArray(v) && v.join("").includes(",")){
-        result[k] = v[0].split(",")
+      if (Array.isArray(v) && v.join("").includes(",")) {
+        result[k] = v[0].split(",");
       }
     }
   }

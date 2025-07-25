@@ -1,5 +1,9 @@
 <template>
-  <div class="work-box" @click="handleClick" :style={height:projectsHeight}>
+  <div
+    class="work-box"
+    @click="handleClick"
+    :style="{ height: projectsHeight }"
+  >
     <div class="cover">
       <img :src="imgUrl" alt="" />
       <div class="time">{{ formatDate(item.ID, false, "date") }}</div>
@@ -21,7 +25,7 @@ import router from "../../router";
 import { getCoverUrl, getUserUrl, formatDate } from "../../services/utils";
 import { useResponsive } from "../../layout/useResponsive";
 
-const { projectsHeight } = useResponsive()
+const { projectsHeight } = useResponsive();
 const { item } = defineProps<{
   item: any;
 }>();

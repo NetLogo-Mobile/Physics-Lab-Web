@@ -28,7 +28,7 @@
                   (event) =>
                     //@ts-ignore no need to infer its type
                     getActivityProc(
-                      block.AuxiliaryLink || 'internal://co-dev'
+                      block.AuxiliaryLink || 'internal://co-dev',
                     )?.(event) ?? undefined
                 "
                 :link="EncodeAPITargetLink(block.TargetLink)"
@@ -94,7 +94,7 @@ const activityLinkMap: Record<string, () => void> = {
 };
 
 const getActivityProc = (
-  link: string | undefined
+  link: string | undefined,
 ): ((event: MouseEvent) => void) => {
   const fn = link ? activityLinkMap[link] : undefined;
   return fn

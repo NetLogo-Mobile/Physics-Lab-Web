@@ -19,9 +19,9 @@ import { useI18n } from "vue-i18n";
 import storageManager from "../../services/storage.ts";
 
 onActivated(() => {
- window.$Logger.logPageView({
+  window.$Logger.logPageView({
     pageLink: `/Social/Notifications/${convertUIIndexToCategoryID(notificationTypeIndexOfUI)}/`,
-    timeStamp: Date.now()
+    timeStamp: Date.now(),
   });
 });
 
