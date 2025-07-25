@@ -201,7 +201,7 @@ onMounted(async () => {
     ? getCoverUrl(userData.value.Statistic.Cover)
     : getUserUrl(userRes.Data.User);
   window.$Logger.logPageView({
-    pageLink: `/User/${route.params.id}`,
+    pageLink: `/User/${route.params.id}/`,
     timeStamp: Date.now(),
   });
 });

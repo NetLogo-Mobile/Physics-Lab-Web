@@ -302,7 +302,7 @@ async function loadPageData(response: any) {
   };
 
   window.$Logger.logPageView({
-    pageLink: "/Account/Login",
+    pageLink: "/Account/Login/",
     timeStamp: Date.now(),
   });
 
