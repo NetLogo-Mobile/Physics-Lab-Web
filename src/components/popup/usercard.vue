@@ -108,6 +108,10 @@ onMounted(async () => {
       : {};
   cache[data.ID] = [data.Avatar, Date.now()];
   storageManager.setObj("userIDAndAvartarIDMap", cache, 72 * 60 * 60 * 1000);
+  window.$Logger.logPageView({
+    pageLink: `/User/${ID}/Profile/`,
+    timeStamp: Date.now(),
+  });
 });
 
 async function followUser() {
@@ -125,6 +129,12 @@ async function followUser() {
       Emitter.emit("error", re.Message, 2);
     }
   }
+  window.$Logger.logEvent({
+    category: "Social",
+    action: "Follow",
+    label: ID,
+    timestamp: Date.now(),
+  });
 }
 
 async function unfollowUser() {
@@ -138,6 +148,12 @@ async function unfollowUser() {
   } else {
     Emitter.emit("error", re.Message, 2);
   }
+  window.$Logger.logEvent({
+    category: "Social",
+    action: "Unfollow",
+    label: ID,
+    timestamp: Date.now(),
+  });
 }
 </script>
 

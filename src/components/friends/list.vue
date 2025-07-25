@@ -66,6 +66,11 @@ async function handleLoad() {
   items.value = [...items.value, ...getRelationsRes.Data.$values];
 }
 
+ window.$Logger.logPageView({
+    pageLink: `/Social/Friends/${Number(type)}/`,
+    timeStamp: Date.now()
+});
+
 handleLoad();
 </script>
 

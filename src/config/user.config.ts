@@ -23,6 +23,12 @@ export const settingsConfig = [
             positiveText: i18n.global.t("login.confirm"),
             onPositiveClick: async () => {
               storageManager.remove("userInfo");
+              window.$Logger.logEvent({
+                category:"Account",
+                action:"Switch-Language",
+                label:"newValue",
+                timestamp: Date.now()
+              });
               Emitter.emit("loginRequired");
             },
           });

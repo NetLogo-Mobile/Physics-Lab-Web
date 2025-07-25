@@ -24,7 +24,7 @@ export function getDeviceInfo(): Record<string, any> {
       Math.sqrt(screen.width ** 2 + screen.height ** 2) /
         ((window as any).devicePixelRatio * 96),
     ),
-    Timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    Timezone: -new Date().getTimezoneOffset() / 60,
     Language: navigator.language,
   };
 }

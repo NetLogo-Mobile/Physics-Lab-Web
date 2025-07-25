@@ -1,4 +1,5 @@
 import type { MessageReactive } from "naive-ui";
+import type { Logger } from "./services/api/logWriter";
 
 declare global {
   interface Window {
@@ -30,5 +31,6 @@ declare global {
     $notification: {
       warning: (opt: any) => void;
     };
+    $Logger: Logger;
   }
 }

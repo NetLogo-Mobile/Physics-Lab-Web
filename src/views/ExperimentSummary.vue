@@ -164,7 +164,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onActivated } from "vue";
 import { useRoute } from "vue-router";
 import { getData } from "../services/api/getData.ts";
 import { NTabs, NTabPane } from "naive-ui";
@@ -255,6 +255,13 @@ async function handleEnter() {
 function goBack() {
   window.history.back();
 }
+
+onActivated(() => {
+  window.$Logger.logPageView({
+    pageLink: `/${route.params.category}/${route.params.id}/`,
+    timeStamp: Date.now(),
+  });
+});
 </script>
 
 <style scoped>

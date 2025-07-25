@@ -2,6 +2,8 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router/index.js";
 import i18n from "./services/i18n/i18n.js";
+import { LogManager } from "./services/api/logWriter.js";
+
 import {
   NButton,
   NInput,
@@ -35,4 +37,5 @@ const app = createApp(App);
 app.use(naive);
 app.use(router);
 app.use(i18n);
+window.$Logger = LogManager;
 app.mount("#app");

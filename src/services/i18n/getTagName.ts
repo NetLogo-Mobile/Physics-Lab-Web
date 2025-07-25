@@ -740,7 +740,7 @@ export default function (tag: string): string {
   if (tag.startsWith("C-")) return tag;
   const tagObj = tagConfig.find((t) => t.Identifier === tag);
   if (!tagObj) {
-    Emitter.emit("error", `Tag not found: ${  tag}`, 3);
+    Emitter.emit("error", `Tag not found: ${tag}`, 3);
     return tag;
   }
   return (tagObj?.Subject as any)[i18n.global.locale.value] || "";

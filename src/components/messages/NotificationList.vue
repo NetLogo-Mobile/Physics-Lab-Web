@@ -10,13 +10,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onActivated } from "vue";
 import Notification from "./NotificationItem.vue";
 import { getData } from "../../services/api/getData.ts";
 import Emitter from "../../services/eventEmitter";
 import InfiniteScroll from "../utils/infiniteScroll.vue";
 import { useI18n } from "vue-i18n";
 import storageManager from "../../services/storage.ts";
+
+onActivated(() => {
+ window.$Logger.logPageView({
+    pageLink: `/Social/Notifications/${convertUIIndexToCategoryID(notificationTypeIndexOfUI)}/`,
+    timeStamp: Date.now()
+  });
+});
 
 const { locale } = useI18n();
 

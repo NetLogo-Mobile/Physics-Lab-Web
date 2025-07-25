@@ -194,7 +194,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onActivated } from "vue";
 import { useResponsive } from "../layout/useResponsive";
 import Actions from "../components/blocks/Actions.vue";
 import Header from "../components/utils/Header.vue";
@@ -221,7 +221,9 @@ import "../layout/startPage.css";
 import storageManager from "../services/storage.ts";
 import { useI18n } from "vue-i18n";
 import Emitter from "../services/eventEmitter";
-
+import { getDeviceInfo } from "../services/api/getDevice";
+import { LogManager } from "../services/api/logWriter";
+window.$Logger = LogManager;
 const showLoginModal = ref(false);
 const isLoading = ref(true);
 const blocks = ref<any>([]);
@@ -230,7 +232,7 @@ const loginPassword = ref("");
 const loginToken = ref("");
 const authCode = ref("");
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const user = ref({
   coins: 12345,
@@ -252,6 +254,13 @@ onMounted(async () => {
     const res = await login(null, null);
     loadPageData(res);
   }
+});
+
+onActivated(() => {
+  window.$Logger.logPageView({
+    pageLink: "/",
+    timeStamp: Date.now(),
+  });
 });
 
 async function handlePasswordLogin() {
@@ -292,6 +301,11 @@ async function loadPageData(response: any) {
     ID: userData.ID,
   };
 
+  window.$Logger.logPageView({
+    pageLink: "/Account/Login",
+    timeStamp: Date.now(),
+  });
+
   if (!response.Data.User?.Nickname) {
     if (storageManager.getObj("userInfo").status === "empty") {
       // 退出登录后至少得保证有一个匿名的token
@@ -310,12 +324,27 @@ async function loadPageData(response: any) {
       id: userData.ID,
       nickName: userData.Nickname,
     });
+    const info = getDeviceInfo();
+    LogManager.logSession({
+      deviceID: info.Identifier,
+      version: "2411",
+      region: navigator.language,
+      timezone: info.timeZone,
+      language: locale.value,
+      screenSize: info.screenSize,
+      timestamp: Date.now(),
+      userID: userData.ID,
+    });
   }
 }
 
 function showModalFn() {
   if (storageManager.getObj("userInfo").value?.loginStatus === true) {
     router.push(`/profile/${user.value.ID}`);
+    window.$Logger.logPageView({
+      pageLink: "/Profile/",
+      timeStamp: Date.now(),
+    });
   } else {
     showLoginModal.value = true;
   }

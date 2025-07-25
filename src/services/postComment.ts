@@ -24,6 +24,13 @@ export default async function postComment(
       Special: null,
     });
 
+    window.$Logger.logEvent({
+        category: "Community",
+        action: "Comment",
+        label: category,
+        timestamp: Date.now(),
+    });
+
     if (response.Status === 200) {
       comment.value = "";
       updateTrigger.value = Math.random();

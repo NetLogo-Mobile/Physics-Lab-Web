@@ -27,7 +27,7 @@
                 :activityProc="
                   (event) =>
                     getActivityProc(
-                      block.AuxiliaryLink || 'internal://co-dev',
+                      block.AuxiliaryLink || 'internal://co-dev'
                     )?.(event) ?? undefined
                 "
                 :link="EncodeAPITargetLink(block.TargetLink)"
@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { useResponsive } from "../layout/useResponsive";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onActivated } from "vue";
 import Header from "../components/utils/Header.vue";
 import BlockAndActivity from "../components/blocks/BlockAndActivity.vue";
 import Block from "../components/blocks/Block.vue";
@@ -66,10 +66,22 @@ const loading = ref(true);
 const blocks = ref<any>([]);
 
 const goToWebCommunity = () => {
+  window.$Logger.logEvent({
+    category: "Activity",
+    action: "Visit-External",
+    label: "https://pl.turtlesim.com",
+    timestamp: Date.now(),
+  });
   window.open("https://pl.turtlesim.com");
 };
 
 const goToDevelopment = () => {
+  window.$Logger.logEvent({
+    category: "Activity",
+    action: "Visit-External",
+    label: "https://github.com/NetLogo-Mobile/Physics-Lab-Web",
+    timestamp: Date.now(),
+  });
   window.open("https://github.com/NetLogo-Mobile/Physics-Lab-Web");
 };
 
@@ -81,7 +93,7 @@ const activityLinkMap: Record<string, () => void> = {
 };
 
 const getActivityProc = (
-  link: string | undefined,
+  link: string | undefined
 ): ((event: MouseEvent) => void) => {
   const fn = link ? activityLinkMap[link] : undefined;
   return fn
@@ -101,6 +113,17 @@ onMounted(async () => {
   });
   loading.value = false;
   blocks.value = getLibraryResponse.Data.Blocks;
+});
+
+onActivated(() => {
+  window.$Logger.logPageView({
+    pageLink: "/Discussions/",
+    timeStamp: Date.now(),
+  });
+  window.$Logger.logPageView({
+    pageLink: "/Library/Discussions/",
+    timeStamp: Date.now(),
+  });
 });
 </script>
 

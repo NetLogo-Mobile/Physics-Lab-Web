@@ -48,7 +48,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, watch } from "vue";
+import { reactive, watch, onActivated } from "vue";
 import { settingsConfig as s } from "../config/user.config";
 import { NSelect } from "naive-ui";
 import storageManager from "../services/storage";
@@ -84,6 +84,13 @@ watch(
   },
   { deep: true },
 );
+
+onActivated(() => {
+  window.$Logger.logPageView({
+    pageLink: "/Settings/",
+    timeStamp: Date.now(),
+  });
+});
 </script>
 
 <style scoped>

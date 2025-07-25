@@ -200,6 +200,10 @@ onMounted(async () => {
   coverUrl.value = userData.value.Statistic.Cover
     ? getCoverUrl(userData.value.Statistic.Cover)
     : getUserUrl(userRes.Data.User);
+  window.$Logger.logPageView({
+    pageLink: `/User/${route.params.id}`,
+    timeStamp: Date.now(),
+  });
 });
 
 function handleMsgClick(item: any) {

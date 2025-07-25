@@ -74,6 +74,12 @@ async function deleteMsg(message: PMessageItem) {
       items.value.splice(index, 0, removed[0]);
       Emitter.emit("error", t("messagesI18n.errorOnDelete"), 2);
     }
+    window.$Logger.logEvent({
+      category: "Community",
+      action: "Remove",
+      label: message.type,
+      timestamp: Date.now(),
+    });
   } catch (error) {
     Emitter.emit("error", t("error.unknownError"), 2, error);
   }
@@ -110,7 +116,7 @@ const handleLoad = async () => {
       msg_title: message.Nickname,
       msg: message.Content,
       type: Category,
-    }),
+    })
   );
 
   items.value = [...items.value, ...defaultItems];
@@ -130,8 +136,13 @@ watch(
     skip.value = 0;
     from = null;
     handleLoad();
-  },
+  }
 );
+
+window.$Logger.logPageView({
+  pageLink: `/${Category}/${ID}/Comments/`,
+  timeStamp: Date.now(),
+});
 </script>
 
 <style scoped>
