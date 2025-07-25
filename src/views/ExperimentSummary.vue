@@ -236,7 +236,7 @@ onMounted(async () => {
   data.value = res.Data;
   avatarUrl = getUserUrl(data.value.User);
   // Civitas-john always procrastinate on addressing the request to solve the anti-leeching issue.
-  // That's why the bellow occurs
+  // That's why the below occurs
   await fetch(getCoverUrl(res.Data), {
     referrerPolicy: "no-referrer",
     mode: "no-cors",
