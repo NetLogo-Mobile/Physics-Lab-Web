@@ -11,7 +11,7 @@
       >
         <div style="text-align: left">
           <img
-            src="/assets/library/Navigation-Return.png"
+            :src="returnImagePath"
             style="width: 2.7em"
             class="return"
             @click="goBack"
@@ -188,6 +188,7 @@ const replyID = ref("");
 const selectedTab = ref("Intro");
 const route = useRoute();
 const { t } = useI18n();
+const returnImagePath = ref(window.$getPath('/@base/assets/library/Navigation-Return.png'));
 
 const data = ref({
   Type: 0,
@@ -207,7 +208,7 @@ const data = ref({
   Comments: 0,
   Price: 0,
   Popularity: 0,
-  ID: "642cf37a494746375aae306a",
+  ID: "",
   Category: "Discussion",
   Subject: "Loading...",
   LocalizedSubject: null,
@@ -224,7 +225,7 @@ const data = ref({
   },
 });
 
-const coverUrl = getCoverUrl(data.value);
+let coverUrl = ref(window.$getPath("/@base/assets/messages/Experiment-Default.png"));
 let avatarUrl = getUserUrl(data.value.User);
 
 onMounted(async () => {
@@ -234,6 +235,13 @@ onMounted(async () => {
   });
   data.value = res.Data;
   avatarUrl = getUserUrl(data.value.User);
+  // Civitas-john always procrastinate on addressing the request to solve the anti-leeching issue.
+  // That's why the bellow occurs
+  await fetch(getCoverUrl(res.Data), {
+    referrerPolicy: "no-referrer",
+    mode: "no-cors",
+  });
+  coverUrl.value = getCoverUrl(res.Data)
 });
 
 function handleMsgClick(item: any) {
