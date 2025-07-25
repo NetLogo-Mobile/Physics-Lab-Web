@@ -117,6 +117,10 @@ export function decodeHrefToQueryObj(base64Input: string) {
   );
   const jsonString = new TextDecoder().decode(utf8Bytes);
   const result = JSON.parse(jsonString);
+  if(result.ExcludeTags){
+    // ["a,b,c"] -> ["a，“b","c"]
+    result.ExcludeTags = result.ExcludeTags[0].split(",")
+  }
   return result;
 }
 
