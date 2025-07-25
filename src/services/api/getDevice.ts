@@ -25,6 +25,5 @@ export function getDeviceInfo(): Record<string, any> {
         ((window as any).devicePixelRatio * 96),
     ),
     Timezone: -new Date().getTimezoneOffset() / 60,
-    Language: navigator.language,
   };
 }
