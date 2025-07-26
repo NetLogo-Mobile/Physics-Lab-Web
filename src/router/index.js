@@ -64,6 +64,12 @@ const routes = [
     meta: { keepAlive: false },
   },
   {
+    path: "/about",
+    name: "about",
+    component: () => import("../views/About.vue"),
+    meta: { keepAlive: false },
+  },
+  {
     path: "/:catchAll(.*)",
     component: () => import("../views/NotFound.vue"),
     meta: { keepAlive: true },

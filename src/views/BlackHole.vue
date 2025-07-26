@@ -83,7 +83,7 @@ const goToDevelopment = () => {
     label: "https://github.com/NetLogo-Mobile/Physics-Lab-Web",
     timestamp: Date.now(),
   });
-  window.open("https://github.com/NetLogo-Mobile/Physics-Lab-Web");
+  window.open(window.$getPath("/@root/about"));
 };
 
 // 部分活动链接是web版本特有的 Some activity links are specific to the web version
