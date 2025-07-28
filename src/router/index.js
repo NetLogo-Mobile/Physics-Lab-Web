@@ -95,8 +95,8 @@ const router = createRouter({
 // });
 
 Emitter.on("loginRequired", () => {
-  Emitter.emit("error", "当前操作需要登录", 3);
-  router.push("/");
+  Emitter.emit("info", "login required", 3);
+  window.location.href=window.$getPath("/@root/");
 });
 
 export default router;

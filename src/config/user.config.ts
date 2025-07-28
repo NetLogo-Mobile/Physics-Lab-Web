@@ -38,17 +38,18 @@ export const settingsConfig = [
         key: "debugger",
         label: "错误日志",
         type: "link",
-        value: "on",
+        value: "off",
         options: [
           { label: "on", value: "on" },
+          { label: "export", value: "export" },
           { label: "off", value: "off" },
         ],
         callBack: (newValue: string) => {
-          if (newValue === "on") {
+          if (newValue === "export") {
             window.$ErrorLogger.exportToTxt();
             return;
           }
-          if(newValue === "off") {
+          if (newValue === "off") {
             localStorage.removeItem("error_logs");
           }
           Emitter.emit("nWarning", {

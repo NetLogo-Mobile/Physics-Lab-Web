@@ -101,6 +101,7 @@ export default {
     language: "界面语言",
     settings: "应用设置",
     general: "通用设置",
+    debugger: "收集调试信息",
   },
   footer: {
     home: "首页",

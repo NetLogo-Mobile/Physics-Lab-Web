@@ -101,6 +101,7 @@ export default {
     language: "Language",
     settings: "settings",
     general: "General",
+    debugger: "collect logs"
   },
   footer: {
     home: "Home",
