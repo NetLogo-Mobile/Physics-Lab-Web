@@ -47,8 +47,8 @@ export async function getData(path: string, body: unknown) {
       });
     }
     return response.json().then((data) => {
-      if (data.Data.Status !== 200) {
-        window.$ErrorLogger.writeLog(data.Message + data.Data + data.Status);
+      if (data.Status !== 200) {
+        window.$ErrorLogger.writeLog(data.Message + data.Data + data.Status + path);
       }
       const afterRes = afterRequest(data);
       if (afterRes.continue === false) {
