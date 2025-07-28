@@ -197,11 +197,17 @@ onMounted(async () => {
     ID: route.params.id,
   });
   userData.value = userRes.Data;
+  // Civitas-john always procrastinate on addressing the request to solve the anti-leeching issue.
+  // That's why the below occurs
+  await fetch(getCoverUrl(userData.value.Statistic.Cover), {
+    referrerPolicy: "no-referrer",
+    mode: "no-cors",
+  });
   coverUrl.value = userData.value.Statistic.Cover
     ? getCoverUrl(userData.value.Statistic.Cover)
     : getUserUrl(userRes.Data.User);
   window.$Logger.logPageView({
-    pageLink: `/User/${route.params.id}`,
+    pageLink: `/User/${route.params.id}/`,
     timeStamp: Date.now(),
   });
 });

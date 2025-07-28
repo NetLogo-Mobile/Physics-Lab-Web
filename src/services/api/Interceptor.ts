@@ -67,7 +67,7 @@ export function beforeRequest(path: string): IIntercetporResponse {
   }
   if (!noMessagesPath.some((p) => path === p))
     messageRef = window.$message.loading("正在加载...", {
-      duration: 40000,
+      duration: 6000,
     });
   return { continue: true, data: null };
 }

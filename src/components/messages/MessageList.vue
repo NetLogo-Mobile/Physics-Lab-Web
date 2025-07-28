@@ -116,7 +116,7 @@ const handleLoad = async () => {
       msg_title: message.Nickname,
       msg: message.Content,
       type: Category,
-    })
+    }),
   );
 
   items.value = [...items.value, ...defaultItems];
@@ -136,7 +136,7 @@ watch(
     skip.value = 0;
     from = null;
     handleLoad();
-  }
+  },
 );
 
 window.$Logger.logPageView({

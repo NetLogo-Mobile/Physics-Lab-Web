@@ -26,8 +26,9 @@
                 :projectsName="block.Subject"
                 :activityProc="
                   (event) =>
+                    //@ts-ignore no need to infer its type
                     getActivityProc(
-                      block.AuxiliaryLink || 'internal://co-dev'
+                      block.AuxiliaryLink || 'internal://co-dev',
                     )?.(event) ?? undefined
                 "
                 :link="EncodeAPITargetLink(block.TargetLink)"
@@ -82,7 +83,7 @@ const goToDevelopment = () => {
     label: "https://github.com/NetLogo-Mobile/Physics-Lab-Web",
     timestamp: Date.now(),
   });
-  window.open("https://github.com/NetLogo-Mobile/Physics-Lab-Web");
+  window.open(window.$getPath("/@root/about"));
 };
 
 // 部分活动链接是web版本特有的 Some activity links are specific to the web version
@@ -93,7 +94,7 @@ const activityLinkMap: Record<string, () => void> = {
 };
 
 const getActivityProc = (
-  link: string | undefined
+  link: string | undefined,
 ): ((event: MouseEvent) => void) => {
   const fn = link ? activityLinkMap[link] : undefined;
   return fn

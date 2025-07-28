@@ -25,12 +25,9 @@
 
 <script setup lang="ts">
 import Msg from "./components/popup/msg.vue";
-import getPath from "./services/getPath.ts";
 import showUserCard from "./popup/usercard.ts";
 import Notification from "./components/popup/notification.vue";
 import Emitter from "./services/eventEmitter";
-
-window.$getPath = getPath;
 
 function handleClick(event: MouseEvent) {
   const target = event.target as HTMLElement;

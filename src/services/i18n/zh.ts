@@ -77,7 +77,7 @@ export default {
     serverError: "服务器发生错误，请稍后再试",
   },
   expeSummary: {
-    enterExp: "进入体验 ",
+    enterExp: "进入实验 ",
     introTab: "简介",
     intro: "实验介绍",
     wordCount: "字数统计",

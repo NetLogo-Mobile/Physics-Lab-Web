@@ -29,6 +29,7 @@ export function useResponsive() {
   const maxProjectsPerBlock = ref(getMaxProjectsPerLine(width.value));
   const fontSize = ref(getFontSize(width.value));
   const friendItemsPerRow = ref(getFriendItemsPerRow(width.value));
+  const projectsHeight = ref(getProjectsHeight(width.value));
 
   // 首页等展示的盒子数量
   // The number of boxes displayed on the homepage
@@ -51,11 +52,13 @@ export function useResponsive() {
   //  WorkList界面每行的作品盒子数量
   // The number of work boxes per line in the WorkList page
   function getMaxProjectsPerLine(w: number) {
-    if (w >= breakpoints.desktop) return 6;
-    if (w >= breakpoints.laptop) return 5;
-    if (w >= breakpoints.tablet) return 4;
-    if (w >= breakpoints.mobile) return 3;
-    return 2;
+    if (w <= 800) return Math.round(w / 200);
+    return Math.round(w / 240);
+  }
+
+  function getProjectsHeight(w: number) {
+    if (w <= 800) return "190px";
+    return "230px";
   }
 
   // ExperimentSummary字体大小
@@ -74,6 +77,7 @@ export function useResponsive() {
     maxProjectsPerBlock.value = getMaxProjectsPerLine(width.value);
     fontSize.value = getFontSize(width.value);
     friendItemsPerRow.value = getFriendItemsPerRow(width.value);
+    projectsHeight.value = getProjectsHeight(width.value);
   }
 
   onMounted(() => {
@@ -90,5 +94,6 @@ export function useResponsive() {
     maxProjectsPerBlock,
     fontSize,
     breakpoints,
+    projectsHeight,
   };
 }

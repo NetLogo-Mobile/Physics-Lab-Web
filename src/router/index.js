@@ -55,12 +55,18 @@ const routes = [
     path: "/list/:config",
     name: "list",
     component: () => import("../views/WorkList.vue"),
-    meta: { keepAlive: false },
+    meta: { keepAlive: true },
   },
   {
     path: "/settings",
     name: "settings",
     component: () => import("../views/Settings.vue"),
+    meta: { keepAlive: false },
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: () => import("../views/About.vue"),
     meta: { keepAlive: false },
   },
   {
