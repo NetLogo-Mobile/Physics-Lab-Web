@@ -70,7 +70,7 @@ const defaultLanguage =  _l === "zh-CN" ? "Chinese" : _l === "zh" ? "Chinese" : 
 
 const i18n = createI18n({
   legacy: false,
-  locale: storageManager.getObj("userConfig").value?.language || "Chinese",
+  locale: storageManager.getObj("userConfig").value?.language || defaultLanguage,
   fallbackLocale: "Chinese",
   datetimeFormats,
   messages,
