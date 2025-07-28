@@ -102,10 +102,10 @@ export default {
     settings: "settings",
     general: "General",
   },
-  footer:{
-    home:"Home",
-    blackHole:"Black Hole",
-    friends:"Friends",
-    notifications:"Notifications",
-  }
+  footer: {
+    home: "Home",
+    blackHole: "Black Hole",
+    friends: "Friends",
+    notifications: "Notifications",
+  },
 };

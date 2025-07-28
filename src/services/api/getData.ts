@@ -47,10 +47,14 @@ export async function getData(path: string, body: unknown) {
       });
     }
     return response.json().then((data) => {
+      if (data.Data.Status !== 200) {
+        window.$ErrorLogger.writeLog(data.Message + data.Data + data.Status);
+      }
       const afterRes = afterRequest(data);
       if (afterRes.continue === false) {
         return afterRes.data;
       }
+
       return data;
     });
   });
@@ -105,6 +109,7 @@ export async function login(
     }),
     headers: header,
   }).then(async (response) => {
+    window.$ErrorLogger.writeLog(Device);
     if (!response.ok) {
       return response.json().then(() => {
         Emitter.emit("error", "无法与服务器通讯，请稍候再试", 3);

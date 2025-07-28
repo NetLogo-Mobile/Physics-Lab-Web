@@ -6,7 +6,7 @@ import Emitter from "../../services/eventEmitter";
 
 // 展示详细的错误信息 ，日后会做在设置里可选
 // To display more detailed error messages, we'll make it optional in the settings later.
-const reportError = true;
+const reportError = false;
 window.$message = useMessage();
 Emitter.on("warning", (msg: string, duration: number) => {
   window.$message.warning(msg, { duration: duration * 1000 });
@@ -15,7 +15,7 @@ Emitter.on("info", (msg: string, duration: number) => {
   window.$message.info(msg, { duration: duration * 1000 });
 });
 Emitter.on("error", (msg: string, duration: number, error: any = "") => {
-  window.$message.error(msg, { duration: duration * 1000 });
+  window.$message.error(msg, { duration: duration * 1000, closable: true });
   if (reportError && error !== "") {
     const str = typeof msg === "string" ? msg : JSON.stringify(msg);
     window.$message.error(str, { duration: duration * 3000 });

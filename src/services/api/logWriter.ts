@@ -59,10 +59,12 @@ class Logger {
   logPageView(page: Omit<LogPage, "type" | "relativeTime">) {
     const now = Date.now();
     this.logs.push({ type: 1, ...page, relativeTime: now - this.startTime });
+    window.$ErrorLogger.writeLog(page.pageLink);
   }
   logEvent(event: Omit<LogEvent, "type" | "relativeTime">) {
     const now = Date.now();
     this.logs.push({ type: 2, ...event, relativeTime: now - this.startTime });
+    window.$ErrorLogger.writeLog(event.category + event.action + event.label);
   }
   static writeTime(relativeTime: number) {
     const ms = relativeTime % 1000;

@@ -34,6 +34,33 @@ export const settingsConfig = [
           });
         },
       },
+      {
+        key: "debugger",
+        label: "错误日志",
+        type: "link",
+        value: "on",
+        options: [
+          { label: "on", value: "on" },
+          { label: "off", value: "off" },
+        ],
+        callBack: (newValue: string) => {
+          if (newValue === "on") {
+            window.$ErrorLogger.exportToTxt();
+            return;
+          }
+          if(newValue === "off") {
+            localStorage.removeItem("error_logs");
+          }
+          Emitter.emit("nWarning", {
+            title: i18n.global.t("login.reLogin"),
+            content: i18n.global.t("login.reLoginContent"),
+            positiveText: i18n.global.t("login.confirm"),
+            onPositiveClick: async () => {
+              Emitter.emit("loginRequired");
+            },
+          });
+        },
+      },
       // {
       //   key: "",
       //   label: "如题",

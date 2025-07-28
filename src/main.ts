@@ -4,6 +4,7 @@ import router from "./router/index.js";
 import i18n from "./services/i18n/i18n.js";
 import { LogManager } from "./services/api/logWriter.js";
 import getPath from "./services/getPath.ts";
+import ErrorLogger from "./services/errorLogger";
 
 import {
   NButton,
@@ -40,4 +41,6 @@ app.use(router);
 app.use(i18n);
 window.$Logger = LogManager;
 window.$getPath = getPath;
+const errorLogger = new ErrorLogger(app);
+window.$ErrorLogger = errorLogger;
 app.mount("#app");

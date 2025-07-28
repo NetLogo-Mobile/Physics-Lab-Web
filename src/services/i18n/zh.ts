@@ -102,10 +102,10 @@ export default {
     settings: "应用设置",
     general: "通用设置",
   },
-  footer:{
-    home:"首页",
-    blackHole:"黑洞",
-    friends:"好友",
-    notifications:"通知",
-  }
+  footer: {
+    home: "首页",
+    blackHole: "黑洞",
+    friends: "好友",
+    notifications: "通知",
+  },
 };
