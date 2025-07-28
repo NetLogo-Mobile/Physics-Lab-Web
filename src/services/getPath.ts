@@ -13,9 +13,13 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
  *
  */
 export default function (path: string): string {
-  return path
+  const a = path
     .replace(/\/@api/g, apiUrl)
     .replace(/\/@static/g, staticUrl)
     .replace(/\/@base/g, baseUrl)
     .replace(/\/@root/g, rootUrl);
+  if (window.location.host.includes("turtlesim")){
+    return a.replace("/Physics-Lab-Web/","");
+  }
+  return a;
 }
