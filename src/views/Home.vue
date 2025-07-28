@@ -37,9 +37,9 @@
       <div v-show="isLoading" class="loading"></div>
       <div v-show="!isLoading" class="block-container">
         <n-grid :x-gap="12" :y-gap="12" :cols="blockItemsPerRow">
-          <n-gi>
+          <!-- <n-gi>
             <Actions />
-          </n-gi>
+          </n-gi> -->
           <n-gi
             v-for="block in blocks.filter((i: any) => i.Summaries.length > 0)"
             :key="block.Subject"
@@ -196,7 +196,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onActivated } from "vue";
 import { useResponsive } from "../layout/useResponsive";
-import Actions from "../components/blocks/Actions.vue";
+// import Actions from "../components/blocks/Actions.vue";
 import Header from "../components/utils/Header.vue";
 import BlockAndActivity from "../components/blocks/BlockAndActivity.vue";
 import Block from "../components/blocks/Block.vue";

@@ -18,8 +18,8 @@ export default function (path: string): string {
     .replace(/\/@static/g, staticUrl)
     .replace(/\/@base/g, baseUrl)
     .replace(/\/@root/g, rootUrl);
-  if (window.location.host.includes("turtlesim")){
-    return a.replace("/Physics-Lab-Web/","");
+  if (window.location.host.includes("turtlesim")) {
+    return a.replace("/Physics-Lab-Web/", "");
   }
   return a;
 }

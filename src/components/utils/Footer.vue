@@ -76,6 +76,7 @@
 
 <style scoped>
 footer {
+  height: 50px;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -90,7 +91,7 @@ nav {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 56px;
+  height: 50px;
   max-width: 1024px;
   margin: 0 auto;
   padding: 0 4px;

@@ -1,8 +1,8 @@
 <template>
   <div
     class="work-box"
-    @click="handleClick"
     :style="{ height: projectsHeight }"
+    @click="handleClick"
   >
     <div class="cover">
       <img :src="imgUrl" alt="" />

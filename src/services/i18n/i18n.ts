@@ -65,12 +65,14 @@ const messages = {
   English: en,
 };
 
-const _l = navigator.language
-const defaultLanguage =  _l === "zh-CN" ? "Chinese" : _l === "zh" ? "Chinese" : "English"
+const _l = navigator.language;
+const defaultLanguage =
+  _l === "zh-CN" ? "Chinese" : _l === "zh" ? "Chinese" : "English";
 
 const i18n = createI18n({
   legacy: false,
-  locale: storageManager.getObj("userConfig").value?.language || defaultLanguage,
+  locale:
+    storageManager.getObj("userConfig").value?.language || defaultLanguage,
   fallbackLocale: "Chinese",
   datetimeFormats,
   messages,
