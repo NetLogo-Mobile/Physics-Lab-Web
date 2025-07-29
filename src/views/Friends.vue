@@ -8,32 +8,56 @@
       justify-content="space-evenly"
       type="line"
     >
-      <n-tab-pane name="following" :tab="t('friends.following')">
+      <n-tab-pane
+        name="following"
+        :tab="t('friends.following')"
+        display-directive="show:lazy"
+      >
         <div class="item">
           <UserList :userid="userID" type="1" :cols="friendItemsPerRow" />
         </div>
       </n-tab-pane>
-      <n-tab-pane name="follower" :tab="t('friends.follower')">
+      <n-tab-pane
+        name="follower"
+        :tab="t('friends.follower')"
+        display-directive="show:lazy"
+      >
         <div class="item">
           <UserList :userid="userID" type="0" :cols="friendItemsPerRow" />
         </div>
       </n-tab-pane>
-      <n-tab-pane name="volunteers" :tab="t('friends.volunteers')">
+      <n-tab-pane
+        name="volunteers"
+        :tab="t('friends.volunteers')"
+        display-directive="show:lazy"
+      >
         <div class="item">
           <UserList :userid="userID" type="3" :cols="friendItemsPerRow" />
         </div>
       </n-tab-pane>
-      <n-tab-pane name="editors" :tab="t('friends.editors')">
+      <n-tab-pane
+        name="editors"
+        :tab="t('friends.editors')"
+        display-directive="show:lazy"
+      >
         <div class="item">
           <UserList :userid="userID" type="4" :cols="friendItemsPerRow" />
         </div>
       </n-tab-pane>
-      <n-tab-pane name="en" :tab="t('friends.retired')">
+      <n-tab-pane
+        name="en"
+        :tab="t('friends.retired')"
+        display-directive="show:lazy"
+      >
         <div class="item">
           <UserList :userid="userID" type="5" :cols="friendItemsPerRow" />
         </div>
       </n-tab-pane>
-      <n-tab-pane name="baned" :tab="t('friends.baned')">
+      <n-tab-pane
+        name="baned"
+        :tab="t('friends.baned')"
+        display-directive="show:lazy"
+      >
         <div class="item">
           <UserList :userid="userID" type="2" :cols="friendItemsPerRow" />
         </div>
