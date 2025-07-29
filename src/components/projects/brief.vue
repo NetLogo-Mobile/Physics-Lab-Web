@@ -43,9 +43,13 @@ const formattedDate = computed(() => {
   height: 50px;
 }
 
+.card img {
+  object-fit: cover;
+}
+
 .icon {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   border-radius: 5px;
   margin-right: 10px;
 }
@@ -57,7 +61,8 @@ const formattedDate = computed(() => {
 }
 
 .title {
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 500;
   color: white;
   margin: 0;
   white-space: nowrap;
@@ -66,9 +71,9 @@ const formattedDate = computed(() => {
 }
 
 .subtitle {
-  font-size: 12px;
+  font-size: 13px;
   color: white;
-  margin: 5px 0 0 0;
+  margin: 0 0 0 0;
 }
 
 a {

@@ -96,7 +96,7 @@ const router = createRouter({
 
 Emitter.on("loginRequired", () => {
   Emitter.emit("info", "login required", 3);
-  window.location.href=window.$getPath("/@root/");
+  window.location.href = window.$getPath("/@root/");
 });
 
 export default router;

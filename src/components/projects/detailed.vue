@@ -54,6 +54,10 @@ const imgUrl = getCoverUrl(data);
   height: 55px;
 }
 
+.card img {
+  object-fit: cover;
+}
+
 .icon {
   width: 50px;
   height: 50px;

@@ -1,20 +1,24 @@
 <template>
-  <div
-    class="work-box"
-    :style="{ height: projectsHeight }"
-    @click="handleClick"
-  >
-    <div class="cover">
+  <div class="work-box" @click="handleClick">
+    <div class="cover" :style="{ height: projectsHeight }">
       <img :src="imgUrl" alt="" />
       <div class="time">{{ formatDate(item.ID, false, "date") }}</div>
     </div>
     <div class="info">
       <div class="title">{{ item.Subject }}</div>
-      <div class="user">
-        <div class="avartar">
+      <div v-if="showName" class="user">
+        <div
+          class="avartar"
+          :style="{
+            height: Number(fontSizeS.slice(0, 2)) * 3 - 20 + 'px',
+            minWidth: Number(fontSizeS.slice(0, 2)) * 3 - 20 + 'px',
+          }"
+        >
           <img :src="avartarUrl" alt="item.User.Nickname" />
         </div>
-        <div class="name">{{ item.User.Nickname }}</div>
+        <div class="name" :style="{ fontSize: fontSizeS }">
+          {{ item.User.Nickname }}
+        </div>
       </div>
     </div>
   </div>
@@ -25,9 +29,10 @@ import router from "../../router";
 import { getCoverUrl, getUserUrl, formatDate } from "../../services/utils";
 import { useResponsive } from "../../layout/useResponsive";
 
-const { projectsHeight } = useResponsive();
+const { projectsHeight, fontSizeS } = useResponsive();
 const { item } = defineProps<{
   item: any;
+  showName: boolean;
 }>();
 
 const imgUrl = getCoverUrl(item);
@@ -45,6 +50,7 @@ const handleClick = () => {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
   position: relative;
+  height: fit-content;
 }
 
 .cover {
@@ -65,13 +71,13 @@ const handleClick = () => {
   top: 8px;
   right: 8px;
   color: white;
-  font-size: 1.2em;
+  font-size: 1em;
   /* mix-blend-mode: difference; */
   /* 放弃解决白色底板看不清 give up solving white-background mode */
 }
 
 .info {
-  height: 67px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   padding: 8px;
@@ -79,7 +85,7 @@ const handleClick = () => {
 }
 
 .title {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   color: #333;
   text-align: left;
@@ -93,8 +99,7 @@ const handleClick = () => {
 }
 
 .avartar {
-  width: 25px;
-  height: 25px;
+  height: auto;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -106,8 +111,9 @@ const handleClick = () => {
 }
 
 .user .name {
-  font-size: 15px;
   margin-left: 8px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: hidden;
 }
 </style>

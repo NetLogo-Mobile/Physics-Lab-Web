@@ -3,7 +3,7 @@
     <template #default="{ items }">
       <n-grid :cols="row || 3" :x-gap="16" :y-gap="16" responsive="screen">
         <n-gi v-for="item in items as Item[]" :key="item.ID">
-          <Works :item="item as Item" />
+          <Works :item="item as Item" :show-name="!q?.userID" />
         </n-gi> </n-grid
     ></template>
   </infiniteScroll>

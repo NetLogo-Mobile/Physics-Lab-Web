@@ -5,8 +5,6 @@
         class="cover"
         :style="{
           backgroundImage: `url(${coverUrl})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
         }"
       >
         <div style="text-align: left">
@@ -286,12 +284,13 @@ onActivated(() => {
 }
 
 .cover {
-  object-fit: cover;
   padding: 20px;
   position: absolute;
   height: 100%;
   width: 100%;
-  box-sizing: border-box;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 40% 70%;
 }
 
 .enter {

@@ -27,9 +27,10 @@ export function useResponsive() {
 
   const blockItemsPerRow = ref(getBlockItemsPerRow(width.value));
   const maxProjectsPerBlock = ref(getMaxProjectsPerLine(width.value));
-  const fontSize = ref(getFontSize(width.value));
+  const fontSizeM = ref(getFontSizeM(width.value));
   const friendItemsPerRow = ref(getFriendItemsPerRow(width.value));
   const projectsHeight = ref(getProjectsHeight(width.value));
+  const fontSizeS = ref(getFontSizeS(width.value));
 
   // 首页等展示的盒子数量
   // The number of boxes displayed on the homepage
@@ -57,13 +58,13 @@ export function useResponsive() {
   }
 
   function getProjectsHeight(w: number) {
-    if (w <= 800) return "190px";
-    return "230px";
+    if (w <= 800) return "120px";
+    return "140px";
   }
 
   // ExperimentSummary字体大小
   // The font size of the ExperimentSummary
-  function getFontSize(w: number) {
+  function getFontSizeM(w: number) {
     if (w >= breakpoints.wide) return "20px";
     if (w >= breakpoints.desktop) return "18px";
     if (w >= breakpoints.laptop) return "16px";
@@ -71,11 +72,18 @@ export function useResponsive() {
     return "14px";
   }
 
+  function getFontSizeS(w: number) {
+    if (w >= breakpoints.wide) return "16px";
+    if (w >= 650) return "15px";
+    return "13px";
+  }
+
   function handleResize() {
     width.value = window.innerWidth;
     blockItemsPerRow.value = getBlockItemsPerRow(width.value);
     maxProjectsPerBlock.value = getMaxProjectsPerLine(width.value);
-    fontSize.value = getFontSize(width.value);
+    fontSizeM.value = getFontSizeM(width.value);
+    fontSizeS.value = getFontSizeS(width.value);
     friendItemsPerRow.value = getFriendItemsPerRow(width.value);
     projectsHeight.value = getProjectsHeight(width.value);
   }
@@ -92,7 +100,8 @@ export function useResponsive() {
     blockItemsPerRow,
     friendItemsPerRow,
     maxProjectsPerBlock,
-    fontSize,
+    fontSizeM,
+    fontSizeS,
     breakpoints,
     projectsHeight,
   };

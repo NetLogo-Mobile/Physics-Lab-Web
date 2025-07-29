@@ -32,7 +32,7 @@ export default {
   },
   worklist: {
     title: "work list",
-    more: "More",
+    more: "More »",
   },
   profile: {
     fans: "C-followers {count}", // Magic: to make sure it is rendered by Tag componemt
@@ -101,7 +101,7 @@ export default {
     language: "Language",
     settings: "settings",
     general: "General",
-    debugger: "collect logs"
+    debugger: "collect logs",
   },
   footer: {
     home: "Home",

@@ -32,7 +32,7 @@ export default {
   },
   worklist: {
     title: "作品列表",
-    more: "更多",
+    more: "更多 »",
   },
   profile: {
     fans: "C-粉丝 {count}", // Magic: to make sure it is rendered by Tag componemt
