@@ -59,8 +59,8 @@ function f() {
   font-family: "Courier New", monospace;
   font-size: 2.5vw;
   font-weight: 600;
-  color: lime;
-  text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+  color: black;
+  font-weight:800;
   opacity: 0;
   animation:
     fade-in 0.1s ease-in 1s forwards,
@@ -68,7 +68,7 @@ function f() {
     blink-caret 0.75s step-end 1s infinite;
   overflow: hidden;
   white-space: nowrap;
-  border-right: 2px solid lime;
+  border-right: 2px solid black;
   margin: 2vw auto;
   width: 0;
 }
@@ -90,7 +90,7 @@ function f() {
   }
 
   50% {
-    border-color: lime;
+    border-color: black;
   }
 }
 

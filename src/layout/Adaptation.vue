@@ -66,8 +66,8 @@ defineComponent({
   height: 100%;
   background: linear-gradient(
     to bottom,
-    rgba(128, 128, 128, 0.4) 30%,
-    rgba(128, 128, 128, 0) 80%
+    rgba(128, 128, 128, 0.2) 10%,
+    rgba(128, 128, 128, 0) 90%
   );
   pointer-events: none;
   border-radius: 8px;
