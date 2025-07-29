@@ -14,7 +14,11 @@
             class="return"
             @click="goBack"
           />
-          <div class="title" v-html="parseInline(data.Subject)"></div>
+          <div
+            class="title"
+            @click="copySubject"
+            v-html="parseInline(data.Subject)"
+          ></div>
           <div style="position: absolute; z-index: 100">
             <Tag
               v-if="route.params.category"
@@ -178,6 +182,8 @@ import { getCoverUrl, getUserUrl } from "../services/utils.ts";
 import Adaptation from "../layout/Adaptation.vue";
 import "../layout/AdaptationView.css";
 import { useI18n } from "vue-i18n";
+import showActionSheet from "../popup/actionSheet.ts";
+import Emitter from "../services/eventEmitter.ts";
 
 const comment = ref("");
 const isLoading = ref(false);
@@ -264,6 +270,38 @@ async function handleEnter() {
 
 function goBack() {
   window.history.back();
+}
+
+function copy(text: string) {
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      Emitter.emit("info", "copied", 1);
+    })
+    .catch((e) => {
+      Emitter.emit("error", "failed to copy text", 2, e);
+    });
+}
+
+function copySubject() {
+  showActionSheet(
+    [
+      { label: t("expeSummary.copyID") },
+      { label: t("expeSummary.copyInternalLink") },
+      { label: t("expeSummary.copyExternalLink") },
+    ],
+    (idx) => {
+      if (idx === 0) {
+        copy(data.value.ID);
+      } else if (idx === 1) {
+        copy(
+          `<${(route.params.category as string).toLowerCase()}=${route.params.id}>${data.value.Subject}</${(route.params.category as string).toLowerCase()}>`,
+        );
+      } else if (idx === 2) {
+        copy(window.location.href);
+      }
+    },
+  );
 }
 
 onActivated(() => {

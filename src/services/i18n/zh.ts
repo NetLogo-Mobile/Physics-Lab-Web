@@ -82,6 +82,9 @@ export default {
     intro: "实验介绍",
     wordCount: "字数统计",
     comments: "评论",
+    copyID: "复制作品ID",
+    copyInternalLink: "复制内部链接",
+    copyExternalLink: "复制外部链接",
   },
   date: {
     justNow: "刚刚",

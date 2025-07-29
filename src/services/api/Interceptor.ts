@@ -15,6 +15,7 @@ interface IIntercetporResponse {
 }
 
 const noMessagesPath = ["/Users/GetUser"];
+const noDestroyPath = ["Quantum.Models.Packages.UserPackage, Quantum Models"];
 
 const initialHistoryResult = storageManager.getObj("requestHistoryMap");
 const initialHistory =
@@ -77,7 +78,7 @@ export function afterRequest(response: IResponse): IIntercetporResponse {
   if (response.Status !== 200) {
     re.Message = translateErrorMessage(response.Message);
   }
-  messageRef.destroy();
+  if (!noDestroyPath.some((p) => re.Data.$type === p)) messageRef.destroy();
   return {
     continue: false,
     data: re,

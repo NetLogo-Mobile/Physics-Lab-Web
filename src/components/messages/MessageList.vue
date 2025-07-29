@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, nextTick } from "vue";
 import MessageItem from "./MessageItem.vue";
 import { getData } from "../../services/api/getData.ts";
 import type { PropType } from "vue";
@@ -126,6 +126,7 @@ const handleLoad = async () => {
     noMore.value = true;
     Emitter.emit("warning", "没有更多了", 1);
   }
+  await nextTick();
 };
 
 handleLoad();

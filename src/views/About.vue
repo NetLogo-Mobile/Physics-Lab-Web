@@ -60,7 +60,7 @@ function f() {
   font-size: 2.5vw;
   font-weight: 600;
   color: black;
-  font-weight:800;
+  font-weight: 800;
   opacity: 0;
   animation:
     fade-in 0.1s ease-in 1s forwards,

@@ -82,6 +82,9 @@ export default {
     intro: "Experiment Introduction",
     wordCount: "Word Count",
     comments: "comments",
+    copyID: "Copy Work ID",
+    copyInternalLink: "Copy Internal Link",
+    copyExternalLink: "Copy External Link",
   },
   date: {
     justNow: "Just now",
