@@ -135,6 +135,7 @@ watch(
   () => {
     items.value = [];
     skip.value = 0;
+    noMore.value = fasle;
     from = null;
     handleLoad();
   },
