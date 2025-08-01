@@ -1,5 +1,5 @@
 const sysConfig = {
-  version: "1.0.0 2025-7-30",
+  version: "1.0.1 2025-8-1",
   contributorsMain: [
     {
       ghid: "wsxaiolin",
@@ -23,7 +23,7 @@ const sysConfig = {
     "https://physicslab.turtlesim.com",
     "https://plweb.turtlesim.com",
     "https://netlogo-mobile.github.io",
-  ]
+  ],
 };
 
 export default sysConfig;
