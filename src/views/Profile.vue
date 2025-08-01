@@ -110,7 +110,7 @@
                   type="text"
                   placeholder="发布一条友善的言论"
                   show-count
-                  :maxlength="200"
+                  :maxlength="300"
                   :loading="isLoading"
                   @keyup.enter="handleEnter"
                 />

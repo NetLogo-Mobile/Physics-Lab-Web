@@ -298,7 +298,9 @@ function copySubject() {
           `<${(route.params.category as string).toLowerCase()}=${route.params.id}>${data.value.Subject}</${(route.params.category as string).toLowerCase()}>`,
         );
       } else if (idx === 2) {
-        copy(window.location.href);
+        copy(
+          `<external=${window.location.href}>${data.value.Subject}[web]</external>`,
+        );
       }
     },
   );

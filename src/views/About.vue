@@ -6,9 +6,10 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import sysConfig from '../config/system.config';
 function f() {
-  window.location.href = "https://github.com/NetLogo-Mobile/Physics-Lab-Web";
+  window.location.href = sysConfig.links.github;
 }
 </script>
 

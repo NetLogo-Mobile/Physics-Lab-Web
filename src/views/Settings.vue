@@ -46,12 +46,14 @@
       </div>
     </div>
   </div>
+  <div class="version">{{ sysConfig.version }}</div>
 </template>
 <script setup lang="ts">
 import { reactive, watch, onActivated } from "vue";
 import { settingsConfig as s } from "../config/user.config";
 import { NSelect } from "naive-ui";
 import storageManager from "../services/storage";
+import sysConfig from "../config/system.config";
 
 const savedValues = storageManager.getObj("userConfig")?.value || {};
 const settingsConfig = reactive(s);
@@ -204,5 +206,12 @@ input:checked + .slider {
 
 input:checked + .slider:before {
   transform: translateX(20px);
+}
+
+.version {
+  font-size: 0.875rem;
+  color: #6c757d;
+  padding: 12px 24px;
+  border-top: 1px solid #dee2e6;
 }
 </style>
