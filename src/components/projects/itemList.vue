@@ -41,7 +41,6 @@ let hasInformed = ref(false);
 
 async function handleLoad() {
   if (noMore.value) {
-    if (!hasInformed.value) Emitter.emit("warning", "没有更多了", 1);
     hasInformed.value = true;
     return;
   }
@@ -72,6 +71,7 @@ async function handleLoad() {
     },
   });
   if (getProjectsRes.Data.$values.length < 24) {
+    if (!hasInformed.value) Emitter.emit("warning", "没有更多了", 1);
     noMore.value = true;
   }
   skip.value += 24;

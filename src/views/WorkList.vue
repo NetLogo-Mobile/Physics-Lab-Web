@@ -40,10 +40,10 @@ const goBack = () => {
 
 <style scoped>
 .list {
-  margin-top: 60px;
-  padding: 20px;
+  margin-top: 50px;
+  padding: 10px;
   width: 100dvw;
-  height: calc(100dvh - 60px);
+  height: calc(100dvh - 50px);
   box-sizing: border-box;
   background-color: #ccc3;
   scrollbar-width: none;
