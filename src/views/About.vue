@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import sysConfig from '../config/system.config';
+import sysConfig from "../config/system.config";
 function f() {
   window.location.href = sysConfig.links.github;
 }

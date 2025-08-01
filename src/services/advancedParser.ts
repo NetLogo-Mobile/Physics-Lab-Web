@@ -5,10 +5,7 @@ import markdown from "markdown-it";
 // @ts-expect-error 暂无类型信息 There is no type information
 import katex from "markdown-it-katex";
 
-const allowedOrigin = [
-  window.location.origin,
-  ...sysConfig.allowedOrigin,
-];
+const allowedOrigin = [window.location.origin, ...sysConfig.allowedOrigin];
 const allowedUrl = Object.values(sysConfig.links);
 
 const md = new markdown({
@@ -117,10 +114,11 @@ md.core.ruler.before("normalize", "parseUnityRichText", function (state) {
     .replace(
       /(<br\/>| *\n){2}(\-{3,}|\*{3,}|\_{3,})(<br\/>| *\n)/g,
       "\n<hr></hr>\n",
-    ).replace(
+    )
+    .replace(
       /<external=(.*?)>(.*?)<\/external>/g,
       '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>',
-    ) // 外部链接 External links;
+    ); // 外部链接 External links;
 
   state.src = parse_size(parse_size(parse_size(state.src)));
 });

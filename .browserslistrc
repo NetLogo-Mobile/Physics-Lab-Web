@@ -1,0 +1,7 @@
+ios_saf >= 12
+android >= 6
+chrome >= 60
+firefox >= 60
+edge >= 80
+not IE 11
+not IE_Mob 11

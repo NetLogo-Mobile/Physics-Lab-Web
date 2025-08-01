@@ -224,15 +224,14 @@ export function removeToken(obj: any) {
   return obj;
 }
 
-
-export function checkLogin(){
-    if (storageManager.getObj("userInfo").value?.loginStatus !== true) {
+export function checkLogin() {
+  if (storageManager.getObj("userInfo").value?.loginStatus !== true) {
     Emitter.emit("nWarning", {
       title: i18n.global.t("login.loginRequired"),
       content: i18n.global.t("login.loginContent"),
       positiveText: i18n.global.t("login.confirm"),
       onPositiveClick: async () => {
-        router.push({name: "Home" });
+        router.push({ name: "Home" });
       },
     });
   }

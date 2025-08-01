@@ -145,7 +145,7 @@ window.$Logger.logPageView({
   timeStamp: Date.now(),
 });
 
-onMounted(checkLogin)
+onMounted(checkLogin);
 </script>
 
 <style scoped>

@@ -52,7 +52,6 @@ import Footer from "../components/utils/Footer.vue";
 import { onActivated, onMounted } from "vue";
 import { checkLogin } from "../services/utils";
 
-
 onActivated(checkLogin);
 onMounted(checkLogin);
 </script>
