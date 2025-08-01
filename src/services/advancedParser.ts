@@ -7,10 +7,9 @@ import katex from "markdown-it-katex";
 
 const allowedOrigin = [
   window.location.origin,
-  "https://pl.turtlesim.com",
-  "https://physicslab.turtlesim.com",
+  ...sysConfig.allowedOrigin,
 ];
-const allowedUrl = ["https://github.com/NetLogo-Mobile/Physics-Lab-Web"];
+const allowedUrl = Object.values(sysConfig.links);
 
 const md = new markdown({
   html: true,
@@ -47,6 +46,7 @@ import rust from "highlight.js/lib/languages/rust";
 import kotlin from "highlight.js/lib/languages/kotlin";
 import scala from "highlight.js/lib/languages/scala";
 import perl from "highlight.js/lib/languages/perl";
+import sysConfig from "../config/system.config";
 
 [
   javascript,
@@ -117,7 +117,10 @@ md.core.ruler.before("normalize", "parseUnityRichText", function (state) {
     .replace(
       /(<br\/>| *\n){2}(\-{3,}|\*{3,}|\_{3,})(<br\/>| *\n)/g,
       "\n<hr></hr>\n",
-    );
+    ).replace(
+      /<external=(.*?)>(.*?)<\/external>/g,
+      '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>',
+    ) // 外部链接 External links;
 
   state.src = parse_size(parse_size(parse_size(state.src)));
 });
