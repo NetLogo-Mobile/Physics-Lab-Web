@@ -3,6 +3,7 @@ import { beforeRequest, afterRequest } from "./Interceptor.ts";
 import storageManager from "../storage.ts";
 import i18n from "../i18n/i18n.ts";
 import { getDeviceInfo, getVisitorId } from "./getDevice.ts";
+import { removeToken } from "../utils.ts";
 
 /**
  * 本API会使用本地存储的登录凭据Token和AuthCode，但不会处理未登录或者权限不足，使用本API必须手动处理错误。
@@ -38,6 +39,9 @@ export async function getData(path: string, body: unknown) {
     },
   }).then((response) => {
     if (!response.ok) {
+      window.$ErrorLogger.writeLog(
+        `API请求失败: ${path}, 状态码: ${response.status}`,
+      );
       return response.json().then(() => {
         // 这里的错误处理仅处理API本身非2xx的错误，及服务器本身出了问题
         // 而Response.data中的错误是API本身的错误（如权限不足、参数错误等），需要在调用API时处理
@@ -49,7 +53,10 @@ export async function getData(path: string, body: unknown) {
     return response.json().then((data) => {
       if (data.Status !== 200) {
         window.$ErrorLogger.writeLog(
-          data.Message + data.Data + data.Status + path,
+          removeToken({
+            res: data,
+            info: userInfo,
+          }),
         );
       }
       const afterRes = afterRequest(data);

@@ -200,3 +200,23 @@ export function formatDate(
     }
   }
 }
+
+export function removeToken(obj: any) {
+  if (obj && typeof obj === "object") {
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        if (
+          key === "token" ||
+          key === "authCode" ||
+          key === "Token" ||
+          key === "AuthCode"
+        ) {
+          if (obj[key]) obj[key] = `${obj[key].slice(0, 6)}******`;
+        } else if (typeof obj[key] === "object") {
+          removeToken(obj[key]);
+        }
+      }
+    }
+  }
+  return obj;
+}

@@ -1,13 +1,13 @@
 import Emitter from "./eventEmitter";
 import { ref } from "vue";
+import storageManager from "./storage";
 
 interface ErrorLog {
   timestamp: number;
   type: string;
-  message: string;
+  message: any;
   stack?: string;
   component?: string;
-  userAgent: string;
   url: string;
 }
 
@@ -16,9 +16,14 @@ class ErrorLogger {
   private maxLogs = 1000;
 
   constructor(app: any) {
-    this.logs = localStorage.getItem("error_logs")
-      ? ref(JSON.parse(localStorage.getItem("error_logs") as string))
-      : ref([]);
+    if (
+      storageManager.getObj("userConfig").value?.debugger == "on" ||
+      storageManager.getObj("userConfig").value?.debugger == "export"
+    ) {
+      this.logs = localStorage.getItem("error_logs")
+        ? ref(JSON.parse(localStorage.getItem("error_logs") as string))
+        : ref([]);
+    }
     this.setupGlobalHandlers(app);
   }
 
@@ -60,7 +65,6 @@ class ErrorLogger {
       message: error.message,
       stack: error.stack,
       component: context.component,
-      userAgent: navigator.userAgent,
       url: window.location.href,
       ...context,
     });
@@ -76,7 +80,6 @@ class ErrorLogger {
         ) => `[${new Date(log.timestamp).toISOString()}] ${log.type.toUpperCase()}: ${log.message}
       Component: ${log.component || "N/A"}
       URL: ${log.url}
-      User Agent: ${log.userAgent}
       Stack: ${log.stack || "N/A"}
       `,
       )
@@ -95,7 +98,8 @@ class ErrorLogger {
     return this.logs.value;
   }
 
-  writeLog(message: string) {
+  writeLog(message: any) {
+    if (storageManager.getObj("userConfig").value?.debugger !== "on") return;
     if (this.logs.value.length >= this.maxLogs) {
       this.logs.value.shift();
     }
@@ -103,8 +107,7 @@ class ErrorLogger {
     this.logs.value.push({
       timestamp: Date.now(),
       type: "custom",
-      message: message,
-      userAgent: navigator.userAgent,
+      message: typeof message === "string" ? message : JSON.stringify(message),
       url: window.location.href,
     });
 
