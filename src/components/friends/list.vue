@@ -44,6 +44,7 @@ const items = ref<User[]>([]);
 // Vue automatically handles data race issues with Ref.
 
 async function handleLoad() {
+  if (!userid) return;
   if (loading.value) return; // Serves as a "lock"
   loading.value = true;
   if (noMore.value) {

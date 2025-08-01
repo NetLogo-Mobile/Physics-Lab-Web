@@ -15,6 +15,9 @@ export default {
     autoLoginFailed: "自动登录失败",
     loginError: "登录过程中发生错误",
     wrong: "用户名或密码错误",
+    loginRequired: "需要登录",
+    loginContent:
+      "您需要登录才能访问此页面，或者可以关闭此弹窗暂时不登录",
     terms:
       "请阅读并同意我们的<a href='http://www.turtlesim.com/products/Term-Of-Use.txt' target='_blank'>使用条款</a>和<a href='https://turtlesim.com/products/Privacy-Policy.txt' target='_blank'>隐私政策</a>",
     reLogin: "重新登录以启用最新配置",

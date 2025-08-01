@@ -6,6 +6,9 @@ import {
   differenceInHours,
 } from "date-fns";
 import i18n from "./i18n/i18n";
+import Emitter from "./eventEmitter";
+import storageManager from "./storage";
+import router from "../router";
 
 type PUser = {
   ID: string;
@@ -219,4 +222,18 @@ export function removeToken(obj: any) {
     }
   }
   return obj;
+}
+
+
+export function checkLogin(){
+    if (storageManager.getObj("userInfo").value?.loginStatus !== true) {
+    Emitter.emit("nWarning", {
+      title: i18n.global.t("login.loginRequired"),
+      content: i18n.global.t("login.loginContent"),
+      positiveText: i18n.global.t("login.confirm"),
+      onPositiveClick: async () => {
+        router.push({name: "Home" });
+      },
+    });
+  }
 }

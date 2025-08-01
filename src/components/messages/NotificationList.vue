@@ -154,6 +154,7 @@ function fillInTemplate(data: string, message: PMessage) {
 
 // 处理加载事件
 const handleLoad = async (noTemplates = true) => {
+  if (!storageManager.getObj("userInfo").value?.id)  return
   if (loading.value) return; // Lock
   if (noMore.value) return;
   loading.value = true;

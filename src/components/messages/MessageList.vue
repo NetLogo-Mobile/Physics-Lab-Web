@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick } from "vue";
+import { ref, watch, nextTick, onMounted } from "vue";
 import MessageItem from "./MessageItem.vue";
 import { getData } from "../../services/api/getData.ts";
 import type { PropType } from "vue";
@@ -27,6 +27,7 @@ import Emitter from "../../services/eventEmitter.ts";
 import InfiniteScroll from "../utils/infiniteScroll.vue";
 import { useI18n } from "vue-i18n";
 import storageManager from "../../services/storage.ts";
+import { checkLogin } from "../../services/utils.ts";
 
 interface PMessageItem {
   id: string;
@@ -91,7 +92,6 @@ function handleMsgClick(message: PMessageItem) {
 
 const handleLoad = async () => {
   if (storageManager.getObj("userInfo")?.value?.loginStatus === false) {
-    Emitter.emit("loginRequired");
     return;
   }
   if (loading.value || noMore.value === true) return;
@@ -144,6 +144,8 @@ window.$Logger.logPageView({
   pageLink: `/${Category}/${ID}/Comments/`,
   timeStamp: Date.now(),
 });
+
+onMounted(checkLogin)
 </script>
 
 <style scoped>
