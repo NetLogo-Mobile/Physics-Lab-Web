@@ -38,7 +38,7 @@ export const settingsConfig = [
         key: "debugger",
         label: "错误日志",
         type: "link",
-        value: "off",
+        value: "on",
         options: [
           { label: "on", value: "on" },
           { label: "export", value: "export" },
