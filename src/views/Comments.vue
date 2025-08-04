@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import MessagesList from "../components/messages/MessageList.vue";
+import MessagesList from "../components/messages/MessageList.vapor.vue";
 import { useRoute } from "vue-router";
 import Header from "../components/utils/Header.vue";
 import parse from "../services/commonParser.ts";

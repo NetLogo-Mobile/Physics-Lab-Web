@@ -5,7 +5,7 @@ import i18n from "./services/i18n/i18n.js";
 import { LogManager } from "./services/api/logWriter.js";
 import getPath from "./services/getPath.ts";
 import ErrorLogger from "./services/errorLogger";
-
+import { vaporInteropPlugin } from 'vue'
 import {
   NButton,
   NInput,
@@ -39,6 +39,7 @@ const app = createApp(App);
 app.use(naive);
 app.use(router);
 app.use(i18n);
+app.use(vaporInteropPlugin)
 window.$Logger = LogManager;
 window.$getPath = getPath;
 const errorLogger = new ErrorLogger(app);

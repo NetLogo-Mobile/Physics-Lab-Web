@@ -1,12 +1,6 @@
 <template>
-  <router-link
-    :to="{
-      name: 'ExperimentSummary',
-      params: {
-        category: data.Category || 'Experiment',
-        id: data.ID,
-      },
-    }"
+  <div
+    @click="goToExperimentSummary"
   >
     <!-- 早期实验区作品类型为null -->
     <!-- Early works in the experimental area have a type of null -->
@@ -20,13 +14,14 @@
         </div>
       </div>
     </div>
-  </router-link>
+  </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" vapor>
 import Tag from "../utils/Tag.vue";
 import parse from "../../services/commonParser.ts";
 import { getCoverUrl } from "../../services/utils";
+import { useRouter } from "vue-router";
 
 interface IData {
   ID: string;
@@ -42,7 +37,19 @@ interface IData {
 const { data } = defineProps<{
   data: IData;
 }>();
+
+const router = useRouter();
 const imgUrl = getCoverUrl(data);
+
+function goToExperimentSummary() {
+  router.push({
+    name: 'ExperimentSummary',
+    params: {
+      category: data.Category || 'Experiment',
+      id: data.ID,
+    },
+  });
+}
 </script>
 
 <style scoped>

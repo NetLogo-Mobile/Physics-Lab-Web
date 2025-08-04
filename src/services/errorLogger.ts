@@ -34,6 +34,7 @@ class ErrorLogger {
         type: "vue",
         component: info,
       });
+      console.error(err);
     };
 
     // Window error handler
