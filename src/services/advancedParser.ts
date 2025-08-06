@@ -85,7 +85,7 @@ md.use(katex).use(markdownItHighlightjs, {
 md.core.ruler.before("normalize", "parseUnityRichText", function (state) {
   const root = window.$getPath("/@root");
   state.src = state.src
-  .replace(/{visitor}/g,getVisitor())
+    .replace(/{visitor}/g, getVisitor())
     .replace(
       /<user=(.*?)>(.*?)<\/user>/g,
       "<span class='RUser' data-user='$1'>$2</span>",
@@ -276,13 +276,13 @@ function parse(text: string | string[], isInline: boolean = false) {
   return clean;
 }
 
-function getVisitor(){
+function getVisitor() {
   const info = storageManager.getObj("userInfo")?.value;
-  if(info) {
-    const {nickName,id} = info;
-    return `<user=${id}>${nickName}</user>`
+  if (info) {
+    const { nickName, id } = info;
+    return `<user=${id}>${nickName}</user>`;
   }
-  return ""
+  return "";
 }
 
 export default parse;

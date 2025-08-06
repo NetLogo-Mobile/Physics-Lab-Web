@@ -70,7 +70,7 @@ const routes = [
     meta: { keepAlive: false },
   },
   {
-    path:"/vapor",
+    path: "/vapor",
     name: "vapor",
     component: () => import("../views/Vapor.vue"),
     meta: { keepAlive: false },

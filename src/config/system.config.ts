@@ -1,5 +1,5 @@
 const sysConfig = {
-  version: "1.0.1 2025-8-1",
+  version: "1.0.2 2025-8-6",
   contributorsMain: [
     {
       ghid: "wsxaiolin",

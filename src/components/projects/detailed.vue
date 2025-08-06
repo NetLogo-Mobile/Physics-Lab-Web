@@ -1,7 +1,5 @@
 <template>
-  <div
-    @click="goToExperimentSummary"
-  >
+  <div @click="goToExperimentSummary">
     <!-- 早期实验区作品类型为null -->
     <!-- Early works in the experimental area have a type of null -->
     <div class="card">
@@ -39,14 +37,16 @@ const { data } = defineProps<{
 }>();
 
 const router = useRouter();
-const imgUrl = data.Image != -1 ? getCoverUrl(data) :  window.$getPath("/@base/assets/messages/Experiment-Default.png");
-
+const imgUrl =
+  data.Image != -1
+    ? getCoverUrl(data)
+    : window.$getPath("/@base/assets/messages/Experiment-Default.png");
 
 function goToExperimentSummary() {
   router.push({
-    name: 'ExperimentSummary',
+    name: "ExperimentSummary",
     params: {
-      category: data.Category || 'Experiment',
+      category: data.Category || "Experiment",
       id: data.ID,
     },
   });

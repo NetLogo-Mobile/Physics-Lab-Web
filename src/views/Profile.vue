@@ -17,7 +17,10 @@
             class="return"
             @click="goBack"
           />
-          <div style="color: white; font-size: 2em; text-align: left" @click="copyUser()">
+          <div
+            style="color: white; font-size: 2em; text-align: left"
+            @click="copyUser()"
+          >
             {{ userData.User.Nickname }}
           </div>
           <Tag
@@ -287,7 +290,6 @@ function copyUser() {
     },
   );
 }
-
 </script>
 
 <style scoped>

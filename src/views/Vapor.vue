@@ -8,19 +8,19 @@
 </template>
 
 <script setup lang="ts" vapor>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue";
 
-const count = ref(0)
-const isVaporEnabled = ref(false)
+const count = ref(0);
+const isVaporEnabled = ref(false);
 
 const increment = () => {
-  count.value++
-}
+  count.value++;
+};
 
 onMounted(() => {
-  isVaporEnabled.value = true
-  console.log('Vapor 组件已挂载')
-})
+  isVaporEnabled.value = true;
+  console.log("Vapor 组件已挂载");
+});
 </script>
 
 <style scoped>
