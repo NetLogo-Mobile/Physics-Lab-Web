@@ -98,7 +98,7 @@
               <div class="message-wrapper">
                 <MessageList
                   :ID="route.params.id as string"
-                  Category="User"
+                  :Category="'User'"
                   :upDate="upDate"
                   @msgClick="handleMsgClick"
                 />
