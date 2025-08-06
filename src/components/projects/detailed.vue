@@ -39,7 +39,8 @@ const { data } = defineProps<{
 }>();
 
 const router = useRouter();
-const imgUrl = getCoverUrl(data);
+const imgUrl = data.Image != -1 ? getCoverUrl(data) :  window.$getPath("/@base/assets/messages/Experiment-Default.png");
+
 
 function goToExperimentSummary() {
   router.push({
