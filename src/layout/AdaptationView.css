@@ -38,3 +38,9 @@ div {
   box-sizing: border-box;
   scrollbar-width: none !important;
 }
+
+@media screen and (orientation: landscape) and (max-height: 300px) {
+  .coverBottom{
+    display: none;
+  }
+}

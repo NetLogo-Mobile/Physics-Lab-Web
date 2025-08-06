@@ -34,7 +34,7 @@
             />
           </div>
         </div>
-        <div style="margin-top: auto">
+        <div style="margin-top: auto" class="coverBottom">
           <div
             class="btns"
             style="

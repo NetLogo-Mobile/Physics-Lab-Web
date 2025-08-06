@@ -42,7 +42,7 @@
             "
           ></Tag>
         </div>
-        <div v-if="userData.Statistic?.Cover" class="coverProject">
+        <div v-if="userData.Statistic?.Cover" class="coverProject coverBottom">
           <router-link
             :to="
               '/experimentSummary/' +
