@@ -43,6 +43,9 @@ export default {
     coverTip: "Click to enter cover works",
     works: "works",
     comments: "message board({count})",
+    copyInternalLink: "Copy Internal Link",
+    copyExternalLink: "Copy External Link",
+    copyID: "Copy ID",
   },
   comments: {
     placeholder: "Leave a message...",

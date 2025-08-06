@@ -42,6 +42,9 @@ export default {
     coverTip: "点击进入封面作品",
     works: "作品",
     comments: "留言板({count})",
+    copyInternalLink: "复制用户链接",
+    copyExternalLink: "复制分享链接",
+    copyID: "复制ID",
   },
   comments: {
     placeholder: "发布一条友善的言论",

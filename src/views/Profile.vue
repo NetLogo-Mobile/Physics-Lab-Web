@@ -17,7 +17,7 @@
             class="return"
             @click="goBack"
           />
-          <div style="color: white; font-size: 2em; text-align: left">
+          <div style="color: white; font-size: 2em; text-align: left" @click="copyUser()">
             {{ userData.User.Nickname }}
           </div>
           <Tag
@@ -137,6 +137,8 @@ import "../layout/AdaptationView.css";
 import { getCoverUrl, getUserUrl } from "../services/utils.ts";
 import { useI18n } from "vue-i18n";
 import { EncodeAPITargetLink } from "../services/utils.ts";
+import showActionSheet from "../popup/actionSheet.ts";
+import Emitter from "../services/eventEmitter.ts";
 
 const { t } = useI18n();
 let comment = ref("");
@@ -251,6 +253,41 @@ function getLink(name: string) {
       return `discussions://user${route.params.id}`;
   }
 }
+
+function copy(text: string) {
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      Emitter.emit("info", "copied", 1);
+    })
+    .catch((e) => {
+      Emitter.emit("error", "failed to copy text", 2, e);
+    });
+}
+
+function copyUser() {
+  showActionSheet(
+    [
+      { label: t("profile.copyID") },
+      { label: t("profile.copyInternalLink") },
+      { label: t("profile.copyExternalLink") },
+    ],
+    (idx) => {
+      if (idx === 0) {
+        copy(userData.value.User.ID);
+      } else if (idx === 1) {
+        copy(
+          `<user=${userData.value.User.ID}>${userData.value.User.Nickname}</user>`,
+        );
+      } else if (idx === 2) {
+        copy(
+          `<external=${window.location.href}>${userData.value.User.Nickname}[web]</external>`,
+        );
+      }
+    },
+  );
+}
+
 </script>
 
 <style scoped>
