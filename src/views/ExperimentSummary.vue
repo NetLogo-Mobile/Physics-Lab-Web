@@ -317,10 +317,13 @@ onActivated(() => {
 <style scoped>
 .title {
   color: white;
-  font-size: 1.8em;
+  font-size: 1.7em;
   text-align: left;
   position: relative;
   z-index: 30;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cover {
