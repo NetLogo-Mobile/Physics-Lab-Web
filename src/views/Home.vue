@@ -86,6 +86,8 @@
                   v-model:value="emailOrPhone"
                   class="inputArea"
                   :placeholder="$t('login.emailOrPhone')"
+                  autocomplete="username"
+                  name="username"
                   clearable
                 >
                   <template #suffix>
@@ -103,6 +105,8 @@
                   class="inputArea"
                   :placeholder="$t('login.password')"
                   type="password"
+                  autocomplete="current-password"
+                  name="password"
                   clearable
                 />
               </n-form-item-row>
