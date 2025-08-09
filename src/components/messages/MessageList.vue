@@ -147,7 +147,7 @@ window.$Logger.logPageView({
 });
 
 onMounted(()=> {
-  if(message.type === "User") checkLogin():
+  if(message.type === "User") checkLogin();
 });
 </script>
 
