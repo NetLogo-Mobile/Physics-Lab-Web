@@ -91,7 +91,7 @@ function handleMsgClick(message: PMessageItem) {
 }
 
 const handleLoad = async () => {
-  if (storageManager.getObj("userInfo")?.value?.loginStatus === false) {
+  if (storageManager.getObj("userInfo")?.value?.loginStatus === false && message.type === "User") {
     return;
   }
   if (loading.value || noMore.value === true) return;
@@ -146,7 +146,9 @@ window.$Logger.logPageView({
   timeStamp: Date.now(),
 });
 
-onMounted(checkLogin);
+onMounted(()=> {
+  if(message.type === "User") checkLogin():
+});
 </script>
 
 <style scoped>
