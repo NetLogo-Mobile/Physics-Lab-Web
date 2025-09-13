@@ -19,12 +19,12 @@
         </n-tab-pane>
         <n-tab-pane name="回复和评论" :tab="t('notifications.comments')">
           <div class="item">
-            <NotificationList :notificationTypeIndexOfUI="3"></NotificationList>
+            <NotificationList :notificationTypeIndexOfUI="2"></NotificationList>
           </div>
         </n-tab-pane>
         <n-tab-pane name="关注和粉丝" :tab="t('notifications.friends')">
           <div class="item">
-            <NotificationList :notificationTypeIndexOfUI="2"></NotificationList>
+            <NotificationList :notificationTypeIndexOfUI="3"></NotificationList>
           </div>
         </n-tab-pane>
         <n-tab-pane name="作品" :tab="t('notifications.works')">
