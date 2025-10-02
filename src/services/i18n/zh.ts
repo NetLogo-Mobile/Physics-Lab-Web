@@ -90,6 +90,7 @@ export default {
     copyID: "复制作品ID",
     copyInternalLink: "复制内部链接",
     copyExternalLink: "复制外部链接",
+    changeCover: "更换封面",
   },
   date: {
     justNow: "刚刚",

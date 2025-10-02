@@ -91,6 +91,7 @@ export default {
     copyID: "Copy Work ID",
     copyInternalLink: "Copy Internal Link",
     copyExternalLink: "Copy External Link",
+    changeCover: "Change Cover",
   },
   date: {
     justNow: "Just now",

@@ -36,6 +36,7 @@ export async function getData(path: string, body: unknown) {
       "Content-Type": "application/json",
       "x-API-Token": token,
       "x-API-AuthCode": authCode,
+      "x-API-Version": "2502", // F**K! When was it updated from 2411 to 2502?
     },
   }).then((response) => {
     if (!response.ok) {

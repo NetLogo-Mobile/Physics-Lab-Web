@@ -184,6 +184,7 @@ import "../layout/AdaptationView.css";
 import { useI18n } from "vue-i18n";
 import showActionSheet from "../popup/actionSheet.ts";
 import Emitter from "../services/eventEmitter.ts";
+import storageManager from "../services/storage.ts";
 
 const comment = ref("");
 const isLoading = ref(false);
@@ -193,7 +194,7 @@ const selectedTab = ref("Intro");
 const route = useRoute();
 const { t } = useI18n();
 const returnImagePath = ref(
-  window.$getPath("/@base/assets/library/Navigation-Return.png"),
+  window.$getPath("/@base/assets/library/Navigation-Return.png")
 );
 
 const data = ref({
@@ -232,7 +233,7 @@ const data = ref({
 });
 
 let coverUrl = ref(
-  window.$getPath("/@base/assets/messages/Experiment-Default.png"),
+  window.$getPath("/@base/assets/messages/Experiment-Default.png")
 );
 let avatarUrl = getUserUrl(data.value.User);
 
@@ -264,7 +265,7 @@ async function handleEnter() {
     route.params.category as string,
     route.params.id as string,
     replyID,
-    upDate,
+    upDate
   );
 }
 
@@ -284,26 +285,92 @@ function copy(text: string) {
 }
 
 function copySubject() {
-  showActionSheet(
-    [
-      { label: t("expeSummary.copyID") },
-      { label: t("expeSummary.copyInternalLink") },
-      { label: t("expeSummary.copyExternalLink") },
-    ],
-    (idx) => {
-      if (idx === 0) {
-        copy(data.value.ID);
-      } else if (idx === 1) {
-        copy(
-          `<${(route.params.category as string).toLowerCase()}=${route.params.id}>${data.value.Subject}</${(route.params.category as string).toLowerCase()}>`,
-        );
-      } else if (idx === 2) {
-        copy(
-          `<external=${window.location.href}>${data.value.Subject}[web]</external>`,
-        );
-      }
-    },
-  );
+  let list = [
+    { label: t("expeSummary.copyID") },
+    { label: t("expeSummary.copyInternalLink") },
+    { label: t("expeSummary.copyExternalLink") },
+  ];
+  if (data.value.User.ID === storageManager.getObj("userInfo")?.value?.id) {
+    list.push({ label: t("expeSummary.changeCover") });
+  }
+  showActionSheet(list, (idx) => {
+    if (idx === 0) {
+      copy(data.value.ID);
+    } else if (idx === 1) {
+      copy(
+        `<${(route.params.category as string).toLowerCase()}=${route.params.id}>${data.value.Subject}</${(route.params.category as string).toLowerCase()}>`
+      );
+    } else if (idx === 2) {
+      copy(
+        `<external=${window.location.href}>${data.value.Subject}[web]</external>`
+      );
+    } else if (idx === 3) {
+      try {
+        // ask user to select an image
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        input.onchange = async (e: any) => {
+          try {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            const summaryRes = await getData(`/Contents/GetSummary`, {
+              ContentID: route.params.id,
+              Category: route.params.category,
+            });
+            const imageIndex = (summaryRes.Data.Image || 0) + 1;
+            await getData(`/Contents/ConfirmExperiment`, {
+              Category: route.params.category,
+              SummaryID: route.params.id,
+              Image: imageIndex,
+              Extension: ".png",
+            });
+            const submitRes = await getData(`/Contents/SubmitExperiment`, {
+              Request: {
+                FileSize: 0 - Math.abs(file.size),
+                Extension: ".jpg",
+              },
+              Summary: summaryRes.Data,
+            });
+            try {
+              const form = new FormData();
+              form.append(
+                "authorization",
+                submitRes.Data?.Token?.Authorization || ""
+              );
+              form.append("policy", submitRes.Data?.Token?.Policy || "");
+              form.append("file", file, "cover.jpg");
+              await fetch("https://v0.api.upyun.com/qphysics", {
+                method: "POST",
+                body: form,
+              });
+              await getData(`/Contents/ConfirmExperiment`, {
+              Category: route.params.category,
+              SummaryID: route.params.id,
+              Image: imageIndex,
+              Extension: ".png",
+            });
+            } catch (upErr) {
+              Emitter.emit("error", "Failed to upload file", 2, upErr);
+              return;
+            }
+            Emitter.emit("success", "Cover changed successfully", 2);
+            // refresh current cover (using existing utility function)
+            setTimeout(async () => {
+              const refreshed = await getData(`/Contents/GetSummary`, {
+                ContentID: route.params.id,
+                Category: route.params.category,
+              });
+              coverUrl.value = getCoverUrl(refreshed.Data);
+            }, 800);
+          } catch (err) {
+            Emitter.emit("error", "Failed to change cover, please try again later", 2, err);
+          }
+        };
+        input.click();
+      } catch (error) {}
+    }
+  });
 }
 
 onActivated(() => {
