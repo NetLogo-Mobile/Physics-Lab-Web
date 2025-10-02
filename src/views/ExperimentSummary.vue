@@ -368,7 +368,9 @@ function copySubject() {
           }
         };
         input.click();
-      } catch (error) {}
+      } catch (error) {
+        Emitter.emit("error", "Unknown error, please try again later", 2, error);
+      }
     }
   });
 }
