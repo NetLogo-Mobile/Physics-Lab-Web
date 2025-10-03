@@ -227,6 +227,7 @@ import { useI18n } from "vue-i18n";
 import Emitter from "../services/eventEmitter";
 import { getDeviceInfo } from "../services/api/getDevice";
 import { LogManager } from "../services/api/logWriter";
+
 window.$Logger = LogManager;
 const showLoginModal = ref(false);
 const isLoading = ref(true);

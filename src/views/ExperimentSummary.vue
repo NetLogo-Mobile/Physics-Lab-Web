@@ -2,6 +2,7 @@
   <Adaptation>
     <template #left>
       <div
+        ref="nickname"
         class="cover"
         :style="{
           backgroundImage: `url(${coverUrl})`,
@@ -194,7 +195,7 @@ const selectedTab = ref("Intro");
 const route = useRoute();
 const { t } = useI18n();
 const returnImagePath = ref(
-  window.$getPath("/@base/assets/library/Navigation-Return.png")
+  window.$getPath("/@base/assets/library/Navigation-Return.png"),
 );
 
 const data = ref({
@@ -233,17 +234,16 @@ const data = ref({
 });
 
 let coverUrl = ref(
-  window.$getPath("/@base/assets/messages/Experiment-Default.png")
+  window.$getPath("/@base/assets/messages/Experiment-Default.png"),
 );
-let avatarUrl = getUserUrl(data.value.User);
-
+let avatarUrl = ref(getUserUrl(data.value.User));
 onMounted(async () => {
   const res = await getData(`/Contents/GetSummary`, {
     ContentID: route.params.id,
     Category: route.params.category,
   });
   data.value = res.Data;
-  avatarUrl = getUserUrl(data.value.User);
+  avatarUrl.value = getUserUrl(data.value.User);
   // Civitas-john always procrastinate on addressing the request to solve the anti-leeching issue.
   // That's why the below occurs
   await fetch(getCoverUrl(res.Data), {
@@ -265,7 +265,7 @@ async function handleEnter() {
     route.params.category as string,
     route.params.id as string,
     replyID,
-    upDate
+    upDate,
   );
 }
 
@@ -298,11 +298,11 @@ function copySubject() {
       copy(data.value.ID);
     } else if (idx === 1) {
       copy(
-        `<${(route.params.category as string).toLowerCase()}=${route.params.id}>${data.value.Subject}</${(route.params.category as string).toLowerCase()}>`
+        `<${(route.params.category as string).toLowerCase()}=${route.params.id}>${data.value.Subject}</${(route.params.category as string).toLowerCase()}>`,
       );
     } else if (idx === 2) {
       copy(
-        `<external=${window.location.href}>${data.value.Subject}[web]</external>`
+        `<external=${window.location.href}>${data.value.Subject}[web]</external>`,
       );
     } else if (idx === 3) {
       try {
@@ -336,7 +336,7 @@ function copySubject() {
               const form = new FormData();
               form.append(
                 "authorization",
-                submitRes.Data?.Token?.Authorization || ""
+                submitRes.Data?.Token?.Authorization || "",
               );
               form.append("policy", submitRes.Data?.Token?.Policy || "");
               form.append("file", file, "cover.jpg");
@@ -345,11 +345,11 @@ function copySubject() {
                 body: form,
               });
               await getData(`/Contents/ConfirmExperiment`, {
-              Category: route.params.category,
-              SummaryID: route.params.id,
-              Image: imageIndex,
-              Extension: ".png",
-            });
+                Category: route.params.category,
+                SummaryID: route.params.id,
+                Image: imageIndex,
+                Extension: ".png",
+              });
             } catch (upErr) {
               Emitter.emit("error", "Failed to upload file", 2, upErr);
               return;
@@ -364,12 +364,22 @@ function copySubject() {
               coverUrl.value = getCoverUrl(refreshed.Data);
             }, 800);
           } catch (err) {
-            Emitter.emit("error", "Failed to change cover, please try again later", 2, err);
+            Emitter.emit(
+              "error",
+              "Failed to change cover, please try again later",
+              2,
+              err,
+            );
           }
         };
         input.click();
       } catch (error) {
-        Emitter.emit("error", "Unknown error, please try again later", 2, error);
+        Emitter.emit(
+          "error",
+          "Unknown error, please try again later",
+          2,
+          error,
+        );
       }
     }
   });
@@ -403,10 +413,42 @@ onActivated(() => {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 40% 70%;
+  background-color: #333;
 }
 
 .enter {
   display: none;
+}
+
+.unsupported-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 9999;
+  padding: 10px;
+}
+.unsupported-content {
+  background: rgba(255, 230, 0, 0.95);
+  color: #000;
+  padding: 8px 12px;
+  border-radius: 6px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+.unsupported-text {
+  font-size: 14px;
+}
+.unsupported-close {
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .gray {

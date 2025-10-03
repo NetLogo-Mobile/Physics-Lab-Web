@@ -91,7 +91,10 @@ function handleMsgClick(message: PMessageItem) {
 }
 
 const handleLoad = async () => {
-  if (storageManager.getObj("userInfo")?.value?.loginStatus === false && Category === "User") {
+  if (
+    storageManager.getObj("userInfo")?.value?.loginStatus === false &&
+    Category === "User"
+  ) {
     return;
   }
   if (loading.value || noMore.value === true) return;
@@ -146,8 +149,8 @@ window.$Logger.logPageView({
   timeStamp: Date.now(),
 });
 
-onMounted(()=> {
-  if(Category === "User") checkLogin();
+onMounted(() => {
+  if (Category === "User") checkLogin();
 });
 </script>
 

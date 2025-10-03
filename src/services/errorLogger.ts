@@ -45,6 +45,7 @@ class ErrorLogger {
         lineno,
         colno,
       });
+      console.error(message);
     };
 
     // Unhandled promise rejection
@@ -74,7 +75,7 @@ class ErrorLogger {
   }
 
   exportToTxt(): void {
-    const content = this.logs.value
+    let content = this.logs.value
       .map(
         (
           log,
@@ -85,7 +86,7 @@ class ErrorLogger {
       `,
       )
       .join("\n\n");
-
+    if (content === "") content = "No error logs available.";
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");

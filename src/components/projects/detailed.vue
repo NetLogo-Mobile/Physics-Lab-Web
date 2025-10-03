@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script setup lang="ts" vapor>
+<script setup lang="ts">
 import Tag from "../utils/Tag.vue";
 import parse from "../../services/commonParser.ts";
 import { getCoverUrl } from "../../services/utils";

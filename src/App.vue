@@ -28,6 +28,17 @@ import Msg from "./components/popup/msg.vue";
 import showUserCard from "./popup/usercard.ts";
 import Notification from "./components/popup/notification.vue";
 import Emitter from "./services/eventEmitter";
+import isUnsupportedBrowser from "./services/browser";
+
+try {
+  if (isUnsupportedBrowser()) {
+    alert(
+      "Your browser is not supported. Please switch to a mainstream browser like Chrome, Firefox, Edge, or Safari for a better experience.你的浏览器不被支持，请更换为主流浏览器（如 Chrome、Firefox、Edge 或 Safari）以获得更好的体验。",
+    );
+  }
+} catch (e) {
+  // ignore detection errors
+}
 
 function handleClick(event: MouseEvent) {
   const target = event.target as HTMLElement;

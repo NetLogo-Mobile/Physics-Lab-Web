@@ -35,7 +35,7 @@ jobs:
           git merge main --allow-unrelated-histories -m "Merge from main branch"
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm install
 
       - name: Build project
         run: npm run build
