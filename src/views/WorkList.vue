@@ -12,7 +12,7 @@
 
   <div class="list">
     <WorksList
-      :row="maxProjectsPerBlock"
+      :row="maxProjectsPerLine"
       :q="
         route.params.config
           ? decodeHrefToQueryObj(route.params.config as string)
@@ -31,7 +31,7 @@ import { useResponsive } from "../layout/useResponsive";
 
 const route = useRoute();
 
-const { maxProjectsPerBlock } = useResponsive();
+const { maxProjectsPerLine } = useResponsive();
 
 const goBack = () => {
   window.history.back();

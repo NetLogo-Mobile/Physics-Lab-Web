@@ -26,7 +26,8 @@ export function useResponsive() {
   const width = ref(window.innerWidth);
 
   const blockItemsPerRow = ref(getBlockItemsPerRow(width.value));
-  const maxProjectsPerBlock = ref(getMaxProjectsPerLine(width.value));
+  const maxProjectsPerLine = ref(getMaxProjectsPerLine(width.value));
+  const maxProjectsPerBlock = ref(Math.max(5, maxProjectsPerLine.value));
   const fontSizeM = ref(getFontSizeM(width.value));
   const friendItemsPerRow = ref(getFriendItemsPerRow(width.value));
   const projectsHeight = ref(getProjectsHeight(width.value));
@@ -81,7 +82,8 @@ export function useResponsive() {
   function handleResize() {
     width.value = window.innerWidth;
     blockItemsPerRow.value = getBlockItemsPerRow(width.value);
-    maxProjectsPerBlock.value = getMaxProjectsPerLine(width.value);
+    maxProjectsPerLine.value = getMaxProjectsPerLine(width.value);
+    maxProjectsPerBlock.value = Math.max(5, maxProjectsPerLine.value);
     fontSizeM.value = getFontSizeM(width.value);
     fontSizeS.value = getFontSizeS(width.value);
     friendItemsPerRow.value = getFriendItemsPerRow(width.value);
@@ -99,6 +101,7 @@ export function useResponsive() {
     width,
     blockItemsPerRow,
     friendItemsPerRow,
+    maxProjectsPerLine,
     maxProjectsPerBlock,
     fontSizeM,
     fontSizeS,
