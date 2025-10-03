@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="tag && !tag.startsWith('Type-') && tag !== '交流'"
+    v-if="tag && !tag.startsWith('Type-')"
     class="tag"
     @click.stop.prevent="jump"
     v-text="tag.startsWith('C-') ? tag.slice(2) : tagName"
