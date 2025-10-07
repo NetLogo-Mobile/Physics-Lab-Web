@@ -19,7 +19,7 @@ const routes = [
     path: "/notifications",
     name: "notifications",
     component: () => import("../views/Notifications.vue"),
-    meta: { keepAlive: false },
+    meta: { keepAlive: true },
   },
   {
     path: "/messages",
