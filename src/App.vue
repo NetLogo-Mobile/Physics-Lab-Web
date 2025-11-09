@@ -69,8 +69,8 @@ setTimeout(async () => {
 body {
   margin: 0;
 }
-/* # Ensure html/body have deterministic heights and provide a vh fallback for #app. */ */
-html,
+/* # Ensure html/body have deterministic heights and provide a vh fallback for #app. */
+*/ html,
 body {
   height: 100%;
 }

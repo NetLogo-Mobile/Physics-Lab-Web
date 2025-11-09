@@ -83,16 +83,16 @@ defineComponent({
 @media (min-aspect-ratio: 1/1) {
   .layout-left {
     width: 50vw;
-  height: 100dvh;
-  min-height: calc(var(--vh, 1vh) * 100);
+    height: 100dvh;
+    min-height: calc(var(--vh, 1vh) * 100);
   }
 
   .layout-right {
     top: 0;
     left: 50vw;
     width: 50vw;
-  height: 100dvh;
-  min-height: calc(var(--vh, 1vh) * 100);
+    height: 100dvh;
+    min-height: calc(var(--vh, 1vh) * 100);
   }
 
   .scroll-container {
