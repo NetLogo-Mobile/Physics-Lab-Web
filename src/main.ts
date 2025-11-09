@@ -44,4 +44,18 @@ window.$Logger = LogManager;
 window.$getPath = getPath;
 const errorLogger = new ErrorLogger(app);
 window.$ErrorLogger = errorLogger;
+// mobile/embedded browser viewport-vh fix:
+// set a CSS variable --vh to 1% of the innerHeight and update on resize.
+// Use this in CSS as: height: calc(var(--vh) * 100);
+function setVh() {
+  try {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  } catch (e) {
+    // ignore
+  }
+}
+setVh();
+window.addEventListener("resize", setVh);
+
 app.mount("#app");

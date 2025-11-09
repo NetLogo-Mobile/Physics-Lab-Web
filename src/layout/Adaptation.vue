@@ -25,7 +25,10 @@ defineComponent({
 <style scoped>
 .basic-layout {
   position: relative;
+  /* prefer dynamic viewport height but provide fallbacks to avoid 0 on some browsers */
   height: 100dvh;
+  /* use JS-driven --vh when available (better on mobile), then fallback to 100vh */
+  min-height: calc(var(--vh, 1vh) * 100);
   width: 100vw;
   overflow: hidden;
   overflow-x: hidden;
@@ -47,7 +50,9 @@ defineComponent({
   top: var(--left-height);
   left: 0;
   width: 100vw;
+  /* keep dVh when available but fallback to calc(var(--vh)) and then standard vh */
   height: calc(100dvh - var(--left-height));
+  min-height: calc((var(--vh, 1vh) * 100) - var(--left-height));
 }
 
 .scroll-container {
@@ -78,14 +83,16 @@ defineComponent({
 @media (min-aspect-ratio: 1/1) {
   .layout-left {
     width: 50vw;
-    height: 100dvh;
+  height: 100dvh;
+  min-height: calc(var(--vh, 1vh) * 100);
   }
 
   .layout-right {
     top: 0;
     left: 50vw;
     width: 50vw;
-    height: 100dvh;
+  height: 100dvh;
+  min-height: calc(var(--vh, 1vh) * 100);
   }
 
   .scroll-container {
