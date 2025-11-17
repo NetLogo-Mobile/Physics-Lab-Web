@@ -1,3 +1,6 @@
+# 仓库不再更新，请移步至[plweb2](https://github.com/NetLogo-Mobile/plweb2)
+
+
 # physics-lab-web
 
 技术栈：vite + vue3  typescript [基于c++的wasm](https://github.com/GoodenoughPhysicsLab/pltxt2htm/pull/)
