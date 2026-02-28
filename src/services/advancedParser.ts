@@ -261,6 +261,9 @@ function parse(text: string | string[], isInline: boolean = false) {
 
   let result = md.render(text);
 
+  result = processAnchorTags(result);
+  result = processImageTags(result);
+
   let clean = DOMPurify.sanitize(result, {
     ADD_TAGS: ["a", "br", "span", "img"], // 允许<a>>标签和<img>标签
     ADD_ATTR: ["href", "internal", "src", "width", "height", "maxWidht"], // 允许href和data-to属性以及img的src、width和height属性
@@ -269,10 +272,6 @@ function parse(text: string | string[], isInline: boolean = false) {
   if (isInline) {
     clean = clean.replace(/<p>/g, "").replace(/<\/p>/g, "");
   }
-
-  clean = processAnchorTags(clean);
-  clean = processImageTags(clean);
-
   return clean;
 }
 
