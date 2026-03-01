@@ -2,6 +2,26 @@
 
 import DOMPurify from "dompurify";
 
+const SAFE_TEXT_TAGS = [
+  "a",
+  "br",
+  "span",
+  "strong",
+  "em",
+  "code",
+  "blockquote",
+  "p",
+];
+
+const SAFE_TEXT_ATTRS = [
+  "href",
+  "internal",
+  "target",
+  "rel",
+  "class",
+  "data-user",
+];
+
 /**
  * 将unity富文本解析为Html，样式写在index.html，含有Ruser
  *
@@ -80,8 +100,11 @@ function parse(text: string | undefined, ignoreSize: boolean = false) {
   }
 
   const clean = DOMPurify.sanitize(result, {
-    ADD_TAGS: ["a", "br"], // 允许a标签
-    ADD_ATTR: ["href", "internal"], // 允许href和data-to属性
+    ALLOWED_TAGS: SAFE_TEXT_TAGS,
+    ALLOWED_ATTR: SAFE_TEXT_ATTRS,
+    ALLOW_DATA_ATTR: false,
+    FORBID_TAGS: ["style", "script", "iframe", "object", "embed", "svg"],
+    FORBID_ATTR: ["style", "srcset"],
   });
 
   return processAnchorTags(clean);
