@@ -13,6 +13,58 @@ const md = new markdown({
   linkify: true,
 });
 
+const SAFE_RICH_TAGS = [
+  "a",
+  "br",
+  "span",
+  "strong",
+  "em",
+  "code",
+  "blockquote",
+  "p",
+  "pre",
+  "hr",
+  "ul",
+  "ol",
+  "li",
+  "img",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "table",
+  "thead",
+  "tbody",
+  "tr",
+  "th",
+  "td",
+  "sup",
+  "sub",
+  "del",
+  "ins",
+];
+
+const MAX_IMAGE_DIMENSION = 1600;
+
+const SAFE_RICH_ATTRS = [
+  "href",
+  "internal",
+  "target",
+  "rel",
+  "src",
+  "alt",
+  "title",
+  "width",
+  "height",
+  "class",
+  "data-user",
+  "loading",
+  "decoding",
+  "referrerpolicy",
+];
+
 // advancedParser.ts 修改以下部分
 
 // 替换原有highlightjs引入
@@ -179,13 +231,41 @@ function processImageTags(html: string): string {
 
   imgTags.forEach((tag) => {
     const src = tag.getAttribute("src");
-    if (src && !isAllowedDomain(src)) {
+
+    if (!src || !isAllowedDomain(src)) {
       tag.remove();
-    } else {
-      tag.style.width = tag.getAttribute("width") || tag.style.width;
-      tag.style.height = tag.getAttribute("height") || tag.style.height;
-      tag.style.maxWidth = "100%";
+      return;
     }
+
+    const width = tag.getAttribute("width");
+    const height = tag.getAttribute("height");
+
+    const parsedWidth = width ? Number.parseInt(width, 10) : NaN;
+    const parsedHeight = height ? Number.parseInt(height, 10) : NaN;
+
+    if (!Number.isFinite(parsedWidth) || !Number.isFinite(parsedHeight)) {
+      tag.remove();
+      return;
+    }
+
+    if (
+      parsedWidth <= 0 ||
+      parsedHeight <= 0 ||
+      parsedWidth > MAX_IMAGE_DIMENSION ||
+      parsedHeight > MAX_IMAGE_DIMENSION
+    ) {
+      tag.remove();
+      return;
+    }
+
+    tag.setAttribute("width", `${parsedWidth}`);
+    tag.setAttribute("height", `${parsedHeight}`);
+    tag.removeAttribute("style");
+    tag.removeAttribute("srcset");
+    tag.removeAttribute("sizes");
+    tag.setAttribute("loading", "lazy");
+    tag.setAttribute("decoding", "async");
+    tag.setAttribute("referrerpolicy", "no-referrer");
   });
 
   return doc.body.innerHTML;
@@ -265,8 +345,19 @@ function parse(text: string | string[], isInline: boolean = false) {
   result = processImageTags(result);
 
   let clean = DOMPurify.sanitize(result, {
-    ADD_TAGS: ["a", "br", "span", "img"], // 允许<a>>标签和<img>标签
-    ADD_ATTR: ["href", "internal", "src", "width", "height", "maxWidht"], // 允许href和data-to属性以及img的src、width和height属性
+    ALLOWED_TAGS: SAFE_RICH_TAGS,
+    ALLOWED_ATTR: SAFE_RICH_ATTRS,
+    ALLOW_DATA_ATTR: false,
+    FORBID_TAGS: [
+      "style",
+      "script",
+      "iframe",
+      "object",
+      "embed",
+      "svg",
+      "math",
+    ],
+    FORBID_ATTR: ["style", "srcset", "sizes", "onerror", "onclick"],
   });
 
   if (isInline) {
